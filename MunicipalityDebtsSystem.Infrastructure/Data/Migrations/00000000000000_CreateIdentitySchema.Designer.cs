@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MunicipalityDebtsSystem.Data;
+using MunicipalityDebtsSystem.Infrastructure.Data;
 using System;
 
 namespace MunicipalityDebtsSystem.Data.Migrations

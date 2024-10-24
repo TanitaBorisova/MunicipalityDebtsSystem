@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MunicipalityDebtsSystem.Data;
+using MunicipalityDebtsSystem.Infrastructure.Data;
 using System.Collections;
 
 namespace MunicipalityDebtsSystem.Extensions.DependancyInjection
