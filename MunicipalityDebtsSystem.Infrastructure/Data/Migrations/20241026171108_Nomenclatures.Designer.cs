@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MunicipalityDebtsSystem.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using MunicipalityDebtsSystem.Infrastructure.Data;
 namespace MunicipalityDebtsSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241026171108_Nomenclatures")]
+    partial class Nomenclatures
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -242,7 +245,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CreditsStatusesTypes", "nomenclatures", t =>
+                    b.ToTable("CreditStatusType", "nomenclatures", t =>
                         {
                             t.HasComment("Table for statuses of the credit");
                         });
@@ -266,10 +269,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CreditsTypes", "nomenclatures", t =>
-                        {
-                            t.HasComment("Table for types of the credit");
-                        });
+                    b.ToTable("CreditsTypes");
                 });
 
             modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.CreditorType", b =>
@@ -290,7 +290,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CreditorsTypes", "nomenclatures", t =>
+                    b.ToTable("CreditorType", "nomenclatures", t =>
                         {
                             t.HasComment("Table for creditor's types");
                         });
@@ -320,7 +320,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
 
                     b.HasIndex("DebtTypeId");
 
-                    b.ToTable("DebtsPurposesTypes", "nomenclatures", t =>
+                    b.ToTable("DebtPurposeType", "nomenclatures", t =>
                         {
                             t.HasComment("Table for purpose of the debt");
                         });
@@ -344,7 +344,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DebtsTypes", "nomenclatures", t =>
+                    b.ToTable("DebtType", "nomenclatures", t =>
                         {
                             t.HasComment("Table for all types of debt");
                         });
@@ -368,7 +368,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InterestsTypes", "nomenclatures", t =>
+                    b.ToTable("InterestType", "nomenclatures", t =>
                         {
                             t.HasComment("Table for all types of interest");
                         });
