@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MunicipalityDebtsSystem.Infrastructure.Data;
+using MunicipalityDebtsSystem.Infrastructure.Data.Common;
 using System.Collections;
 
 namespace MunicipalityDebtsSystem.Extensions.DependancyInjection
@@ -18,6 +19,8 @@ namespace MunicipalityDebtsSystem.Extensions.DependancyInjection
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
 
+            services.AddScoped<IRepository, Repository>();
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             return services;
@@ -27,7 +30,7 @@ namespace MunicipalityDebtsSystem.Extensions.DependancyInjection
         {
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<ApplicationDbContext>();
-
+            
             return services;
         }
 
