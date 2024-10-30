@@ -23,6 +23,7 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.SeedDb
             SeedCreditStatusTypeList();
             SeedDebtTypeList();
             SeedDebtPurposeTypeList();
+            SeedInterestTypeList();
         }
 
         public void SeedCreditorTypeList()

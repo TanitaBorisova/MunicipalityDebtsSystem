@@ -13,8 +13,10 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.SeedDb
     {
         public void Configure(EntityTypeBuilder<DebtType> builder)
         {
-            //var data = new SeedData();
-            //builder.HasData(data.debtTypeArr);
+            var data = new SeedData();
+            var arr = data.debtTypeArr;
+            builder.HasData(arr);
+           
         }
     }
 }

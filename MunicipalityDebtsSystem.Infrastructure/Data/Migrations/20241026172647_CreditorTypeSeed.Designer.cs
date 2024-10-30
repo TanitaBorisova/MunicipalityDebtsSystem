@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MunicipalityDebtsSystem.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using MunicipalityDebtsSystem.Infrastructure.Data;
 namespace MunicipalityDebtsSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241026172647_CreditorTypeSeed")]
+    partial class CreditorTypeSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -246,38 +249,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             t.HasComment("Table for statuses of the credit");
                         });
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            IsDeleted = false,
-                            Name = "Непотвърден"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            IsDeleted = false,
-                            Name = "Потвърден"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            IsDeleted = false,
-                            Name = "Приключен"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            IsDeleted = false,
-                            Name = "Предоговорен"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            IsDeleted = false,
-                            Name = "Предоговорен/Приключен"
-                        });
                 });
 
             modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.CreditType", b =>
@@ -301,74 +272,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                     b.ToTable("CreditsTypes", "nomenclatures", t =>
                         {
                             t.HasComment("Table for types of the credit");
-                        });
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            IsDeleted = false,
-                            Name = "Изискуема общинска гаранция"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            IsDeleted = false,
-                            Name = "Безлихвени заеми, отпуснати по реда на ЗПФ"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            IsDeleted = false,
-                            Name = "Търговски кредити"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            IsDeleted = false,
-                            Name = "Финансов лизинг"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            IsDeleted = false,
-                            Name = "Останали форми на дълг"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            IsDeleted = false,
-                            Name = "Възмездно финансиране по чл.103, ал.3 от ЗПФ"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            IsDeleted = false,
-                            Name = "Договор за общински заем"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            IsDeleted = false,
-                            Name = "Общинските предприятия по чл. 52 от ЗОС"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            IsDeleted = false,
-                            Name = "Безлихвени заеми от ЦБ по чл.43 ал.1 от ЗУДБ"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            IsDeleted = false,
-                            Name = "Търговски кредити над две години"
-                        },
-                        new
-                        {
-                            Id = 11,
-                            IsDeleted = false,
-                            Name = "Финансов лизинг над две години"
                         });
                 });
 
@@ -468,71 +371,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             t.HasComment("Table for purpose of the debt");
                         });
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DebtTypeId = 2,
-                            IsDeleted = false,
-                            Name = "Инвестиционни проекти"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DebtTypeId = 2,
-                            IsDeleted = false,
-                            Name = "Рефинансиране на съществуващ дълг"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DebtTypeId = 2,
-                            IsDeleted = false,
-                            Name = "Форсмажорни обстоятелства"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            DebtTypeId = 2,
-                            IsDeleted = false,
-                            Name = "Изискуеми общински гаранции"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            DebtTypeId = 1,
-                            IsDeleted = false,
-                            Name = "Временен недостиг на средства"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            DebtTypeId = 1,
-                            IsDeleted = false,
-                            Name = "Капиталови разходи"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            DebtTypeId = 2,
-                            IsDeleted = false,
-                            Name = "Неотложни разходи"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            DebtTypeId = 2,
-                            IsDeleted = false,
-                            Name = "Закупуване на ДМА"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            DebtTypeId = 1,
-                            IsDeleted = false,
-                            Name = "Плащания по проекти, финансирани с ЕС"
-                        });
                 });
 
             modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.DebtType", b =>
@@ -557,20 +395,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             t.HasComment("Table for all types of debt");
                         });
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            IsDeleted = false,
-                            Name = "Краткосрочен"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            IsDeleted = false,
-                            Name = "Дългосрочен"
-                        });
                 });
 
             modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.InterestType", b =>
@@ -594,32 +418,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                     b.ToTable("InterestsTypes", "nomenclatures", t =>
                         {
                             t.HasComment("Table for all types of interest");
-                        });
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            IsDeleted = false,
-                            Name = "С отстъпка"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            IsDeleted = false,
-                            Name = "Фиксиран"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            IsDeleted = false,
-                            Name = "Плаващ"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            IsDeleted = false,
-                            Name = "Нулев"
                         });
                 });
 
