@@ -16,17 +16,22 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
     public class Cover
     {
         [Key]
+        [Comment("Identifier of the cover")]
         public int Id { get; set; }
 
         [Required]
+        [Comment("Identifier of the debt")]
         public int DebtId { get; set; }
 
         [Required]
+        [Comment("Identifier of the cover type")]
         public int CoverTypeId { get; set; }
 
         [Required]
+        [Comment("Amount of the cover")]
         public decimal CoverAmount { get; set; }
 
+        [Comment("Description of the cover")]
         public string? CoverDescription { get; set; }
 
         [ForeignKey(nameof(DebtId))]
