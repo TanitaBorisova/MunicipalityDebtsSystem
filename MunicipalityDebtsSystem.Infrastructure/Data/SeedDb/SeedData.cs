@@ -15,6 +15,8 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.SeedDb
         public DebtType[] debtTypeArr;
         public DebtPurposeType[] debtPurposeTypeArr;
         public InterestType[] interestTypeArr;
+        public CoverType[] coverTypeArr;
+        public OperationType[] operationTypeArr;
 
         public SeedData()
         {
@@ -24,6 +26,8 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.SeedDb
             SeedDebtTypeList();
             SeedDebtPurposeTypeList();
             SeedInterestTypeList();
+            SeedCoverTypeList();
+            SeedОperationTypeList();
         }
 
         public void SeedCreditorTypeList()
@@ -114,6 +118,30 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.SeedDb
                 new InterestType() { Id = 3, Name = "Плаващ"},
                 new InterestType() { Id = 4, Name = "Нулев"},
                 
+            };
+        }
+
+        public void SeedCoverTypeList()
+        {
+
+            coverTypeArr = new CoverType[]
+            {
+                new CoverType() { Id = 1, Name = "Парични средства"},
+                new CoverType() { Id = 2, Name = "Непарични средства"}
+              
+            };
+        }
+
+        public void SeedОperationTypeList()
+        {
+
+            operationTypeArr = new OperationType[]
+            {
+                new OperationType() { Id = 1, Name = "Плащане"},
+                new OperationType() { Id = 2, Name = "Планирано плащане"},
+                new OperationType() { Id = 3, Name = "Усвояване"},
+                new OperationType() { Id = 4, Name = "Прогнозно усвояване"}
+
             };
         }
 
