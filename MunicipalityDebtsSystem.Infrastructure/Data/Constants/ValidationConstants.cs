@@ -9,6 +9,7 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
     public static class ValidationConstants
     {
         public const int NomenclatureNameMaxLength = 100;
+        public const int UserMaxLength = 50;
 
 
         //Debt 

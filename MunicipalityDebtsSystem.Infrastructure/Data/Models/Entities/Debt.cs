@@ -109,6 +109,7 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
 
         [Required]
         [Comment("User created the debt")]
+        [MaxLength(ValidationConstants.UserMaxLength)]
         public string UserCreated { get; set; }
 
         [Required]
@@ -116,12 +117,14 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
         public DateTime DateCreated { get; set; }
 
         [Comment("User modified the debt")]
+        [MaxLength(ValidationConstants.UserMaxLength)]
         public string? UserModified { get; set; }
 
         [Comment("Date of modification of the debt")]
         public DateTime? DateModified { get; set; }
 
         [Comment("User marked the debt as deleted")]
+        [MaxLength(ValidationConstants.UserMaxLength)]
         public string? UserDeleted { get; set; }
 
         [Comment("Date of deletion of the debt")]
