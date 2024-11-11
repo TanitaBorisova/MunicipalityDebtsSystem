@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
 using MunicipalityDebtsSystem.Infrastructure.Data.SeedDb;
+//using MunicipalityDebtsSystem.Areas.Identity.Data;
+
 
 namespace MunicipalityDebtsSystem.Infrastructure.Data
 {

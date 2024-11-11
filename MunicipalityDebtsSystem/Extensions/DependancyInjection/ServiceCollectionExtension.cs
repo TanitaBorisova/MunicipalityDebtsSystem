@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using MunicipalityDebtsSystem.Areas.Identity;
 using MunicipalityDebtsSystem.Infrastructure.Data;
 using MunicipalityDebtsSystem.Infrastructure.Data.Common;
-using System.Collections;
+using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 
 namespace MunicipalityDebtsSystem.Extensions.DependancyInjection
 {
@@ -36,9 +34,12 @@ namespace MunicipalityDebtsSystem.Extensions.DependancyInjection
 
             //AddIdentity iska i user i role
             //Trqbva li da scaffold-na?
-            services.AddIdentity<ApplicationUser, ApplicationRole>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddRoles<ApplicationRole>()
+
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    //.AddRoles<ApplicationRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
+                   
+                    //.AddDefaultTokenProviders();
 
             return services;
         }
