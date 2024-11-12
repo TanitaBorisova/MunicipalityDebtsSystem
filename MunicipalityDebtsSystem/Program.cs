@@ -34,13 +34,15 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    //only for test
+    //app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
     app.UseDeveloperExceptionPage();
     app.UseMigrationsEndPoint();
 }
 else
 {
     app.UseExceptionHandler("/Home/Error/500");
-    app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
+    app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
     app.UseHsts();
 }
 
