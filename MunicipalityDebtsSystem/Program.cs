@@ -22,6 +22,8 @@ builder.Services.AddApplicationIdentity(builder.Configuration);
 builder.Services.AddControllersWithViews(options =>
 {
     options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+    //за защита от CSRF ataki
+    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
 
 });
     
