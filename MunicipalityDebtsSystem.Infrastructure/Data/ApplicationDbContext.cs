@@ -33,6 +33,16 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data
 
         public DbSet<Cover> Covers { get; set; } = null!;
 
+        public DbSet<Draw> Draws { get; set; } = null!;
+
+        public DbSet<Payment> Payments { get; set; } = null!;
+
+        public DbSet<MunicipalCenter> MunicipalsCenters { get; set; } = null!;
+
+        public DbSet<Municipality> Municipalities { get; set; } = null!;
+
+        public DbSet<Currency> Currencies { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Debt>()
@@ -40,6 +50,12 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data
                .WithMany()
                .HasForeignKey(e => e.DebtTermTypeId)
                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Debt>()
+              .HasOne(e => e.Municipality)
+              .WithMany()
+              .HasForeignKey(e => e.MunicipalityId)
+              .OnDelete(DeleteBehavior.Restrict);
 
             builder.ApplyConfiguration(new CreditorTypeConfiguration());
             builder.ApplyConfiguration(new CreditTypeConfiguration());
@@ -49,6 +65,9 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data
             builder.ApplyConfiguration(new InterestTypeConfiguration());
             builder.ApplyConfiguration(new CoverTypeConfiguration());
             builder.ApplyConfiguration(new OperationTypeConfiguration());
+            builder.ApplyConfiguration(new MunicipalCenterConfiguration());
+            builder.ApplyConfiguration(new MunicipalityConfiguration());
+            builder.ApplyConfiguration(new CurrencyConfiguration());
 
             base.OnModelCreating(builder);
         }

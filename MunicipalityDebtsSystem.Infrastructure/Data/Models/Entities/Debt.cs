@@ -100,8 +100,8 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
         public int CreditStatusId { get; set; }
 
         [Required]
-        [Comment("Identifier of EBK code")]
-        public int DataEbkId { get; set; }
+        [Comment("Identifier of Municipality")]
+        public int MunicipalityId { get; set; }
 
         [Required]
         [Comment("Shows whether the debt is negotiated")]
@@ -149,8 +149,8 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
         [ForeignKey(nameof(CreditorTypeId))]
         public CreditorType CreditorType { get; set; } = null!;
 
-        [ForeignKey(nameof(DataEbkId))]
-        public EBK EBK { get; set; } = null!;
+        [ForeignKey(nameof(MunicipalityId))]
+        public Municipality Municipality { get; set; } = null!;
 
     }
 }

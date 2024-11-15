@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
+using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -55,6 +56,10 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
         public int OperationTypeId { get; set; }
 
         [Required]
+        [Comment("Identifier of Municipality")]
+        public int MunicipalityId { get; set; }
+
+        [Required]
         [Comment("User created the payment")]
         [MaxLength(ValidationConstants.UserMaxLength)]
         public string UserCreated { get; set; } = string.Empty;
@@ -80,5 +85,8 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
         [Required]
         [Comment("Shows if the payment is marked as deleted")]
         public bool IsDeleted { get; set; }
+
+        [ForeignKey(nameof(MunicipalityId))]
+        public Municipality Municipality { get; set; } = null!;
     }
 }

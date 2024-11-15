@@ -10,7 +10,10 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
     {
         public const int NomenclatureNameMaxLength = 100;
         public const int UserMaxLength = 50;
-
+        public const int MunicipalCenterCodeMaxLength = 2;
+        public const int MunicipaliryCodeMaxLength = 4;
+        public const int CurrencyCodeMaxLength = 3;
+        
 
         //Debt 
         //public const int DebtNumberMinLength = 1;

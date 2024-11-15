@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MunicipalityDebtsSystem.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using MunicipalityDebtsSystem.Infrastructure.Data;
 namespace MunicipalityDebtsSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241115161059_ChangeFKToMunicipalityId")]
+    partial class ChangeFKToMunicipalityId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -830,93 +833,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                             Id = 7,
                             IsDeleted = false,
                             Name = "Други"
-                        });
-                });
-
-            modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.Currency", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CurrencyCode")
-                        .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Currencies", "nomenclatures", t =>
-                        {
-                            t.HasComment("Table for currency");
-                        });
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CurrencyCode = "BGN",
-                            IsDeleted = false,
-                            Name = "Български лев"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CurrencyCode = "EUR",
-                            IsDeleted = false,
-                            Name = "Евро"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CurrencyCode = "CAD",
-                            IsDeleted = false,
-                            Name = "Kанaдски долар"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CurrencyCode = "CHF",
-                            IsDeleted = false,
-                            Name = "Швейцарски франк"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CurrencyCode = "GBP",
-                            IsDeleted = false,
-                            Name = "Британски паунд"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CurrencyCode = "JPY",
-                            IsDeleted = false,
-                            Name = "Японска йена"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            CurrencyCode = "ROL",
-                            IsDeleted = false,
-                            Name = "Румънска лея"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            CurrencyCode = "USD",
-                            IsDeleted = false,
-                            Name = "Американски долар"
                         });
                 });
 

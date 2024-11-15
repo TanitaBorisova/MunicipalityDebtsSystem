@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MunicipalityDebtsSystem.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using MunicipalityDebtsSystem.Infrastructure.Data;
 namespace MunicipalityDebtsSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241115133634_TablesForMunicipalityCodesCreatedWithSeed")]
+    partial class TablesForMunicipalityCodesCreatedWithSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -249,17 +252,11 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         .HasColumnType("int")
                         .HasComment("Identifier of the debt");
 
-                    b.Property<int>("MunicipalityId")
-                        .HasColumnType("int")
-                        .HasComment("Identifier of Municipality");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CoverTypeId");
 
                     b.HasIndex("DebtId");
-
-                    b.HasIndex("MunicipalityId");
 
                     b.ToTable("Covers", "mundebt", t =>
                         {
@@ -287,6 +284,10 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                     b.Property<int>("CreditorTypeId")
                         .HasColumnType("int")
                         .HasComment("Identifier of creditor type");
+
+                    b.Property<int>("DataEbkId")
+                        .HasColumnType("int")
+                        .HasComment("Identifier of EBK code");
 
                     b.Property<DateTime>("DateBook")
                         .HasColumnType("datetime2")
@@ -364,10 +365,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         .HasColumnType("bit")
                         .HasComment("Shows whether the debt is negotiated");
 
-                    b.Property<int>("MunicipalityId")
-                        .HasColumnType("int")
-                        .HasComment("Identifier of Municipality");
-
                     b.Property<string>("ResolutionNumber")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -398,184 +395,17 @@ namespace MunicipalityDebtsSystem.Data.Migrations
 
                     b.HasIndex("CreditorTypeId");
 
+                    b.HasIndex("DataEbkId");
+
                     b.HasIndex("DebtPurposeTypeId");
 
                     b.HasIndex("DebtTermTypeId");
 
                     b.HasIndex("InterestTypeId");
 
-                    b.HasIndex("MunicipalityId");
-
                     b.ToTable("Debts", "mundebt", t =>
                         {
                             t.HasComment("Table for storing municipalities debts");
-                        });
-                });
-
-            modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.Draw", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasComment("Identifier of the draw");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2")
-                        .HasComment("Date creation of the draw");
-
-                    b.Property<DateTime?>("DateDeleted")
-                        .HasColumnType("datetime2")
-                        .HasComment("Date of deletion of the draw");
-
-                    b.Property<DateTime?>("DateModified")
-                        .HasColumnType("datetime2")
-                        .HasComment("Date of modification of the draw");
-
-                    b.Property<int>("DebtId")
-                        .HasColumnType("int")
-                        .HasComment("Identifier of the debt");
-
-                    b.Property<decimal>("DrawAmount")
-                        .HasColumnType("decimal(18,2)")
-                        .HasComment("Amount of the draw");
-
-                    b.Property<DateTime>("DrawDate")
-                        .HasColumnType("datetime2")
-                        .HasComment("Date of the draw");
-
-                    b.Property<int>("DrawParentId")
-                        .HasColumnType("int")
-                        .HasComment("Identifier of the parent draw - populated for real draw");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit")
-                        .HasComment("Shows if the draw is marked as deleted");
-
-                    b.Property<int>("MunicipalityId")
-                        .HasColumnType("int")
-                        .HasComment("Identifier of Municipality");
-
-                    b.Property<int>("OperationTypeId")
-                        .HasColumnType("int")
-                        .HasComment("Identifier of the debt");
-
-                    b.Property<string>("UserCreated")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasComment("User created the draw");
-
-                    b.Property<string>("UserDeleted")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasComment("User marked the draw as deleted");
-
-                    b.Property<string>("UserModified")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasComment("User modified the draw");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MunicipalityId");
-
-                    b.ToTable("Draws", "mundebt", t =>
-                        {
-                            t.HasComment("Table for storing draws of the debt");
-                        });
-                });
-
-            modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.Payment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasComment("Identifier of the payment");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasComment("Comment for the payment");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2")
-                        .HasComment("Date creation of the payment");
-
-                    b.Property<DateTime?>("DateDeleted")
-                        .HasColumnType("datetime2")
-                        .HasComment("Date of deletion of the payment");
-
-                    b.Property<DateTime?>("DateModified")
-                        .HasColumnType("datetime2")
-                        .HasComment("Date of modification of the payment");
-
-                    b.Property<int>("DebtId")
-                        .HasColumnType("int")
-                        .HasComment("Identifier of the debt");
-
-                    b.Property<decimal>("InterestAmount")
-                        .HasColumnType("decimal(18,2)")
-                        .HasComment("Interest amount of the payment");
-
-                    b.Property<decimal>("InterestRate")
-                        .HasColumnType("decimal(18,2)")
-                        .HasComment("Interest rate of the payment");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit")
-                        .HasComment("Shows if the payment is marked as deleted");
-
-                    b.Property<int>("MunicipalityId")
-                        .HasColumnType("int")
-                        .HasComment("Identifier of Municipality");
-
-                    b.Property<decimal>("OperateTaxAmount")
-                        .HasColumnType("decimal(18,2)")
-                        .HasComment("Tax amount of the payment");
-
-                    b.Property<int>("OperationTypeId")
-                        .HasColumnType("int")
-                        .HasComment("Identifier of the debt");
-
-                    b.Property<decimal>("PaymentAmount")
-                        .HasColumnType("decimal(18,2)")
-                        .HasComment("Amount of the payment");
-
-                    b.Property<DateTime>("PaymentDate")
-                        .HasColumnType("datetime2")
-                        .HasComment("Date of the payment");
-
-                    b.Property<int>("PaymentParentId")
-                        .HasColumnType("int")
-                        .HasComment("Identifier of the parent payment - populated for real payment");
-
-                    b.Property<string>("UserCreated")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasComment("User created the payment");
-
-                    b.Property<string>("UserDeleted")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasComment("User marked the payment as deleted");
-
-                    b.Property<string>("UserModified")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasComment("User modified the payment");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MunicipalityId");
-
-                    b.ToTable("Payments", "mundebt", t =>
-                        {
-                            t.HasComment("Table for storing payments of the debt");
                         });
                 });
 
@@ -833,93 +663,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.Currency", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CurrencyCode")
-                        .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Currencies", "nomenclatures", t =>
-                        {
-                            t.HasComment("Table for currency");
-                        });
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CurrencyCode = "BGN",
-                            IsDeleted = false,
-                            Name = "Български лев"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CurrencyCode = "EUR",
-                            IsDeleted = false,
-                            Name = "Евро"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CurrencyCode = "CAD",
-                            IsDeleted = false,
-                            Name = "Kанaдски долар"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CurrencyCode = "CHF",
-                            IsDeleted = false,
-                            Name = "Швейцарски франк"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CurrencyCode = "GBP",
-                            IsDeleted = false,
-                            Name = "Британски паунд"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CurrencyCode = "JPY",
-                            IsDeleted = false,
-                            Name = "Японска йена"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            CurrencyCode = "ROL",
-                            IsDeleted = false,
-                            Name = "Румънска лея"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            CurrencyCode = "USD",
-                            IsDeleted = false,
-                            Name = "Американски долар"
-                        });
-                });
-
             modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.DebtPurposeType", b =>
                 {
                     b.Property<int>("Id")
@@ -1053,6 +796,30 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.EBK", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EBKs", "nomenclatures", t =>
+                        {
+                            t.HasComment("Table for all municipalities in BG with their EBK codes");
+                        });
+                });
+
             modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.InterestType", b =>
                 {
                     b.Property<int>("Id")
@@ -1126,10 +893,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MunicipalsCenters", "nomenclatures", t =>
-                        {
-                            t.HasComment("Table for all regions in BG");
-                        });
+                    b.ToTable("MunicipalsCenters");
 
                     b.HasData(
                         new
@@ -1358,10 +1122,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
 
                     b.HasIndex("MunicipalCenterId");
 
-                    b.ToTable("Municipalities", "nomenclatures", t =>
-                        {
-                            t.HasComment("Table for all municipalities in BG");
-                        });
+                    b.ToTable("Municipalities");
 
                     b.HasData(
                         new
@@ -3793,17 +3554,9 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.Municipality", "Municipality")
-                        .WithMany()
-                        .HasForeignKey("MunicipalityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("CoverType");
 
                     b.Navigation("Debt");
-
-                    b.Navigation("Municipality");
                 });
 
             modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.Debt", b =>
@@ -3826,6 +3579,12 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.EBK", "EBK")
+                        .WithMany()
+                        .HasForeignKey("DataEbkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.DebtPurposeType", "DebtPurposeType")
                         .WithMany()
                         .HasForeignKey("DebtPurposeTypeId")
@@ -3844,12 +3603,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.Municipality", "Municipality")
-                        .WithMany()
-                        .HasForeignKey("MunicipalityId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("CreditStatusType");
 
                     b.Navigation("CreditType");
@@ -3860,31 +3613,9 @@ namespace MunicipalityDebtsSystem.Data.Migrations
 
                     b.Navigation("DebtType");
 
+                    b.Navigation("EBK");
+
                     b.Navigation("InterestType");
-
-                    b.Navigation("Municipality");
-                });
-
-            modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.Draw", b =>
-                {
-                    b.HasOne("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.Municipality", "Municipality")
-                        .WithMany()
-                        .HasForeignKey("MunicipalityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Municipality");
-                });
-
-            modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.Payment", b =>
-                {
-                    b.HasOne("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.Municipality", "Municipality")
-                        .WithMany()
-                        .HasForeignKey("MunicipalityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Municipality");
                 });
 
             modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.DebtPurposeType", b =>

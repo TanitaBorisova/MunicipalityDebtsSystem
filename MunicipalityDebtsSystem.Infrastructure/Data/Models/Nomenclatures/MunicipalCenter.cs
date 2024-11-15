@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures
 {
-    [Table("Currencies", Schema = "nomenclatures")]
-    [Comment("Table for currency")]
-    public class Currency : Nomenclature
+
+    [Table("MunicipalsCenters", Schema = "nomenclatures")]
+    [Comment("Table for all regions in BG")]
+    public class MunicipalCenter : Nomenclature
     {
-       
-        [MaxLength(ValidationConstants.CurrencyCodeMaxLength)]
-        public string CurrencyCode { get; set; } = string.Empty;
+        [MaxLength(ValidationConstants.MunicipalCenterCodeMaxLength)]
+        public string MunicipalCenterCode { get; set; } = string.Empty;
     }
 }

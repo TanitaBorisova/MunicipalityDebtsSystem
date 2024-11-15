@@ -37,7 +37,14 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
         [ForeignKey(nameof(DebtId))]
         public Debt Debt { get; set; } = null!;
 
+        [Required]
+        [Comment("Identifier of Municipality")]
+        public int MunicipalityId { get; set; }
+
         [ForeignKey(nameof(CoverTypeId))]
         public CoverType CoverType { get; set; } = null!;
+
+        [ForeignKey(nameof(MunicipalityId))]
+        public Municipality Municipality { get; set; } = null!;
     }
 }
