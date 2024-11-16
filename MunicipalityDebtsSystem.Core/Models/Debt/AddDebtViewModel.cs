@@ -25,96 +25,64 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
         public DateTime DateBook { get; set; }
 
         [Required]
-       
         public DateTime DateNegotiate { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        [Comment("End date of the debt")]
         public DateTime DateContractFinish { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        [Comment("Date of real finish of the debt")]
         public DateTime DateRealFinish { get; set; }
 
-        //[Required]
-        //[DebtCurrencyMaxLength)]
-        //[Comment("Currency of the debt")]
-        //public string DebtCurrency { get; set; } = string.Empty;
+        [Required(ErrorMessage = RequiredErrorMessage)]
+        [Range(CurrencyMinValue, int.MaxValue)]
+        public int CurrencyId { get; set; }
 
-        [Required]
-        [Comment("Amount of the debt in original currency")]
+        [Required(ErrorMessage = RequiredErrorMessage)]
         public decimal DebtAmountOriginalCcy { get; set; }
 
 
-        [Required]
-        [Comment("Amount of the debt in local currency")]
+        [Required(ErrorMessage = RequiredErrorMessage)]
         public decimal DebtAmountLocalCcy { get; set; }
-
-        [Required]
-        [Comment("Identifier of credit type")]
+        
+        [Required(ErrorMessage = RequiredErrorMessage)]
         public int CreditTypeId { get; set; }
 
-        [Required]
-        [Comment("Identifier of creditor type")]
+        [Required(ErrorMessage = RequiredErrorMessage)]
+        [Range(CurrencyMinValue, int.MaxValue)]
         public int CreditorTypeId { get; set; }
 
-        [Required]
-        [Comment("Identifier of debt type")]
+        [Required(ErrorMessage = RequiredErrorMessage)]
+        [Range(CurrencyMinValue, int.MaxValue)]
         public int DebtTermTypeId { get; set; }
 
-        [Required]
-        [Comment("Identifier of debt purpose type")]
+        [Required(ErrorMessage = RequiredErrorMessage)]
+        [Range(CurrencyMinValue, int.MaxValue)]
         public int DebtPurposeTypeId { get; set; }
 
-        [Required]
-        [Comment("Identifier of interest type")]
+        [Required(ErrorMessage = RequiredErrorMessage)]
+        [Range(CurrencyMinValue, int.MaxValue)]
         public int InterestTypeId { get; set; }
 
-        [Required]
-        [Comment("Interest rate")]
+
+        [Required(ErrorMessage = RequiredErrorMessage)]
         public decimal InterestRate { get; set; }
 
-        [ForeignKey(nameof(InterestTypeId))]
-        [Comment("Interest type")]
-        public InterestType InterestType { get; set; } = null!;
 
         [Required]
-        [Comment("Identifier of status of the credit")]
-        public int CreditStatusId { get; set; }
-
-        [Required]
-        [Comment("Identifier of Municipality")]
         public int MunicipalityId { get; set; }
+             
+        [Required]
+        public string UserCreated { get; set; } = string.Empty;
 
         [Required]
-        [Comment("Shows whether the debt is negotiated")]
-        public bool IsNegotiated { get; set; }
-
-        [Required]
-        [Comment("User created the debt")]
-        [MaxLength(ValidationConstants.UserMaxLength)]
-        public string UserCreated { get; set; }
-
-        [Required]
-        [Comment("Date creation of the debt")]
         public DateTime DateCreated { get; set; }
 
-        [Comment("User modified the debt")]
-        [MaxLength(ValidationConstants.UserMaxLength)]
-        public string? UserModified { get; set; }
-
-        [Comment("Date of modification of the debt")]
-        public DateTime? DateModified { get; set; }
-
-        [Comment("User marked the debt as deleted")]
-        [MaxLength(ValidationConstants.UserMaxLength)]
-        public string? UserDeleted { get; set; }
-
-        [Comment("Date of deletion of the debt")]
-        public DateTime? DateDeleted { get; set; }
-
-        [Required]
-        [Comment("Shows if the debt is marked as deleted")]
-        public bool IsDeleted { get; set; }
+      
+        public List<CurrencyViewModel> Currencies { get; set; } = new List<CurrencyViewModel>();
+        public List<CreditTypeViewModel> CreditTypes { get; set; } = new List<CreditTypeViewModel>();
+        public List<CreditorTypeViewModel> CreditorTypes { get; set; } = new List<CreditorTypeViewModel>();
+        public List<DebtTermTypeViewModel> DebtTermTypes { get; set; } = new List<DebtTermTypeViewModel>();
+        public List<DebtPurposeTypeViewModel> DebtPurposeTypes { get; set; } = new List<DebtPurposeTypeViewModel>();
+        public List<InterestTypeViewModel> InterestTypes { get; set; } = new List<InterestTypeViewModel>();
     }
 }

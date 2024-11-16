@@ -24,7 +24,8 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
         public const int MunicipalCenterCodeMaxLength = 2;
         public const int MunicipaliryCodeMaxLength = 4;
         public const int CurrencyCodeMaxLength = 3;
-        
+        public const int CurrencyMinValue = 1;
+
 
         //Debt 
         public const int DebtNumberMinLength = 1;
