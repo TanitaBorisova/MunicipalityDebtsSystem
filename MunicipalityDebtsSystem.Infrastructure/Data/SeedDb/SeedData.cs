@@ -1,4 +1,5 @@
-﻿using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
+﻿using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
+using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,8 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.SeedDb
         public MunicipalCenter[] municipalCenterArr;
         public Municipality[] municipalityArr;
         public Currency[] currencyArr;
+        public CurrencyRate[] currencyRateArr;
+        
 
         public SeedData()
         {
@@ -34,6 +37,7 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.SeedDb
             SeedMunicipalCenterList();
             SeedMunicipalityList();
             SeedCurrencyList();
+            SeedCurrencyRateList();
         }
 
         public void SeedCreditorTypeList()
@@ -532,8 +536,24 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.SeedDb
                 new Currency() { Id = 4, Name = "Швейцарски франк", CurrencyCode = "CHF"},
                 new Currency() { Id = 5, Name = "Британски паунд", CurrencyCode = "GBP"},
                 new Currency() { Id = 6, Name = "Японска йена", CurrencyCode = "JPY"},
-                new Currency() { Id = 7, Name = "Румънска лея", CurrencyCode = "ROL"},
+                new Currency() { Id = 7, Name = "Румънска лея", CurrencyCode = "RON"},
                 new Currency() { Id = 8, Name = "Американски долар", CurrencyCode = "USD"},
+            };
+        }
+
+        public void SeedCurrencyRateList()
+        {
+
+            currencyRateArr = new CurrencyRate[]
+            {
+                new CurrencyRate() { Id = 1, CurrencyId = 1, RateToBGN = 1M, RateFromBGN = 1M},
+                new CurrencyRate() { Id = 2, CurrencyId = 2, RateToBGN = 1.9558M, RateFromBGN = 0.5112M},
+                new CurrencyRate() { Id = 3, CurrencyId = 3, RateToBGN = 1.3164M, RateFromBGN = 0.7593M},
+                new CurrencyRate() { Id = 4, CurrencyId = 4, RateToBGN = 2.0893M, RateFromBGN = 0.4786M},
+                new CurrencyRate() { Id = 5, CurrencyId = 5, RateToBGN = 2.3413M, RateFromBGN = 0.4271M},
+                new CurrencyRate() { Id = 6, CurrencyId = 6, RateToBGN = 0.0120M, RateFromBGN = 83.2126M},
+                new CurrencyRate() { Id = 7, CurrencyId = 7, RateToBGN = 0.3928M, RateFromBGN = 2.5448M},
+                new CurrencyRate() { Id = 8, CurrencyId = 8, RateToBGN = 1.8552M, RateFromBGN = 0.5388M},
             };
         }
 

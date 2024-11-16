@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
 using MunicipalityDebtsSystem.Infrastructure.Data.SeedDb;
+using System.Reflection.Emit;
+using System.Xml;
 //using MunicipalityDebtsSystem.Areas.Identity.Data;
 
 
@@ -42,6 +44,7 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data
         public DbSet<Municipality> Municipalities { get; set; } = null!;
 
         public DbSet<Currency> Currencies { get; set; } = null!;
+        public DbSet<CurrencyRate> CurrenciesRates { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -55,8 +58,9 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data
               .HasOne(e => e.Municipality)
               .WithMany()
               .HasForeignKey(e => e.MunicipalityId)
-              .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Restrict);
 
+           
             builder.ApplyConfiguration(new CreditorTypeConfiguration());
             builder.ApplyConfiguration(new CreditTypeConfiguration());
             builder.ApplyConfiguration(new CreditStatusTypeConfiguration());
@@ -68,6 +72,7 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data
             builder.ApplyConfiguration(new MunicipalCenterConfiguration());
             builder.ApplyConfiguration(new MunicipalityConfiguration());
             builder.ApplyConfiguration(new CurrencyConfiguration());
+            builder.ApplyConfiguration(new CurrencyRateConfiguration());
 
             base.OnModelCreating(builder);
         }

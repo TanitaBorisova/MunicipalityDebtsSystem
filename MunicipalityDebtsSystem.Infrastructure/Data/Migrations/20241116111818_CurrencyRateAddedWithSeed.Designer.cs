@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MunicipalityDebtsSystem.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using MunicipalityDebtsSystem.Infrastructure.Data;
 namespace MunicipalityDebtsSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241116111818_CurrencyRateAddedWithSeed")]
+    partial class CurrencyRateAddedWithSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -289,8 +292,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         .HasComment("Rate from foreign currency to local - BGN");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CurrencyId");
 
                     b.ToTable("CurrenciesRates", "mundebt", t =>
                         {
@@ -3893,17 +3894,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                     b.Navigation("Debt");
 
                     b.Navigation("Municipality");
-                });
-
-            modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.CurrencyRate", b =>
-                {
-                    b.HasOne("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.Currency", "Currency")
-                        .WithMany()
-                        .HasForeignKey("CurrencyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Currency");
                 });
 
             modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.Debt", b =>
