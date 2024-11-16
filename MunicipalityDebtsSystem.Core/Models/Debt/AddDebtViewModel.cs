@@ -3,59 +3,43 @@ using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
-namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
+using static MunicipalityDebtsSystem.Infrastructure.Data.Constants.ValidationConstants;
+namespace MunicipalityDebtsSystem.Core.Models.Debt
 {
-    [Table("Debts", Schema = "mundebt")]
-    [Comment("Table for storing municipalities debts")]
-    public class Debt
+    public class AddDebtViewModel
     {
-
-        public Debt()
-        {
-            CreditStatusId = 1;
-            IsNegotiated = false;
-        }
-
-        [Key]
-        [Required]
-        [Comment("Identifier ot the debt")]
-        public int Id { get; set; }
-
-        [ForeignKey(nameof(Id))]
-        [Comment("Identifier of the parent debt when current debt is created with negotiation")]
+       
         public int DebtParentId { get; set; }
 
-        [Required]
-        [MaxLength(ValidationConstants.DebtNumberMaxLength)]
-        [Comment("Number of the debt")]
+        [Required(ErrorMessage = RequiredErrorMessage)]
+        [StringLength(DebtNumberMaxLength, MinimumLength = DebtNumberMinLength, ErrorMessage = StringLengthErrorMessage)]
+       
         public string DebtNumber { get; set; } = string.Empty;
 
-        [Required]
-        [MaxLength(ValidationConstants.ResolutionNumberMaxLength)]
-        [Comment("Resolution number of the debt")]
+        [Required(ErrorMessage = RequiredErrorMessage)]
+        [StringLength(ResolutionNumberMaxLength, MinimumLength = ResolutionNumberMinLength, ErrorMessage = StringLengthErrorMessage)]
         public string ResolutionNumber { get; set; } = string.Empty;
 
 
-        [Required]
-        [Comment("Start date of the debt")]
+        [Required(ErrorMessage = RequiredErrorMessage)]
         public DateTime DateBook { get; set; }
 
         [Required]
-        [Comment("Date of negotiation of the debt")]
+       
         public DateTime DateNegotiate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = RequiredErrorMessage)]
         [Comment("End date of the debt")]
         public DateTime DateContractFinish { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = RequiredErrorMessage)]
         [Comment("Date of real finish of the debt")]
         public DateTime DateRealFinish { get; set; }
 
-        [Required]
-        [Comment("Currency of the debt")]
-        public int CurrencyId { get; set; }
+        //[Required]
+        //[DebtCurrencyMaxLength)]
+        //[Comment("Currency of the debt")]
+        //public string DebtCurrency { get; set; } = string.Empty;
 
         [Required]
         [Comment("Amount of the debt in original currency")]
@@ -132,27 +116,5 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
         [Required]
         [Comment("Shows if the debt is marked as deleted")]
         public bool IsDeleted { get; set; }
-
-        [ForeignKey(nameof(CreditStatusId))]
-        public CreditStatusType CreditStatusType { get; set; } = null!;
-
-        [ForeignKey(nameof(DebtTermTypeId))]
-        public DebtType DebtType { get; set; } = null!;
-
-        [ForeignKey(nameof(DebtPurposeTypeId))]
-        public DebtPurposeType DebtPurposeType { get; set; } = null!;
-
-        [ForeignKey(nameof(CreditTypeId))]
-        public CreditType CreditType { get; set; } = null!;
-
-        [ForeignKey(nameof(CreditorTypeId))]
-        public CreditorType CreditorType { get; set; } = null!;
-
-        [ForeignKey(nameof(MunicipalityId))]
-        public Municipality Municipality { get; set; } = null!;
-
-        [ForeignKey(nameof(CurrencyId))]
-        public Currency Currency { get; set; }
-
     }
 }
