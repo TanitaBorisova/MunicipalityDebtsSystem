@@ -24,8 +24,8 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
         [Required(ErrorMessage = RequiredErrorMessage)]
         public DateTime DateBook { get; set; }
 
-        [Required]
-        public DateTime DateNegotiate { get; set; }
+        //[Required]
+        //public DateTime DateNegotiate { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         public DateTime DateContractFinish { get; set; }

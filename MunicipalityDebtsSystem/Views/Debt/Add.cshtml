@@ -1,0 +1,120 @@
+﻿@model AddDebtViewModel;
+
+@{
+    ViewData["Title"] = "Add New Debt";
+    var today = DateTime.Now.ToString("dd-MM-yyyy");
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
+<h2>@ViewData["Title"]</h2>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form asp-action="Add" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.DebtNumber" class="form-label-add-edit">Debt Number</label>
+                    <input asp-for="@Model.DebtNumber" class="form-control" aria-required="true" />
+                    <span asp-validation-for="@Model.DebtNumber" class="text-danger"></span>
+                </div>
+                 <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.ResolutionNumber" class="form-label-add-edit">Resolution Number</label>
+                    <input asp-for="@Model.ResolutionNumber" class="form-control" aria-required="true" />
+                    <span asp-validation-for="@Model.ResolutionNumber" class="text-danger"></span>
+                </div>
+                 <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.DateBook" class="form-label-add-edit">Date Book</label>
+                    <input asp-for="@Model.DateBook" class="form-control" aria-required="true" /> @* value="@(string.IsNullOrEmpty(Model.DateBook) ? today : Model.DateBook)" *@
+                    <span asp-validation-for="@Model.DateBook" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.DateContractFinish" class="form-label-add-edit">Date Contract Finish</label>
+                    <input asp-for="@Model.DateContractFinish" class="form-control" aria-required="true"  />
+                    <span asp-validation-for="@Model.DateContractFinish" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.DateRealFinish" class="form-label-add-edit">Date Contract Real Finish</label>
+                    <input asp-for="@Model.DateRealFinish" class="form-control" aria-required="true"  />
+                    <span asp-validation-for="@Model.DateRealFinish" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.CurrencyId" class="form-label-add-edit">Select Currency</label>
+                    <select asp-for="@Model.CurrencyId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Currencies, "Id", "Name"))">
+                        <option value="">--Select Currency--</option>
+                    </select>
+                    <span asp-validation-for="@Model.CurrencyId" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.DebtAmountOriginalCcy" class="form-label-add-edit">Debt Amount in Original Currency</label>
+                    <div class="input-group">
+                        <span class="input-group-text">€</span>
+                        <input asp-for="DebtAmountOriginalCcy" class="form-control" aria-required="true" type="number"  /> @* step="0.01" min="0" *@
+                    </div>
+                    <span asp-validation-for="@Model.DebtAmountOriginalCcy" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.DebtAmountLocalCcy" class="form-label-add-edit">Debt Amount in Local Currency</label>
+                    <div class="input-group">
+                        <span class="input-group-text">€</span>
+                        <input asp-for="DebtAmountLocalCcy" class="form-control" aria-required="true" type="number"  /> @* step="0.01" min="0" *@
+                    </div>
+                    <span asp-validation-for="@Model.DebtAmountLocalCcy" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.CreditTypeId" class="form-label-add-edit">Credit Type</label>
+                    <select asp-for="@Model.CreditTypeId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.CreditTypes, "Id", "Name"))">
+                        <option value="">--Select Credit Type--</option>
+                    </select>
+                    <span asp-validation-for="@Model.CreditTypeId" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.CreditorTypeId" class="form-label-add-edit">Creditor Type</label>
+                    <select asp-for="@Model.CreditorTypeId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.CreditorTypes, "Id", "Name"))">
+                        <option value="">--Select Creditor Type--</option>
+                    </select>
+                    <span asp-validation-for="@Model.CreditorTypeId" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.DebtTermTypeId" class="form-label-add-edit">Debt Term Type</label>
+                    <select asp-for="@Model.DebtTermTypeId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.DebtTypes, "Id", "Name"))">
+                        <option value="">--Select Debt Term Type--</option>
+                    </select>
+                    <span asp-validation-for="@Model.DebtTermTypeId" class="text-danger"></span>
+                </div>
+            
+            @* <div class="mb-2">
+                <label asp-for="@Model.Description" class="form-label-add-edit">Description</label>
+                <textarea asp-for="@Model.Description" class="form-control" aria-required="true" rows="2"></textarea> 
+                <span asp-validation-for="@Model.Description" class="text-danger"></span>
+            </div>
+
+            <div class="mb-2">
+                <label asp-for="@Model.ImageUrl" class="form-label-add-edit">ImageURL</label>
+                <input asp-for="@Model.ImageUrl" class="form-control" aria-required="false" placeholder="Enter image URL (optional)" />
+                <span asp-validation-for="@Model.ImageUrl" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.AddedOn" class="form-label-add-edit">Added On</label>
+                    <input asp-for="@Model.AddedOn" class="form-control" aria-required="true" value="@(string.IsNullOrEmpty(Model.AddedOn) ? today : Model.AddedOn)" />
+                    <span asp-validation-for="@Model.AddedOn" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.CategoryId" class="form-label-add-edit">Select Category</label>
+                    <select asp-for="@Model.CategoryId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))">
+                        <option value="">Select Category...</option>
+                    </select>
+                    <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
+                </div>
+            </div> *@
+
+            <div class="mb-2">
+                <input class="btn btn-warning btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Save" />
+            </div>
+        </form>
+    </div>
+</div>
