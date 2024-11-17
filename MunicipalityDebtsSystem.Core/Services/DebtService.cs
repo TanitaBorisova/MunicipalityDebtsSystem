@@ -2,12 +2,9 @@
 using MunicipalityDebtsSystem.Core.Contracts;
 using MunicipalityDebtsSystem.Core.Models.Debt;
 using MunicipalityDebtsSystem.Infrastructure.Data.Common;
+using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
+using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MunicipalityDebtsSystem.Core.Services
 {
@@ -20,10 +17,81 @@ namespace MunicipalityDebtsSystem.Core.Services
             repository = _repository;
         }
 
-        public Task AddAsync(AddDebtViewModel model)
+        public async Task AddAsync(AddDebtViewModel model, string userId, int municipalityId)
         {
-            throw new NotImplementedException();
+            Debt debt = new Debt
+            {
+                DebtNumber = model.DebtNumber,
+                ResolutionNumber = model.ResolutionNumber,
+                DateBook = model.DateBook,
+                DateNegotiate = model.DateBook,
+                DateContractFinish = model.DateContractFinish,
+                DateRealFinish = model.DateRealFinish,
+                CurrencyId = model.CurrencyId,
+                DebtAmountOriginalCcy = model.DebtAmountOriginalCcy,
+                DebtAmountLocalCcy = model.DebtAmountLocalCcy,
+                CreditTypeId = model.CreditTypeId,
+                CreditorTypeId = model.CreditTypeId,
+                DebtTermTypeId = model.DebtTermTypeId,
+                DebtPurposeTypeId = model.DebtPurposeTypeId,
+                InterestRate = model.InterestRate,
+                InterestTypeId = model.InterestTypeId,
+                MunicipalityId = municipalityId,
+                UserCreated = userId,
+                DateCreated = DateTime.Now
+
+            };
+
+            await repository.AddAsync(debt);    
+            await repository.SaveChangesAsync();
+
         }
+
+
+        public async Task EditAsync(EditDebtViewModel model, string userId, int municipalityId)
+        {
+            Debt debt = new Debt
+            {
+                //DebtId = model.DebtId,
+                //DebtParentId = model.DebtParentId,
+                DebtNumber = model.DebtNumber,
+                ResolutionNumber = model.ResolutionNumber,
+                DateBook = model.DateBook,
+                //DateNegotiate = model.DateBook,
+                DateContractFinish = model.DateContractFinish,
+                DateRealFinish = model.DateRealFinish,
+                CurrencyId = model.CurrencyId,
+                DebtAmountOriginalCcy = model.DebtAmountOriginalCcy,
+                DebtAmountLocalCcy = model.DebtAmountLocalCcy,
+                CreditTypeId = model.CreditTypeId,
+                CreditorTypeId = model.CreditTypeId,
+                DebtTermTypeId = model.DebtTermTypeId,
+                DebtPurposeTypeId = model.DebtPurposeTypeId,
+                InterestRate = model.InterestRate,
+                InterestTypeId = model.InterestTypeId,
+                MunicipalityId = municipalityId,
+                UserModified = userId,
+                DateModified = DateTime.Now
+
+            };
+
+            
+            await repository.SaveChangesAsync();
+
+        }
+        public async Task<Debt> GetEntityDebtById(int id)
+        {
+            var entity = await repository.All<Debt>()
+                .Include(d => d.Currency)
+                .Include(d => d.CreditorType)
+                .Include(d => d.CreditTypeId)
+                .Include(d => d.DebtType)
+                .Include(d => d.DebtPurposeType)
+                .Include(d => d.InterestType)
+                .FirstOrDefaultAsync(d => d.Id == id);
+            return entity;
+        }
+
         public async Task<List<CurrencyViewModel>> GetAllCurrenciesAsync()
         {
             return await repository.AllReadOnly<Currency>()
@@ -90,5 +158,113 @@ namespace MunicipalityDebtsSystem.Core.Services
                 }).ToListAsync();
         }
 
+        public async Task<bool> CheckCurrencyExistAsync(int id)
+        {
+            bool currencyExist = false;
+            var currency = await repository.GetByIdAsync<Currency>(id);
+
+            if (currency != null)
+            {
+                currencyExist = true;
+            }
+            return currencyExist;
+        }
+        public async Task<bool> CheckCreditTypeExistAsync(int id)
+        {
+            bool creditTypeExist = false;
+            var creditType = await repository.GetByIdAsync<CreditType>(id);
+
+            if (creditType != null)
+            {
+                creditTypeExist = true;
+            }
+            return creditTypeExist;
+        }
+
+        public async Task<bool> CheckCreditorTypeExistAsync(int id)
+        {
+            bool creditorTypeExist = false;
+            var creditorType = await repository.GetByIdAsync<CreditorType>(id);
+
+            if (creditorType != null)
+            {
+                creditorTypeExist = true;
+            }
+            return creditorTypeExist;
+        }
+
+        public async Task<bool> CheckDebtTermTypeExistAsync(int id)
+        {
+            bool debtTermTypeExist = false;
+            var debtTermType = await repository.GetByIdAsync<DebtType>(id);
+
+            if (debtTermType != null)
+            {
+                debtTermTypeExist = true;
+            }
+            return debtTermTypeExist;
+        }
+
+        public async Task<bool> CheckDebtPurposeTypeExistAsync(int id)
+        {
+            bool debtPurposeTypeExist = false;
+            var debtPurposeType = await repository.GetByIdAsync<DebtPurposeType>(id);
+
+            if (debtPurposeType != null)
+            {
+                debtPurposeTypeExist = true;
+            }
+            return debtPurposeTypeExist;
+        }
+
+        public async Task<bool> CheckInterestTypeExistAsync(int id)
+        {
+            bool interestTypeExist = false;
+            var interestType = await repository.GetByIdAsync<InterestType>(id);
+
+            if (interestType != null)
+            {
+                interestTypeExist = true;
+            }
+            return interestTypeExist;
+        }
+
+
+        public async Task<DetailDebtViewModel> GetDebtByIdAsync(int id, string userId)
+        {
+            var model = await repository.AllReadOnly<Debt>()
+                .Where(d => d.Id == id && d.IsDeleted == false)
+                .Include(d => d.Currency)
+                .Include(d => d.CreditType)
+                .Include(d => d.CreditorType)
+                .Include(d => d.DebtType)
+                .Include(d => d.DebtPurposeType)
+                .Include(d => d.InterestType)
+                .Select(d => new DetailDebtViewModel
+                {
+                    DebtId = d.Id,
+                    DebtNumber = d.DebtNumber,
+                    ResolutionNumber = d.ResolutionNumber,
+                    DateBook = d.DateBook.ToString(ValidationConstants.DateFormat),
+                    DateContractFinish = d.DateContractFinish.ToString(ValidationConstants.DateFormat),
+                    DateRealFinish = d.DateRealFinish.ToString(ValidationConstants.DateFormat),
+                    CurrencyName = d.DateBook.ToString(ValidationConstants.DateFormat),
+                    DebtAmountOriginalCcy = d.DebtAmountOriginalCcy.ToString(ValidationConstants.CurrencyFormat),
+                    DebtAmountLocalCcy = d.DebtAmountLocalCcy.ToString(ValidationConstants.CurrencyFormat),
+                    CreditTypeName = d.CreditType.Name.ToString(),  //Include 
+                    CreditorTypeName = d.CreditorType.Name.ToString(),
+                    DebtTermTypeName = d.DebtType.Name.ToString(),
+                    DebtPurposeTypeName = d.DebtPurposeType.Name.ToString(),
+                    InterestTypeName = d.InterestType.Name.ToString(),
+                    InterestRate = d.InterestRate.ToString(ValidationConstants.CurrencyFormat),
+                    MunicipalityName = d.Municipality.Name.ToString(),
+                    MunicipalitCode = d.Municipality.MunicipalCode.ToString(),
+                    UserCreated = d.UserCreated,
+                    DateCreated = d.DateCreated.ToString(ValidationConstants.DateFormat)
+                }).FirstOrDefaultAsync();
+
+
+            return model;
+        }
     }
 }

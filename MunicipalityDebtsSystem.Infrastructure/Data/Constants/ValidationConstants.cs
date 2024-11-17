@@ -12,11 +12,20 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
         public const string RequiredErrorMessage = "The field {0} is required";
         public const string StringLengthErrorMessage = "The field {0} must be between {2} and {1} characters length";
         public const string InvalidDateErrorMessage = $"Invalid date! Format must be: {DateFormat}";
-        public const string CategoryNotExist = "Category does not exist!";
+
+        public const string CurrencyNotExist = "Currency does not exist!";
+        public const string CreditTypeNotExist = "Credit type does not exist!";
+        public const string CreditorTypeNotExist = "Creditor type does not exist!";
+        public const string DebtTermTypeNotExist = "Debt term type does not exist!";
+        public const string DebtPurposeTypeNotExist = "Debt purpose type does not exist!";
+        public const string InterestTypeNotExist = "Interest type does not exist!";
 
 
         //DateFormat
         public const string DateFormat = "dd-MM-yyyy";  //"dd.MM.yyyy HH:mm";      //yyyy-MM-dd H:mm
+
+        //CurrencyFormat
+        public const string CurrencyFormat = "C";
 
         //Nomenclatures
         public const int NomenclatureNameMaxLength = 100;

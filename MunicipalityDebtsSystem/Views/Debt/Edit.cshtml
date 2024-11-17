@@ -1,116 +1,117 @@
-﻿@model AddDebtViewModel;
+﻿@model EditDebtViewModel;
 
 @{
-    ViewData["Title"] = "Нов дълг";
+    ViewData["Title"] = "Add New Debt";
     var today = DateTime.Now.ToString("dd-MM-yyyy");
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
-<h2>@ViewData["Title"]</h2>
+    <h2>@ViewData["Title"]</h2>
 </div>
 <hr />
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
         <form asp-action="Add" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="@Model.MunicipalityId" />
             <div class="row">
                 <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.DebtNumber" class="form-label-add-edit">Номер на договор/анекс:</label>
+                    <label asp-for="@Model.DebtNumber" class="form-label-add-edit">Debt Number</label>
                     <input asp-for="@Model.DebtNumber" class="form-control" aria-required="true" />
                     <span asp-validation-for="@Model.DebtNumber" class="text-danger"></span>
                 </div>
-                 <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.ResolutionNumber" class="form-label-add-edit">Решение за поемане на дълг:</label>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.ResolutionNumber" class="form-label-add-edit">Resolution Number</label>
                     <input asp-for="@Model.ResolutionNumber" class="form-control" aria-required="true" />
                     <span asp-validation-for="@Model.ResolutionNumber" class="text-danger"></span>
                 </div>
-                 <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.DateBook" class="form-label-add-edit">Дата на договаряне(дд.мм.гггг):</label>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.DateBook" class="form-label-add-edit">Date Book</label>
                     <input asp-for="@Model.DateBook" class="form-control" aria-required="true" /> @* value="@(string.IsNullOrEmpty(Model.DateBook) ? today : Model.DateBook)" *@
                     <span asp-validation-for="@Model.DateBook" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.DateContractFinish" class="form-label-add-edit">Крайна дата на дълга:</label>
-                    <input asp-for="@Model.DateContractFinish" class="form-control" aria-required="true"  />
+                    <label asp-for="@Model.DateContractFinish" class="form-label-add-edit">Date Contract Finish</label>
+                    <input asp-for="@Model.DateContractFinish" class="form-control" aria-required="true" />
                     <span asp-validation-for="@Model.DateContractFinish" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.DateRealFinish" class="form-label-add-edit">Реална дата на погасяване:</label>
-                    <input asp-for="@Model.DateRealFinish" class="form-control" aria-required="true"  />
+                    <label asp-for="@Model.DateRealFinish" class="form-label-add-edit">Date Contract Real Finish</label>
+                    <input asp-for="@Model.DateRealFinish" class="form-control" aria-required="true" />
                     <span asp-validation-for="@Model.DateRealFinish" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.CurrencyId" class="form-label-add-edit">Валута на дълга:</label>
+                    <label asp-for="@Model.CurrencyId" class="form-label-add-edit">Select Currency</label>
                     <select asp-for="@Model.CurrencyId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Currencies, "Id", "Name"))">
-                        <option value="">-- Изберете </option>
+                        <option value="">--Select Currency--</option>
                     </select>
                     <span asp-validation-for="@Model.CurrencyId" class="text-danger"></span>
                 </div>
 
                 <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.DebtAmountOriginalCcy" class="form-label-add-edit">Размер на дълга в оригинална валута:</label>
+                    <label asp-for="@Model.DebtAmountOriginalCcy" class="form-label-add-edit">Debt Amount in Original Currency</label>
                     <div class="input-group">
-                       @*  <span class="input-group-text"></span> *@
-                        <input asp-for="DebtAmountOriginalCcy" class="form-control" aria-required="true" type="number"  /> @* step="0.01" min="0" *@
+                        <span class="input-group-text"></span>
+                        <input asp-for="DebtAmountOriginalCcy" class="form-control" aria-required="true" type="number" /> @* step="0.01" min="0" *@
                     </div>
                     <span asp-validation-for="@Model.DebtAmountOriginalCcy" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.DebtAmountLocalCcy" class="form-label-add-edit">Размер на дълга в местна валута:</label>
+                    <label asp-for="@Model.DebtAmountLocalCcy" class="form-label-add-edit">Debt Amount in Local Currency</label>
                     <div class="input-group">
                         <span class="input-group-text">BGN</span>
-                        <input asp-for="DebtAmountLocalCcy" class="form-control" aria-required="true" type="number"  /> @* step="0.01" min="0" *@
+                        <input asp-for="DebtAmountLocalCcy" class="form-control" aria-required="true" type="number" /> @* step="0.01" min="0" *@
                     </div>
                     <span asp-validation-for="@Model.DebtAmountLocalCcy" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.CreditTypeId" class="form-label-add-edit">Предназначение:</label>
+                    <label asp-for="@Model.CreditTypeId" class="form-label-add-edit">Credit Type</label>
                     <select asp-for="@Model.CreditTypeId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.CreditTypes, "Id", "Name"))">
-                        <option value="">-- Изберете</option>
+                        <option value="">--Select Credit Type--</option>
                     </select>
                     <span asp-validation-for="@Model.CreditTypeId" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.CreditorTypeId" class="form-label-add-edit">Тип на кредитора:</label>
+                    <label asp-for="@Model.CreditorTypeId" class="form-label-add-edit">Creditor Type</label>
                     <select asp-for="@Model.CreditorTypeId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.CreditorTypes, "Id", "Name"))">
-                        <option value="">-- Изберете</option>
+                        <option value="">--Select Creditor Type--</option>
                     </select>
                     <span asp-validation-for="@Model.CreditorTypeId" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.DebtTermTypeId" class="form-label-add-edit">Вид на дълга:</label>
+                    <label asp-for="@Model.DebtTermTypeId" class="form-label-add-edit">Debt Term Type</label>
                     <select asp-for="@Model.DebtTermTypeId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.DebtTermTypes, "Id", "Name"))">
-                        <option value="">-- Изберете</option>
+                        <option value="">--Select Debt Term Type--</option>
                     </select>
                     <span asp-validation-for="@Model.DebtTermTypeId" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.DebtPurposeTypeId" class="form-label-add-edit">Цел на поемането на дълга:</label>
+                    <label asp-for="@Model.DebtPurposeTypeId" class="form-label-add-edit">Debt Purpose Type</label>
                     <select asp-for="@Model.DebtPurposeTypeId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.DebtPurposeTypes, "Id", "Name"))">
-                        <option value="">-- Изберете</option>
+                        <option value="">--Select Debt Purpose Type--</option>
                     </select>
                     <span asp-validation-for="@Model.DebtPurposeTypeId" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.InterestTypeId" class="form-label-add-edit">Описание на лихвения процент:</label>
+                    <label asp-for="@Model.InterestTypeId" class="form-label-add-edit">Interest Type</label>
                     <select asp-for="@Model.InterestTypeId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.InterestTypes, "Id", "Name"))">
-                        <option value="">-- Изберете</option>
+                        <option value="">--Select Interest Type--</option>
                     </select>
                     <span asp-validation-for="@Model.InterestTypeId" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.InterestRate" class="form-label-add-edit">Лихвен процент:</label>
+                    <label asp-for="@Model.InterestRate" class="form-label-add-edit">Interest Rate</label>
                     <div class="input-group">
                         <span class="input-group-text"></span>
                         <input asp-for="InterestRate" class="form-control" aria-required="true" type="number" /> @* step="0.01" min="0" *@
                     </div>
                     <span asp-validation-for="@Model.InterestRate" class="text-danger"></span>
                 </div>
-         
 
-            <div class="mb-2">
-                <input class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Save" />
-            </div>
+
+                <div class="mb-2">
+                    <input class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Save" />
+                </div>
         </form>
     </div>
 </div>

@@ -1,15 +1,22 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace MunicipalityDebtsSystem.Controllers
 {
     //[Authorize]
     public class BaseController : Controller
     {
-        public IActionResult Index()
+        protected string GetUserId()
         {
-            //TO DO ADD Method for UserId
-            return View();
+            return User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
         }
+        
+
+        //public IActionResult Index()
+        //{
+
+        //    return View();
+        //}
     }
 }
