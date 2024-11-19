@@ -2,7 +2,7 @@
 
 
 @{
-    ViewData["Title"] = "Debt Details";
+    ViewData["Title"] = "Преглед на дълг";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
@@ -15,7 +15,7 @@
 
     <div class="col-md-8">
         <div class="card-body">
-            <h5 class="card-title">Municipality: @Model.MunicipalityName: @Model.MunicipalityName</h5>
+            <h5 class="card-title">Община: @Model.MunicipalityName: @Model.MunicipalityCode</h5>
             <hr />
             <p class="card-text"> Номер на дълг: @Model.DebtNumber</p>
             <p class="card-text"> Решение за поемане на дъл: @Model.ResolutionNumber</p>

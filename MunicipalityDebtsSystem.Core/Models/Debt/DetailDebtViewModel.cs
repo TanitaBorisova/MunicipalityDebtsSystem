@@ -44,9 +44,11 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
 
         public string InterestRate { get; set; } = string.Empty;
 
+        public int MunicipalityId { get; set; } 
+
+        public string MunicipalityCode { get; set; } = string.Empty;
+
         public string MunicipalityName { get; set; } = string.Empty;
-  
-        public string MunicipalitCode { get; set; } = string.Empty;
 
         public string UserCreated { get; set; } = string.Empty;
                 
