@@ -92,6 +92,30 @@ namespace MunicipalityDebtsSystem.Core.Services
             return entity;
         }
 
+        public async Task<CreditorType> GetEntityCreditorTypeById(int id)
+        {
+            var entity = await repository.All<CreditorType>()
+                .FirstOrDefaultAsync(d => d.Id == id);
+            return entity;
+        }
+        public async Task<CreditType> GetEntityCreditTypeById(int id)
+        {
+            var entity = await repository.All<CreditType>()
+                .FirstOrDefaultAsync(d => d.Id == id);
+            return entity;
+        }
+        public async Task<DebtType> GetEntityDebtTermTypeById(int id)
+        {
+            var entity = await repository.All<DebtType>()
+                .FirstOrDefaultAsync(d => d.Id == id);
+            return entity;
+        }
+        public async Task<DebtPurposeType> GetEntityDebtPurposeTypeById(int id)
+        {
+            var entity = await repository.All<DebtPurposeType>()
+                .FirstOrDefaultAsync(d => d.Id == id);
+            return entity;
+        }
         public async Task<List<CurrencyViewModel>> GetAllCurrenciesAsync()
         {
             return await repository.AllReadOnly<Currency>()
@@ -230,7 +254,7 @@ namespace MunicipalityDebtsSystem.Core.Services
         }
 
 
-        public async Task<DetailDebtViewModel> GetDebtByIdAsync(int id, string userId)
+        public async Task<DetailDebtViewModel> GetDebtByIdAsync(int id)
         {
             var model = await repository.AllReadOnly<Debt>()
                 .Where(d => d.Id == id && d.IsDeleted == false)
@@ -258,13 +282,55 @@ namespace MunicipalityDebtsSystem.Core.Services
                     InterestTypeName = d.InterestType.Name.ToString(),
                     InterestRate = d.InterestRate.ToString(ValidationConstants.CurrencyFormat),
                     MunicipalityName = d.Municipality.Name.ToString(),
-                    MunicipalitCode = d.Municipality.MunicipalCode.ToString(),
+                    MunicipalityCode = d.Municipality.MunicipalCode.ToString(),
                     UserCreated = d.UserCreated,
                     DateCreated = d.DateCreated.ToString(ValidationConstants.DateFormat)
                 }).FirstOrDefaultAsync();
 
 
             return model;
+        }
+
+        public async Task DeleteProduct(Debt debt)
+        {
+            debt.IsDeleted = true;
+            await repository.SaveChangesAsync();
+        }
+
+        public Task DeleteDebt(Debt debt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task NegotiateAsync(NegotiateDebtViewModel model, string userId, int municipalityId)
+        {
+            Debt debt = new Debt
+            {
+                DebtParentId = model.DebtId,
+                DebtNumber = model.DebtNumber,
+                ResolutionNumber = model.ResolutionNumber,
+                DateBook = model.DateBook,
+                DateNegotiate = model.DateBook,
+                DateContractFinish = model.DateContractFinish,
+                DateRealFinish = model.DateRealFinish,
+                CurrencyId = model.CurrencyId,
+                DebtAmountOriginalCcy = model.DebtAmountOriginalCcy,
+                DebtAmountLocalCcy = model.DebtAmountLocalCcy,
+                CreditTypeId = model.CreditTypeId,
+                CreditorTypeId = model.CreditTypeId,
+                DebtTermTypeId = model.DebtTermTypeId,
+                DebtPurposeTypeId = model.DebtPurposeTypeId,
+                InterestRate = model.InterestRate,
+                InterestTypeId = model.InterestTypeId,
+                MunicipalityId = municipalityId,
+                UserCreated = userId,
+                DateCreated = DateTime.Now
+
+            };
+
+            await repository.AddAsync(debt);
+            await repository.SaveChangesAsync();
+
         }
     }
 }

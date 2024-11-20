@@ -1,5 +1,6 @@
 ﻿using MunicipalityDebtsSystem.Core.Models.Debt;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
+using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,19 @@ namespace MunicipalityDebtsSystem.Core.Contracts
 
         Task EditAsync(EditDebtViewModel model, string userId, int municipalityId);
 
-        Task<DetailDebtViewModel> GetDebtByIdAsync(int id, string userId);
+        Task<DetailDebtViewModel> GetDebtByIdAsync(int id);
 
         Task<Debt> GetEntityDebtById(int id);
+
+        Task NegotiateAsync(NegotiateDebtViewModel model, string userId, int municipalityId);
+
+        Task<CreditorType> GetEntityCreditorTypeById(int id);
+
+        Task<CreditType> GetEntityCreditTypeById(int id);
+
+        Task<DebtType> GetEntityDebtTermTypeById(int id);
+
+        Task<DebtPurposeType> GetEntityDebtPurposeTypeById(int id);
 
         Task<List<CurrencyViewModel>> GetAllCurrenciesAsync();
 
@@ -29,6 +40,7 @@ namespace MunicipalityDebtsSystem.Core.Contracts
         Task<List<InterestTypeViewModel>> GetAllInterestTypesAsync();
 
         Task<List<DebtTermTypeViewModel>> GetAllDebtTermTypesAsync();
+        Task DeleteDebt(Debt debt);
 
         Task<bool> CheckCurrencyExistAsync(int id);
 
