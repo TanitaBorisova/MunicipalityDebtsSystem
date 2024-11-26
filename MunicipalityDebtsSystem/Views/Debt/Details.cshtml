@@ -18,40 +18,23 @@
             <h5 class="card-title">Община: @Model.MunicipalityName: @Model.MunicipalityCode</h5>
             <hr />
             <p class="card-text"> Номер на дълг: @Model.DebtNumber</p>
-            <p class="card-text"> Решение за поемане на дъл: @Model.ResolutionNumber</p>
+            <p class="card-text"> Решение за поемане на дълг: @Model.ResolutionNumber</p>
             <p class="card-text"> Дата на поемане на дълга: @Model.DateBook</p>
             <p class="card-text"> Размер на кредита в оригинална валута: @Model.DebtAmountOriginalCcy</p>
             <p class="card-text"> Валута: @Model.DebtAmountOriginalCcy</p>
             <p class="card-text"> Размер на дълга в лева: @Model.DebtAmountLocalCcy</p>
             <p class="card-text"> Дата на приключване на кредита: @Model.DateContractFinish</p>
             <p class="card-text"> Дата на реално приключване на кредита: @Model.DateRealFinish</p>
-            <p class="card-text"> Вид на : @Model.CreditorTypeName</p>
-            <p class="card-text"> Вид на : @Model.CreditTypeName</p>
-            <p class="card-text"> Вид на : @Model.DebtPurposeTypeName</p>
-            <p class="card-text"> Вид на : @Model.DebtTermTypeName</p>
-            <p class="card-text"> Вид на : @Model.InterestTypeName</p>
-            <p class="card-text"> Вид на : @Model.InterestTypeName</p>
+            <p class="card-text"> Тип на кредитора: @Model.CreditorTypeName</p>
+            <p class="card-text"> Предназначение: @Model.CreditTypeName</p>
+            <p class="card-text"> Цел на поемането на дълга: @Model.DebtPurposeTypeName</p>
+            <p class="card-text"> Вид на дълга: @Model.DebtTermTypeName</p>
+            <p class="card-text"> Описание на лихвения процент: @Model.InterestTypeName</p>
+            <p class="card-text"> Лихвен процент: @Model.InterestRate</p>
             
-            <@* p class="card-text"><small class="text-muted">Category: @Model.CategoryName</small></p>
-            <p class="card-text"><small class="text-muted">Added On: @Model.AddedOn / Seller: @Model.Seller</small></p> *@
+            
             <hr />            
         </div>
-        @* <div class="card-footer text-center">
-            <div class="d-flex justify-content-between align-items-center">
-                <a asp-controller="Product" asp-action="Index" class="btn btn-warning d-flex justify-content-center align-items-center flex-fill mx-1">Back</a>
-                @if (User?.Identity?.IsAuthenticated == true && User?.Identity?.Name != @Model.Seller && !@Model.HasBought)
-                {
-                    <form asp-controller="Product" asp-action="AddToCart" method="post" class="d-flex justify-content-center align-items-center flex-fill mx-1">
-                        <input type="hidden" name="id" value="@Model.Id" />
-                        <button type="submit" class="btn btn-success w-100">Buy</button>
-                    </form>
-                }
-                @if (User?.Identity?.Name == @Model.Seller)
-                {
-                    <a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1">Edit</a>
-                    <a asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger d-flex justify-content-center align-items-center flex-fill mx-1" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
-                }
-            </div>
-        </div> *@
+       
     </div>
 </div>

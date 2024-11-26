@@ -16,5 +16,8 @@ namespace MunicipalityDebtsSystem.Core.Models.Municipality
 
         [Required]
         public string MunicipalityName { get; set; } = string.Empty;
+
+        [Required]
+        public string MunicipalityCode { get; set; } = string.Empty;
     }
 }

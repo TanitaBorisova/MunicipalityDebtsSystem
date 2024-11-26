@@ -61,7 +61,8 @@ namespace MunicipalityDebtsSystem.Core.Services
                 .Select(c => new MunicipalityViewModel
                 {
                     MunicipalityId = c.Id,
-                    MunicipalityName = c.Name
+                    MunicipalityName = c.Name,
+                    MunicipalityCode = c.MunicipalCode
                 }).FirstOrDefaultAsync();
         }
 
@@ -74,6 +75,14 @@ namespace MunicipalityDebtsSystem.Core.Services
                     MunicipalityId = c.Id,
                     MunicipalityName = c.Name
                 }).ToListAsync();
+        }
+
+        public async Task<List<Municipality>> GetMunicipalitiesByNameAsync(string searchTerm)
+        {
+            return await repository.AllReadOnly<Municipality>()
+                .Where(m => m.Name.Contains(searchTerm))
+                .OrderBy(m=> m.Name)
+                .ToListAsync();
         }
     }
 }

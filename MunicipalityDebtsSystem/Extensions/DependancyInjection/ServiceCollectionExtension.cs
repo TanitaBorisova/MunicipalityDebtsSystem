@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using MunicipalityDebtsSystem.Core.Contracts;
 using MunicipalityDebtsSystem.Core.Services;
 using MunicipalityDebtsSystem.Infrastructure.Data;
@@ -36,20 +37,41 @@ namespace MunicipalityDebtsSystem.Extensions.DependancyInjection
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //        .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            //services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+                {
+                    options.User.RequireUniqueEmail = true;
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireDigit = true;
+                    options.Password.RequireLowercase = true;
+                    options.Password.RequireUppercase = true;
+                })
+               .AddRoles<IdentityRole>()
+               .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            //AddIdentity iska i user i role
-            //Trqbva li da scaffold-na?
-
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    //.AddRoles<ApplicationRole>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>();
-                   
-                    //.AddDefaultTokenProviders();
+           // .AddDefaultTokenProviders();
 
             return services;
         }
 
+        //public static IServiceCollection AddApplicationIdentity(this IServiceCollection services, IConfiguration config)
+        //{
+        //    services
+        //        .AddDefaultIdentity<ApplicationUser>(options =>
+        //        {
+        //            options.User.RequireUniqueEmail = true;
+        //            options.SignIn.RequireConfirmedAccount = false;
+        //            options.Password.RequireNonAlphanumeric = false;
+        //            options.Password.RequireDigit = true;
+        //            options.Password.RequireLowercase = true;
+        //            options.Password.RequireUppercase = true;
+        //        })
+        //        //.AddRoles<IdentityRole>()
+        //        .AddEntityFrameworkStores<ApplicationDbContext>();
 
+        //    return services;
+        //}
 
     }
 }

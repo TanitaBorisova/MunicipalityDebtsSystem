@@ -1,15 +1,24 @@
-﻿using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
+using static MunicipalityDebtsSystem.Infrastructure.Data.Constants.CustomClaims;
+
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace MunicipalityDebtsSystem.Infrastructure.Data.SeedDb
 {
     public class SeedData
+
     {
+       //public UserManager<ApplicationUser> userManager;
+       //public RoleManager<IdentityRole> roleManager;
+        public SeedUsers users;
         public CreditorType[] creditorTypeArr;
         public CreditType[] creditTypeArr;
         public CreditStatusType[] creditStatusTypeArr;
@@ -22,10 +31,24 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.SeedDb
         public Municipality[] municipalityArr;
         public Currency[] currencyArr;
         public CurrencyRate[] currencyRateArr;
-        
+      
+        public ApplicationUser adminUser { get; set; }
+        public IdentityUserClaim<string> AdminUserClaim { get; set; }
+        public ApplicationUser BurgasMunicipalityUser { get; set; }
+        public IdentityUserClaim<string> BurgasUserClaim { get; set; }
+        public ApplicationUser VarnaMunicipalityUser { get; set; }
+        public IdentityUserClaim<string> VarnaUserClaim { get; set; }
 
-        public SeedData()
+        public SeedData(//SeedUsers _users 
+                        //UserManager<ApplicationUser> _userManager,
+                        //RoleManager<IdentityRole> _roleManager
+                        )
+       
         {
+            //users = _users;
+            //userManager = _userManager;
+            //roleManager = _roleManager;
+
             SeedCreditorTypeList();
             SeedCreditTypeList();
             SeedCreditStatusTypeList();
@@ -38,6 +61,8 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.SeedDb
             SeedMunicipalityList();
             SeedCurrencyList();
             SeedCurrencyRateList();
+            //users.SeedRoles();
+            //SeedUsers();
         }
 
         public void SeedCreditorTypeList()
@@ -556,6 +581,122 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.SeedDb
                 new CurrencyRate() { Id = 8, CurrencyId = 8, RateToBGN = 1.8552M, RateFromBGN = 0.5388M},
             };
         }
+
+        //private async Task SeedRole()
+        //{
+        //    bool roleAdminExists = await roleManager.RoleExistsAsync("Administrator");
+
+        //    if (roleAdminExists == false)
+        //    {
+        //        var role = new IdentityRole("Administrator");
+        //        await roleManager.CreateAsync(role);
+
+        //    }
+
+        //    bool roleMunicipalExists = await roleManager.RoleExistsAsync("UserMun");
+
+        //    if (roleMunicipalExists == false)
+        //    {
+        //        var role = new IdentityRole("UserMun");
+        //        await roleManager.CreateAsync(role);
+
+        //    }
+
+
+            //var admin = await userManager.FindByEmailAsync("adminDebt@mail.bg");
+
+            //if (admin != null)
+            //{
+            //    await userManager.AddToRoleAsync(admin, "Administrator");
+            //}
+
+           
+        //}
+
+        //private void SeedUsers()
+        //{
+        //    var hasher = new PasswordHasher<ApplicationUser>();
+
+        //    adminUser = new ApplicationUser()
+        //    {
+        //        Id = "c398bf2f-e8b0-4c64-a99b-492c8c29e9c3", 
+        //        UserName = "adminDebt@mail.bg",
+        //        NormalizedUserName = "admindebt@mail.com",
+        //        Email = "adminDebt@mail.bg",
+        //        NormalizedEmail = "admindebt@mail.bg",
+        //        FirstName = "Иван",
+        //        LastName = "Петров",
+        //        MunicipalityId = null
+        //    };
+
+        //    AdminUserClaim = new IdentityUserClaim<string>()
+        //    {
+        //        Id = 1,
+        //        ClaimType = UserFullNameClaim,
+        //        ClaimValue = "Иван Петров",
+        //        UserId = "c398bf2f-e8b0-4c64-a99b-492c8c29e9c3" 
+        //    };
+
+        //    adminUser.PasswordHash =
+        //         hasher.HashPassword(adminUser, "DebtAdmin123");
+
+        //    BurgasMunicipalityUser = new ApplicationUser()
+        //    {
+        //        Id = "22ad10a0-2f69-4735-bd2c-9e944cd80baf", 
+        //        UserName = "burgas_municipal@mail.bg",
+        //        NormalizedUserName = "burgas_municipal@mail.bg",
+        //        Email = "burgas_municipal@mail.bg",
+        //        NormalizedEmail = "burgas_municipal@mail.bg",
+        //        FirstName = "Стоян",
+        //        LastName = "Георгиев",
+        //        MunicipalityId = 16
+        //    };
+            
+        //    BurgasUserClaim = new IdentityUserClaim<string>()
+        //    {
+        //        Id = 2,
+        //        ClaimType = UserFullNameClaim,
+        //        ClaimValue = "Стоян Георгиев",
+        //        UserId = "22ad10a0-2f69-4735-bd2c-9e944cd80baf"  
+        //    };
+
+        //    BurgasMunicipalityUser.PasswordHash =
+        //    hasher.HashPassword(BurgasMunicipalityUser, "BurgasMun123");
+
+        //    VarnaMunicipalityUser = new ApplicationUser()
+        //    {
+        //        Id = "faf648ad-8f38-459d-909f-256f9a167a44",  
+        //        UserName = "VarnaMun@mail.com",
+        //        NormalizedUserName = "varnamun@mail.com",
+        //        Email = "VarnaMun@mail.com",
+        //        NormalizedEmail = "varnamun@mail.com",
+        //        FirstName = "Георги",
+        //        LastName = "Василев"
+        //    };
+
+        //    VarnaUserClaim = new IdentityUserClaim<string>()
+        //    {
+        //        Id = 3,
+        //        ClaimType = UserFullNameClaim,
+        //        UserId = "faf648ad-8f38-459d-909f-256f9a167a44", 
+        //        ClaimValue = "Георги Василев"
+        //    };
+
+        //    adminUser.PasswordHash =
+        //    hasher.HashPassword(VarnaMunicipalityUser, "VarnaMun123");
+        //}
+
+        //private async Task SeedRolesToUsers()
+        //{
+        //    var admin = await userManager.FindByEmailAsync("adminDebt@mail.bg");
+
+        //    if (admin != null)
+        //    {
+        //        await userManager.AddToRoleAsync(admin, "Administrator");
+        //    }
+
+            
+        //}
 
     }
 }

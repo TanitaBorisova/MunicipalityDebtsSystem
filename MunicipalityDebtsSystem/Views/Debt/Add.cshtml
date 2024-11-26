@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Нов дълг";
-    var today = DateTime.Now.ToString("dd-MM-yyyy");
+    var today = DateTime.Now.ToString("dd/MM/yyyy");
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
@@ -13,6 +13,9 @@
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
         <form asp-action="Add" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="@Model.MunicipalityId" />
+           @*  <input type="hidden" asp-for="@Model.UserCreated" /> *@
+            <input type="hidden" asp-for="@Model.DateCreated" />
             <div class="row">
                 <div class="col-sm-6 mb-2">
                     <label asp-for="@Model.DebtNumber" class="form-label-add-edit">Номер на договор/анекс:</label>
@@ -25,8 +28,8 @@
                     <span asp-validation-for="@Model.ResolutionNumber" class="text-danger"></span>
                 </div>
                  <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.DateBook" class="form-label-add-edit">Дата на договаряне(дд.мм.гггг):</label>
-                    <input asp-for="@Model.DateBook" class="form-control" aria-required="true" /> @* value="@(string.IsNullOrEmpty(Model.DateBook) ? today : Model.DateBook)" *@
+                    <label asp-for="@Model.DateBook" class="form-label-add-edit">Дата на договаряне:</label>
+                    <input asp-for="@Model.DateBook" class="form-control" aria-required="true" value="@(string.IsNullOrEmpty(Model.DateBook.ToString()) ? today : Model.DateBook)"/> @* value="@(string.IsNullOrEmpty(Model.DateBook) ? today : Model.DateBook)" *@
                     <span asp-validation-for="@Model.DateBook" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 mb-2">

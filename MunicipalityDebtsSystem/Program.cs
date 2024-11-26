@@ -56,6 +56,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapDefaultControllerRoute();
-//app.MapRazorPages();
+app.MapRazorPages();
 
 await app.RunAsync();

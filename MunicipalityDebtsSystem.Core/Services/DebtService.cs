@@ -31,7 +31,7 @@ namespace MunicipalityDebtsSystem.Core.Services
                 DebtAmountOriginalCcy = model.DebtAmountOriginalCcy,
                 DebtAmountLocalCcy = model.DebtAmountLocalCcy,
                 CreditTypeId = model.CreditTypeId,
-                CreditorTypeId = model.CreditTypeId,
+                CreditorTypeId = model.CreditorTypeId,
                 DebtTermTypeId = model.DebtTermTypeId,
                 DebtPurposeTypeId = model.DebtPurposeTypeId,
                 InterestRate = model.InterestRate,
@@ -50,30 +50,31 @@ namespace MunicipalityDebtsSystem.Core.Services
 
         public async Task EditAsync(EditDebtViewModel model, string userId, int municipalityId)
         {
-            Debt debt = new Debt
-            {
-                //DebtId = model.DebtId,
-                //DebtParentId = model.DebtParentId,
-                DebtNumber = model.DebtNumber,
-                ResolutionNumber = model.ResolutionNumber,
-                DateBook = model.DateBook,
-                //DateNegotiate = model.DateBook,
-                DateContractFinish = model.DateContractFinish,
-                DateRealFinish = model.DateRealFinish,
-                CurrencyId = model.CurrencyId,
-                DebtAmountOriginalCcy = model.DebtAmountOriginalCcy,
-                DebtAmountLocalCcy = model.DebtAmountLocalCcy,
-                CreditTypeId = model.CreditTypeId,
-                CreditorTypeId = model.CreditTypeId,
-                DebtTermTypeId = model.DebtTermTypeId,
-                DebtPurposeTypeId = model.DebtPurposeTypeId,
-                InterestRate = model.InterestRate,
-                InterestTypeId = model.InterestTypeId,
-                MunicipalityId = municipalityId,
-                UserModified = userId,
-                DateModified = DateTime.Now
 
-            };
+            var entity = await GetEntityDebtById(model.DebtId);
+
+            //DebtId = model.DebtId,
+            //DebtParentId = model.DebtParentId,
+            entity.DebtNumber = model.DebtNumber;
+            entity.ResolutionNumber = model.ResolutionNumber;
+            entity.DateBook = model.DateBook;
+            //DateNegotiate = model.DateBook,
+            entity.DateContractFinish = model.DateContractFinish;
+            entity.DateRealFinish = model.DateRealFinish;
+            entity.CurrencyId = model.CurrencyId;
+            entity.DebtAmountOriginalCcy = model.DebtAmountOriginalCcy;
+            entity.DebtAmountLocalCcy = model.DebtAmountLocalCcy;
+            entity.CreditTypeId = model.CreditTypeId;
+            entity.CreditorTypeId = model.CreditorTypeId;
+            entity.DebtTermTypeId = model.DebtTermTypeId;
+            entity.DebtPurposeTypeId = model.DebtPurposeTypeId;
+            entity.InterestRate = model.InterestRate;
+            entity.InterestTypeId = model.InterestTypeId;
+            entity.MunicipalityId = municipalityId;
+            entity.UserModified = userId;
+            entity.DateModified = DateTime.Now;
+
+          
 
             
             await repository.SaveChangesAsync();
@@ -82,12 +83,12 @@ namespace MunicipalityDebtsSystem.Core.Services
         public async Task<Debt> GetEntityDebtById(int id)
         {
             var entity = await repository.All<Debt>()
-                .Include(d => d.Currency)
-                .Include(d => d.CreditorType)
-                .Include(d => d.CreditTypeId)
-                .Include(d => d.DebtType)
-                .Include(d => d.DebtPurposeType)
-                .Include(d => d.InterestType)
+                //.Include(d => d.Currency)
+                //.Include(d => d.CreditorType)
+                //.Include(d => d.CreditType)
+                //.Include(d => d.DebtType)
+                //.Include(d => d.DebtPurposeType)
+                //.Include(d => d.InterestType)
                 .FirstOrDefaultAsync(d => d.Id == id);
             return entity;
         }

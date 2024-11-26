@@ -70,8 +70,10 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
         [Required]
         public int MunicipalityId { get; set; }
              
-        [Required]
-        public string UserCreated { get; set; } = string.Empty;
+        //[Required]
+        //[MinLength(2)]
+        //[MaxLength(50)]
+        //public string UserCreated { get; set; } = string.Empty;
 
         [Required]
         public DateTime DateCreated { get; set; }

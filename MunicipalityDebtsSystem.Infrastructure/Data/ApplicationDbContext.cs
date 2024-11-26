@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
@@ -10,11 +11,16 @@ using System.Xml;
 
 namespace MunicipalityDebtsSystem.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>//IdentityDbContext<IdentityUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
+        //private UserManager<ApplicationUser> userManager;
+        //private RoleManager<IdentityRole> roleManager;
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) //, UserManager<ApplicationUser> _userManager, RoleManager<IdentityRole> _roleManager)
+             : base(options)
         {
+            //userManager = _userManager;
+            //roleManager = _roleManager;
         }
 
         public DbSet<CreditorType> CreditorsTypes { get; set; } = null!;
@@ -73,6 +79,9 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data
             builder.ApplyConfiguration(new MunicipalityConfiguration());
             builder.ApplyConfiguration(new CurrencyConfiguration());
             builder.ApplyConfiguration(new CurrencyRateConfiguration());
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new UserClaimConfiguration());
+          
 
             base.OnModelCreating(builder);
         }

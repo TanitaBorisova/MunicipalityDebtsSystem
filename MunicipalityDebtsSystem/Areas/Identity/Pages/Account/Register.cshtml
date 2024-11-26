@@ -1,67 +1,131 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Регистрация";
+    ViewBag.Regions = TempData["Regions"];
+    ViewBag.Municipalities = TempData["Regions"];
+    //TempData["Municipalities"] = Input.Municipalities;
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="offset-4">@ViewData["Title"]</h1>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 offset-4">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
+            <h2>Създаване на потребител</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
+                <label asp-for="Input.Email">Ел. адрес</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Password</label>
+                <label asp-for="Input.Password">Парола</label>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                <label asp-for="Input.ConfirmPassword">Потвърди парола</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <div class="form-floating form-floating mb-3">
+                <input asp-for="Input.FirstName" class="form-control" autocomplete="first-name" aria-required="true" placeholder="password" />
+                <label asp-for="Input.FirstName">Име</label>
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-floating form-floating mb-3">
+                <input asp-for="Input.LastName" class="form-control" autocomplete="last-name" aria-required="true" placeholder="password" />
+                <label asp-for="Input.LastName">Фамилия</label>
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+    
+    
+           @*  <div class="form-floating mb-3">
+                
+                <select asp-for="SelectedRegionId" class="form-control" asp-items="Model.Regions" >
+                    <option value="">--Изберете</option>
+                </select>
+                <label for="Municipality" class="control-label">Област</label>
+                <span asp-validation-for="SelectedRegionId" class="text-danger"></span>
+            </div> *@
+            <div class="form-floating mb-3">
+                
+                <select asp-for="MunicipalityId" class="form-control" asp-items="Model.Municipalities">
+                    <option value="">--Изберете</option>
+                </select>
+                <label for="Municipality" class="control-label">Община</label>
+                <span asp-validation-for="MunicipalityId" class="text-danger"></span>
+            </div>
+
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Регистрация</button>
         </form>
     </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to register.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
-    </div>
+   
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+            $('#MunicipalityId').select({
+                placeholder: 'Select a Municipality',
+                minimumInputLength: 2,  // Start searching after typing 2 characters
+                ajax: {
+                    url: '/Register/OnGetMunicipalities',  // This URL points to the OnGetMunicipalities action
+                    dataType: 'json',
+                    delay: 250, // Delay for a smoother experience
+                    data: function (params) {
+                        return {
+                            searchTerm: params.term // Send the search term to the server
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data.map(function (municipality) {
+                                return {
+                                    // id: municipality.id,
+                                    // text: municipality.name
+                                    id: municipality.MunicipalityId,
+                                    text: municipality.MunicipalityName
+                                };
+                            })
+                        };
+                    }
+                }
+            });
+        });
+    </script>
+
+
+   @*  <script>
+        debugger;
+
+        // When Region dropdown changes
+        document.getElementById('SelectedRegionId').addEventListener('change', function () {
+            var regionId = this.value; // Get selected RegionId
+
+            // Clear Municipality dropdown (optional)
+            var municipalitySelect = document.getElementById('SelectedMunicipalityId');
+            municipalitySelect.innerHTML = "<option value=''>--Изберете</option>";  // Reset Municipality options
+
+            if (regionId) {
+                // Make an AJAX request to get the municipalities based on the selected region
+                fetch('/Account/Register/OnGetMunicipalities?regionId=' + regionId`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Populate the Municipality dropdown with the new options
+                        data.forEach(function (municipality) {
+                            var option = document.createElement('option');
+                            option.value = municipality.MunicipalityId//municipality.id;
+                            option.text = municipality.MunicipalityName  //municipality.name;
+                            SelectedMunicipalityId.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        });
+    </script> *@
 }

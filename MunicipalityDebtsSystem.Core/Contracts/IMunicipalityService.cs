@@ -1,4 +1,5 @@
 ﻿using MunicipalityDebtsSystem.Core.Models.Municipality;
+using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,7 @@ namespace MunicipalityDebtsSystem.Core.Contracts
         Task<MunicipalityViewModel?> GetMunicipalityByIdAsync(int municipalityId);
 
         Task<List<MunicipalityViewModel>> GetMunicipalitiesByRegionIdAsync(int regionId);
+
+        Task<List<Municipality>> GetMunicipalitiesByNameAsync(string searchTerm);
     }
 }
