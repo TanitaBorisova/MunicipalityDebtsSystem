@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MunicipalityDebtsSystem.Core.Contracts;
 using MunicipalityDebtsSystem.Core.Models.Debt;
 using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
@@ -188,7 +189,7 @@ namespace MunicipalityDebtsSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(EditDebtViewModel model, int id)
         {
-            string userId = GetUserId();
+            string userId = User.Id();
             ////To DO to get from the user
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
 
@@ -248,6 +249,7 @@ namespace MunicipalityDebtsSystem.Controllers
             model.DebtPurposeTypes = await debtService.GetAllDebtPurposeTypesAsync();
             model.InterestTypes = await debtService.GetAllInterestTypesAsync();
 
+           
 
             await debtService.EditAsync(model, userId, municipalityId);
             return RedirectToAction(nameof(Index));

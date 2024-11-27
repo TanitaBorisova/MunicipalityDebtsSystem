@@ -19,5 +19,7 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Common
         Task<T?> GetByIdAsync<T>(object id) where T : class;
 
         Task DeleteAsync<T>(object id) where T : class;
+
+       // Task<bool> IsTrackedAsync<T>(T entity) where T : class;
     }
 }

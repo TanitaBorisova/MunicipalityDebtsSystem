@@ -7,7 +7,7 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
     {
         public string MunicipalityName { get; set; } = string.Empty;
 
-        public string MunicipalitCode { get; set; } = string.Empty;
+        public string MunicipalityCode { get; set; } = string.Empty;
 
         [Required]
         public int DebtId { get; set; }
@@ -74,11 +74,11 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
         [Required]
         public int MunicipalityId { get; set; }
 
-        [Required]
-        public string UserMofidied{ get; set; } = string.Empty;
+        //[Required]
+        //public string UserMofidied{ get; set; } = string.Empty;
 
-        [Required]
-        public DateTime DateModified { get; set; }
+        //[Required]
+        //public DateTime DateModified { get; set; }
 
 
         public List<CurrencyViewModel> Currencies { get; set; } = new List<CurrencyViewModel>();

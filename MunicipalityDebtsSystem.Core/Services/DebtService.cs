@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MunicipalityDebtsSystem.Core.Contracts;
 using MunicipalityDebtsSystem.Core.Models.Debt;
+using MunicipalityDebtsSystem.Infrastructure.Data;
 using MunicipalityDebtsSystem.Infrastructure.Data.Common;
 using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
@@ -11,10 +12,12 @@ namespace MunicipalityDebtsSystem.Core.Services
     public class DebtService : IDebtService
     {
         private readonly IRepository repository;
+        private readonly ApplicationDbContext context;
 
-        public DebtService(IRepository _repository)
+        public DebtService(IRepository _repository, ApplicationDbContext _context)
         {
             repository = _repository;
+            context = _context;
         }
 
         public async Task AddAsync(AddDebtViewModel model, string userId, int municipalityId)
@@ -51,7 +54,7 @@ namespace MunicipalityDebtsSystem.Core.Services
         public async Task EditAsync(EditDebtViewModel model, string userId, int municipalityId)
         {
 
-            var entity = await GetEntityDebtById(model.DebtId);
+            var entity = await repository.GetByIdAsync<Debt>(model.DebtId); //GetEntityDebtById(model.DebtId);
 
             //DebtId = model.DebtId,
             //DebtParentId = model.DebtParentId,
@@ -82,14 +85,7 @@ namespace MunicipalityDebtsSystem.Core.Services
         }
         public async Task<Debt> GetEntityDebtById(int id)
         {
-            var entity = await repository.All<Debt>()
-                //.Include(d => d.Currency)
-                //.Include(d => d.CreditorType)
-                //.Include(d => d.CreditType)
-                //.Include(d => d.DebtType)
-                //.Include(d => d.DebtPurposeType)
-                //.Include(d => d.InterestType)
-                .FirstOrDefaultAsync(d => d.Id == id);
+            var entity = await repository.GetByIdAsync<Debt>(id);
             return entity;
         }
 
@@ -273,15 +269,15 @@ namespace MunicipalityDebtsSystem.Core.Services
                     DateBook = d.DateBook.ToString(ValidationConstants.DateFormat),
                     DateContractFinish = d.DateContractFinish.ToString(ValidationConstants.DateFormat),
                     DateRealFinish = d.DateRealFinish.ToString(ValidationConstants.DateFormat),
-                    CurrencyName = d.DateBook.ToString(ValidationConstants.DateFormat),
-                    DebtAmountOriginalCcy = d.DebtAmountOriginalCcy.ToString(ValidationConstants.CurrencyFormat),
-                    DebtAmountLocalCcy = d.DebtAmountLocalCcy.ToString(ValidationConstants.CurrencyFormat),
+                    CurrencyName = d.Currency.CurrencyCode,
+                    DebtAmountOriginalCcy = d.DebtAmountOriginalCcy.ToString(),
+                    DebtAmountLocalCcy = d.DebtAmountLocalCcy.ToString(),  //ValidationConstants.CurrencyFormat
                     CreditTypeName = d.CreditType.Name.ToString(),  //Include 
                     CreditorTypeName = d.CreditorType.Name.ToString(),
                     DebtTermTypeName = d.DebtType.Name.ToString(),
                     DebtPurposeTypeName = d.DebtPurposeType.Name.ToString(),
                     InterestTypeName = d.InterestType.Name.ToString(),
-                    InterestRate = d.InterestRate.ToString(ValidationConstants.CurrencyFormat),
+                    InterestRate = d.InterestRate.ToString(),
                     MunicipalityName = d.Municipality.Name.ToString(),
                     MunicipalityCode = d.Municipality.MunicipalCode.ToString(),
                     UserCreated = d.UserCreated,

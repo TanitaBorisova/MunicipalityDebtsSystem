@@ -26,7 +26,7 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
 
 
         //DateFormat
-        public const string DateFormat = "dd-MM-yyyy";  //"dd.MM.yyyy HH:mm";      //yyyy-MM-dd H:mm
+        public const string DateFormat = "dd.MM.yyyy"; //working one "dd-MM-yyyy  //"dd.MM.yyyy HH:mm";      //yyyy-MM-dd H:mm
 
         //CurrencyFormat
         public const string CurrencyFormat = "C";

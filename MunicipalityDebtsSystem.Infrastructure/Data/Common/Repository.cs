@@ -56,5 +56,10 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Common
                 DbSet<T>().Remove(entity);
             }
         }
+
+        //public async Task<bool> IsTrackedAsync<T>(T entity) where T : class
+        //{
+        //  return context.Entry(entity).State != EntityState.Detached;
+        //}
     }
 }
