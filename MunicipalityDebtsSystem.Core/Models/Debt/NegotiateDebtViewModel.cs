@@ -7,7 +7,7 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
     {
         public string MunicipalityName { get; set; } = string.Empty;
 
-        public string MunicipalitCode { get; set; } = string.Empty;
+        public string MunicipalityCode { get; set; } = string.Empty;
 
         public int DebtId { get; set; }
 

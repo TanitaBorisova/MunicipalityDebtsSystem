@@ -19,6 +19,12 @@
             <input type="hidden" asp-for="@Model.DateModified" /> *@
             <div class="row">
                 <div class="col-sm-6 mb-2">
+                    <p class="card-text">Община: @Model.MunicipalityName</p>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <p class="card-text">Код: @Model.MunicipalityCode</p>
+                </div>
+                <div class="col-sm-6 mb-2">
                     <label asp-for="@Model.DebtNumber" class="form-label-add-edit">Номер на договор/анекс:</label>
                     <input asp-for="@Model.DebtNumber" class="form-control" aria-required="true" />
                     <span asp-validation-for="@Model.DebtNumber" class="text-danger"></span>

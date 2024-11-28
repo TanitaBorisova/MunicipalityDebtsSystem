@@ -1,12 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static MunicipalityDebtsSystem.Infrastructure.Data.Constants.ValidationConstants;
+
+
+using MunicipalityDebtsSystem.Infrastructure.Data.CustomValidations;
 namespace MunicipalityDebtsSystem.Core.Models.Debt
 {
     public class AddDebtViewModel
     {
         public string MunicipalityName { get; set; } = string.Empty;
 
-        public string MunicipalitCode { get; set; } = string.Empty;
+        public string MunicipalityCode { get; set; } = string.Empty;
 
         public int DebtParentId { get; set; }
 
@@ -37,10 +40,13 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
         public int CurrencyId { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
+        [GreaterThanZero]
+        [Display(Name = "Размер на дълга в ориг. валута")]
         public decimal DebtAmountOriginalCcy { get; set; }
 
 
         [Required(ErrorMessage = RequiredErrorMessage)]
+        [GreaterThanZero]
         public decimal DebtAmountLocalCcy { get; set; }
         
         [Required(ErrorMessage = RequiredErrorMessage)]
@@ -59,7 +65,9 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
         public int DebtPurposeTypeId { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        [Range(CurrencyMinValue, int.MaxValue)]
+        //[Display(Name = "Описание на лихвения процент")]
+        //[Range(CurrencyMinValue, int.MaxValue, ErrorMessage = ChooseItemErrorMessage)]
+       
         public int InterestTypeId { get; set; }
 
 

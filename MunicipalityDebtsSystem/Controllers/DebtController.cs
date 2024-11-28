@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MunicipalityDebtsSystem.Core.Contracts;
 using MunicipalityDebtsSystem.Core.Models.Debt;
 using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
+using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
 using System.Globalization;
 using System.Security.Claims;
 using static MunicipalityDebtsSystem.Infrastructure.Data.Constants.CustomClaims;
@@ -26,8 +27,10 @@ namespace MunicipalityDebtsSystem.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Add()
-        { 
-            
+        {
+            string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
+            string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
+
             AddDebtViewModel model = new AddDebtViewModel();
             
             model.Currencies = await debtService.GetAllCurrenciesAsync();
@@ -36,6 +39,8 @@ namespace MunicipalityDebtsSystem.Controllers
             model.DebtTermTypes = await debtService.GetAllDebtTermTypesAsync();
             model.DebtPurposeTypes = await debtService.GetAllDebtPurposeTypesAsync();
             model.InterestTypes = await debtService.GetAllInterestTypesAsync();
+            model.MunicipalityName = municipalityName;
+            model.MunicipalityCode = municipalityCode;  
 
             return View(model);
 
@@ -48,7 +53,8 @@ namespace MunicipalityDebtsSystem.Controllers
             //string userId = GetUserId();
             //To DO - to get it fro user profile
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
-
+            string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
+            string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
 
             bool currencyExists = await debtService.CheckCurrencyExistAsync(model.CurrencyId);
             bool creditTypeExists = await debtService.CheckCreditTypeExistAsync(model.CreditTypeId);
@@ -119,6 +125,8 @@ namespace MunicipalityDebtsSystem.Controllers
                 model.DebtTermTypes = await debtService.GetAllDebtTermTypesAsync();
                 model.DebtPurposeTypes = await debtService.GetAllDebtPurposeTypesAsync();
                 model.InterestTypes = await debtService.GetAllInterestTypesAsync();
+                model.MunicipalityName = municipalityName;
+                model.MunicipalityCode = municipalityCode;
                 return View(model);
             }
 
@@ -140,8 +148,11 @@ namespace MunicipalityDebtsSystem.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
-        {
+        {//get municipality from user
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
+            string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
+            string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
+
             var entity = await debtService.GetEntityDebtById(id);
 
             if (entity == null || entity.IsDeleted)
@@ -175,8 +186,10 @@ namespace MunicipalityDebtsSystem.Controllers
                 InterestRate = entity.InterestRate,
                 InterestTypeId = entity.InterestTypeId,
                 MunicipalityId = entity.MunicipalityId,
-                
+                MunicipalityName = municipalityName,
+                MunicipalityCode = municipalityCode
             };
+
             model.Currencies = await debtService.GetAllCurrenciesAsync();
             model.CreditTypes = await debtService.GetAllCreditTypesAsync();
             model.CreditorTypes = await debtService.GetAllCreditorTypesAsync();
@@ -191,9 +204,13 @@ namespace MunicipalityDebtsSystem.Controllers
         {
             string userId = User.Id();
             ////To DO to get from the user
+            //get municipality from user
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
+            string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
+            string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
 
-
+            model.MunicipalityName = municipalityName;
+            model.MunicipalityCode = municipalityCode;
             var entity = await debtService.GetEntityDebtById(id);
 
             if (entity == null || entity.IsDeleted)
@@ -239,6 +256,9 @@ namespace MunicipalityDebtsSystem.Controllers
                 model.DebtTermTypes = await debtService.GetAllDebtTermTypesAsync();
                 model.DebtPurposeTypes = await debtService.GetAllDebtPurposeTypesAsync();
                 model.InterestTypes = await debtService.GetAllInterestTypesAsync();
+                model.MunicipalityName = municipalityName;
+                model.MunicipalityCode = municipalityCode;
+               
                 return View(model);
             }
 
@@ -254,11 +274,16 @@ namespace MunicipalityDebtsSystem.Controllers
             await debtService.EditAsync(model, userId, municipalityId);
             return RedirectToAction(nameof(Index));
 
-                   }
+     }
 
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
+            //get municipality from user
+            int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
+            string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
+            string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
+
             string userId = GetUserId();
             var model = await debtService.GetDebtByIdAsync(id);
             return View(model);
@@ -268,7 +293,10 @@ namespace MunicipalityDebtsSystem.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             //get municipality from user
+            //get municipality from user
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
+            string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
+            string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
 
             //da napiwa drug metod za vry6tane na danni
             var userId = GetUserId();
@@ -299,6 +327,9 @@ namespace MunicipalityDebtsSystem.Controllers
         {
             //get municipality from user
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
+            string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
+            string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
+
             var userId = GetUserId();
             var entity = await debtService.GetEntityDebtById(id);
             if (entity == null || entity.MunicipalityId != municipalityId)
@@ -310,16 +341,37 @@ namespace MunicipalityDebtsSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Negotiate(int debtParentId)
+        public async Task<IActionResult> Negotiate(int id)
         {
+            //id e ParentId
+
+            //get municipality from user
+            int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
+            string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
+            string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
+
 
             NegotiateDebtViewModel model = new NegotiateDebtViewModel();
-            var entCreditType = await debtService.GetEntityCreditTypeById(debtParentId);
-            var entCreditorType = await debtService.GetEntityCreditorTypeById(debtParentId);
-            var entDebtPurposeType = await debtService.GetEntityDebtPurposeTypeById(debtParentId);
-            var entDebtTermType = await debtService.GetEntityCreditTypeById(debtParentId);
+            var entityParent = await debtService.GetEntityDebtById(id);
 
-        
+            if (entityParent == null || entityParent.IsDeleted)
+            {
+                return BadRequest();
+            }
+            ////To DO
+            if (entityParent.MunicipalityId != municipalityId)
+            {
+                return Unauthorized();
+            }
+
+            //Set values from parent
+            model.CreditTypeId = entityParent.CreditTypeId;
+            model.CreditorTypeId = entityParent.CreditorTypeId;
+
+            model.MunicipalityId = municipalityId;
+            model.MunicipalityName = municipalityName;
+            model.MunicipalityCode = municipalityCode;
+            
 
             model.Currencies = await debtService.GetAllCurrenciesAsync();
             model.CreditTypes = await debtService.GetAllCreditTypesAsync();
@@ -327,13 +379,6 @@ namespace MunicipalityDebtsSystem.Controllers
             model.DebtTermTypes = await debtService.GetAllDebtTermTypesAsync();
             model.DebtPurposeTypes = await debtService.GetAllDebtPurposeTypesAsync();
             model.InterestTypes = await debtService.GetAllInterestTypesAsync();
-
-            //Set values from parent
-            model.CreditorTypeId = entCreditorType.Id;
-            model.CreditTypeId = entCreditType.Id;
-            model.DebtTermTypeId = entDebtTermType.Id;
-            model.DebtPurposeTypeId = entDebtPurposeType.Id;
-
 
             return View(model);
 
@@ -343,9 +388,12 @@ namespace MunicipalityDebtsSystem.Controllers
         public async Task<IActionResult> Negotiate(NegotiateDebtViewModel model)
         {
 
-            string userId = GetUserId();
-            //To DO - to get it fro user profile
+            string userId = User.Id();
+         
+            //get municipality from user
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
+            string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
+            string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
 
             bool currencyExists = await debtService.CheckCurrencyExistAsync(model.CurrencyId);
             bool creditTypeExists = await debtService.CheckCreditTypeExistAsync(model.CreditTypeId);
@@ -417,6 +465,8 @@ namespace MunicipalityDebtsSystem.Controllers
                 model.DebtTermTypes = await debtService.GetAllDebtTermTypesAsync();
                 model.DebtPurposeTypes = await debtService.GetAllDebtPurposeTypesAsync();
                 model.InterestTypes = await debtService.GetAllInterestTypesAsync();
+                model.MunicipalityName = municipalityName;
+                model.MunicipalityCode = municipalityCode;
                 return View(model);
             }
 

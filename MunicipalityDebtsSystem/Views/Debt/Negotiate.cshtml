@@ -1,7 +1,7 @@
 ﻿@model NegotiateDebtViewModel;
 
 @{
-    ViewData["Title"] = "Нов дълг";
+    ViewData["Title"] = "Предоговаряне на  дълг";
     var today = DateTime.Now.ToString("dd-MM-yyyy");
 }
 
@@ -12,18 +12,24 @@
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form asp-action="Add" method="post" enctype="multipart/form-data">
+        <form asp-action="Negotiate" method="post" asp-controller="Debt" enctype="multipart/form-data">
             <input type="hidden" asp-for="DebtId" />
             <input type="hidden" asp-for="DebtParentId" />
             <input type="hidden" asp-for="MunicipalityId" />
             <div class="row">
+                <div class="col-sm-6 mb-2">
+                    <p class="card-text">Община: @Model.MunicipalityName</p>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <p class="card-text">Код: @Model.MunicipalityCode</p>
+                </div>
                 <div class="col-sm-6 mb-2">
                     <label asp-for="@Model.DebtNumber" class="form-label-add-edit">Номер на договор/анекс:</label>
                     <input asp-for="@Model.DebtNumber" class="form-control" aria-required="true" />
                     <span asp-validation-for="@Model.DebtNumber" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.ResolutionNumber" class="form-label-add-edit">Решение на Общ. съвет за предоговаряне на дълг:</label>
+                    <label asp-for="@Model.ResolutionNumber" class="form-label-add-edit">Решениe за предоговаряне на дълг:</label>
                     <input asp-for="@Model.ResolutionNumber" class="form-control" aria-required="true" />
                     <span asp-validation-for="@Model.ResolutionNumber" class="text-danger"></span>
                 </div>
@@ -68,21 +74,21 @@
                 </div>
                 <div class="col-sm-6 mb-2">
                     <label asp-for="@Model.CreditTypeId" class="form-label-add-edit">Предназначение:</label>
-                    <select asp-for="@Model.CreditTypeId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.CreditTypes, "Id", "Name"))" readonly = "true">
+                    <select asp-for="@Model.CreditTypeId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.CreditTypes, "Id", "Name"))" disabled="true">
                         <option value="">-- Изберете</option>
                     </select>
                     <span asp-validation-for="@Model.CreditTypeId" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 mb-2">
                     <label asp-for="@Model.CreditorTypeId" class="form-label-add-edit">Тип на кредитора:</label>
-                    <select asp-for="@Model.CreditorTypeId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.CreditorTypes, "Id", "Name"))">
+                    <select asp-for="@Model.CreditorTypeId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.CreditorTypes, "Id", "Name"))" disabled = "true">
                         <option value="">-- Изберете</option>
                     </select>
                     <span asp-validation-for="@Model.CreditorTypeId" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 mb-2">
                     <label asp-for="@Model.DebtTermTypeId" class="form-label-add-edit">Вид на дълга:</label>
-                    <select asp-for="@Model.DebtTermTypeId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.DebtTermTypes, "Id", "Name"))">
+                    <select asp-for="@Model.DebtTermTypeId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.DebtTermTypes, "Id", "Name"))" >
                         <option value="">-- Изберете</option>
                     </select>
                     <span asp-validation-for="@Model.DebtTermTypeId" class="text-danger"></span>

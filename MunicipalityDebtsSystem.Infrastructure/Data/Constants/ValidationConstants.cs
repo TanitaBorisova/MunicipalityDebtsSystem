@@ -14,8 +14,11 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
         public const string InvalidDateErrorMessage = $"Невалидна дата. Форматът трябва да е: {DateFormat}.";
         public const string PasswordAndConfirmErrorMessage = "Паролата и потвърждението ѝ трябва да съвпадат.";
         public const string ChooseItemErrorMessage = "Изберете {0}.";
+        public const string NotZeroErrorMessage = "Стойността на {0} не може да бъде 0.";
+        public const string MinValueErrorMessage = "Минималната стойност на полето е {1}.";
 
-
+        public const string DebtMinValue = "0,01";
+        public const string DecimalMaxValue = "1000000000000,00";
 
         public const string CurrencyNotExist = "Валутата не съществува!";
         public const string CreditTypeNotExist = "Credit type не съществува!";
