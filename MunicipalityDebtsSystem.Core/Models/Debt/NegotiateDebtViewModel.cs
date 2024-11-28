@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MunicipalityDebtsSystem.Infrastructure.Data.CustomValidations;
+using System.ComponentModel.DataAnnotations;
 using static MunicipalityDebtsSystem.Infrastructure.Data.Constants.ValidationConstants;
 
 namespace MunicipalityDebtsSystem.Core.Models.Debt
@@ -40,10 +41,12 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
         public int CurrencyId { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
+        [GreaterThanZero]
         public decimal DebtAmountOriginalCcy { get; set; }
 
 
         [Required(ErrorMessage = RequiredErrorMessage)]
+        [GreaterThanZero]
         public decimal DebtAmountLocalCcy { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
