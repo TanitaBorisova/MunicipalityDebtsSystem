@@ -27,9 +27,23 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
         public const string DebtPurposeTypeNotExist = "Debt purpose type не съществува!";
         public const string InterestTypeNotExist = "Interest type не съществува!";
 
+        public const string DisplayDebtNumber = "Номер на договор/анекс";
+        public const string DisplayResolutionNumber = "Решение за поемане на дълг";
+        public const string DisplayDebtBook = "Дата на договаряне";
+        public const string DisplayDateContractFinish = "Крайна дата на дълга";
+        public const string DisplayDateRealFinish = "Реална дата на погасяване";
+        public const string DisplayCurrencyName = "Валута на дълга";
+        public const string DisplayDebtCreditName = "Предназначение";
+        public const string DisplayDebtCreditorName = "Тип на кредитора";
+        public const string DisplayDebtTermName = "Вид на дълга";
+        public const string DisplayDebtPurposeName = "Цел на поемането на дълга";
+        public const string DisplayDebtInterestName = "Описание на лихвения процент";
+        public const string DebtAmountOriginal  = "Размер на дълга в ориг. валута";
+        public const string DebtAmountLocal = "Размер на дълга в местна валута";
+
 
         //DateFormat
-        public const string DateFormat = "dd.MM.yyyy"; //working one "dd-MM-yyyy  //"dd.MM.yyyy HH:mm";      //yyyy-MM-dd H:mm
+        public const string DateFormat = "dd.MM.yyyy"; //"dd-MM-yyyy"; //working one "dd-MM-yyyy  //"dd.MM.yyyy HH:mm";      //yyyy-MM-dd H:mm
 
         //CurrencyFormat
         public const string CurrencyFormat = "C";

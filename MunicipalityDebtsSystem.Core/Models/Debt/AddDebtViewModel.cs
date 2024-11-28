@@ -3,6 +3,7 @@ using static MunicipalityDebtsSystem.Infrastructure.Data.Constants.ValidationCon
 
 
 using MunicipalityDebtsSystem.Infrastructure.Data.CustomValidations;
+using System.ComponentModel;
 namespace MunicipalityDebtsSystem.Core.Models.Debt
 {
     public class AddDebtViewModel
@@ -15,59 +16,69 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         [StringLength(DebtNumberMaxLength, MinimumLength = DebtNumberMinLength, ErrorMessage = StringLengthErrorMessage)]
-       
+        [Display(Name = DisplayDebtNumber)]
         public string DebtNumber { get; set; } = string.Empty;
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         [StringLength(ResolutionNumberMaxLength, MinimumLength = ResolutionNumberMinLength, ErrorMessage = StringLengthErrorMessage)]
+        [Display(Name = DisplayResolutionNumber)]
         public string ResolutionNumber { get; set; } = string.Empty;
 
-       
-        [Required(ErrorMessage = RequiredErrorMessage)]
-        public DateTime DateBook { get; set; }
 
+        [Required(ErrorMessage = RequiredErrorMessage)]
+        [Display(Name = DisplayDebtBook)]
+        //public DateTime DateBook { get; set; }
+        public string DateBook { get; set; } = string.Empty;
         //[Required]
         //public DateTime DateNegotiate { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        public DateTime DateContractFinish { get; set; }
+        [Display(Name = DisplayDateContractFinish)]
+        public string DateContractFinish { get; set; } = string.Empty;
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        public DateTime DateRealFinish { get; set; }
+        [Display(Name = DisplayDateRealFinish)]
+        public string DateRealFinish { get; set; } = string.Empty;
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        [Range(CurrencyMinValue, int.MaxValue)]
+        [NotZeroSelection]
+        [Display(Name = DisplayCurrencyName)]
         public int CurrencyId { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         [GreaterThanZero]
-        [Display(Name = "Размер на дълга в ориг. валута")]
+        [Display(Name = DebtAmountOriginal)]
         public decimal DebtAmountOriginalCcy { get; set; }
-
+         
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         [GreaterThanZero]
+        [Display(Name = DebtAmountLocal)]
         public decimal DebtAmountLocalCcy { get; set; }
         
         [Required(ErrorMessage = RequiredErrorMessage)]
+        [NotZeroSelection]
+        [Display(Name = DisplayDebtCreditName)]
         public int CreditTypeId { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        [Range(CurrencyMinValue, int.MaxValue)]
+        [NotZeroSelection]
+        [Display(Name = DisplayDebtCreditorName)]
         public int CreditorTypeId { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        [Range(CurrencyMinValue, int.MaxValue)]
+        [NotZeroSelection]
+        [Display(Name = DisplayDebtTermName)]
         public int DebtTermTypeId { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        [Range(CurrencyMinValue, int.MaxValue)]
+        [NotZeroSelection]
+        [Display(Name = DisplayDebtPurposeName)]
         public int DebtPurposeTypeId { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        //[Display(Name = "Описание на лихвения процент")]
-        //[Range(CurrencyMinValue, int.MaxValue, ErrorMessage = ChooseItemErrorMessage)]
-       
+        [NotZeroSelection]
+        [Display(Name = DisplayDebtInterestName)]
         public int InterestTypeId { get; set; }
 
 

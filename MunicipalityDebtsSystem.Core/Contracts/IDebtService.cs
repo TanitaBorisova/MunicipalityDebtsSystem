@@ -11,15 +11,15 @@ namespace MunicipalityDebtsSystem.Core.Contracts
 {
     public interface IDebtService
     {
-        Task AddAsync(AddDebtViewModel model, string userId, int municipalityId);
+        Task AddAsync(AddDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealFinish);
 
-        Task EditAsync(EditDebtViewModel model, string userId, int municipalityId);
+        Task EditAsync(EditDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealFinish);
 
         Task<DetailDebtViewModel> GetDebtByIdAsync(int id);
 
         Task<Debt> GetEntityDebtById(int id);
 
-        Task NegotiateAsync(NegotiateDebtViewModel model, string userId, int municipalityId);
+        Task NegotiateAsync(NegotiateDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealContractFinish);
 
         Task<CreditorType> GetEntityCreditorTypeById(int id);
 

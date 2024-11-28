@@ -20,16 +20,16 @@ namespace MunicipalityDebtsSystem.Core.Services
             context = _context;
         }
 
-        public async Task AddAsync(AddDebtViewModel model, string userId, int municipalityId)
+        public async Task AddAsync(AddDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealFinish)
         {
             Debt debt = new Debt
             {
                 DebtNumber = model.DebtNumber,
                 ResolutionNumber = model.ResolutionNumber,
-                DateBook = model.DateBook,
-                DateNegotiate = model.DateBook,
-                DateContractFinish = model.DateContractFinish,
-                DateRealFinish = model.DateRealFinish,
+                DateBook = dateBook,
+                DateNegotiate = dateBook,
+                DateContractFinish = dateContractFinish,
+                DateRealFinish = dateRealFinish,
                 CurrencyId = model.CurrencyId,
                 DebtAmountOriginalCcy = model.DebtAmountOriginalCcy,
                 DebtAmountLocalCcy = model.DebtAmountLocalCcy,
@@ -51,7 +51,7 @@ namespace MunicipalityDebtsSystem.Core.Services
         }
 
 
-        public async Task EditAsync(EditDebtViewModel model, string userId, int municipalityId)
+        public async Task EditAsync(EditDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealFinish)
         {
 
             var entity = await repository.GetByIdAsync<Debt>(model.DebtId); //GetEntityDebtById(model.DebtId);
@@ -60,10 +60,10 @@ namespace MunicipalityDebtsSystem.Core.Services
             //DebtParentId = model.DebtParentId,
             entity.DebtNumber = model.DebtNumber;
             entity.ResolutionNumber = model.ResolutionNumber;
-            entity.DateBook = model.DateBook;
+            entity.DateBook = dateBook;
             //DateNegotiate = model.DateBook,
-            entity.DateContractFinish = model.DateContractFinish;
-            entity.DateRealFinish = model.DateRealFinish;
+            entity.DateContractFinish = dateContractFinish;
+            entity.DateRealFinish = dateRealFinish;
             entity.CurrencyId = model.CurrencyId;
             entity.DebtAmountOriginalCcy = model.DebtAmountOriginalCcy;
             entity.DebtAmountLocalCcy = model.DebtAmountLocalCcy;
@@ -299,17 +299,17 @@ namespace MunicipalityDebtsSystem.Core.Services
             throw new NotImplementedException();
         }
 
-        public async Task NegotiateAsync(NegotiateDebtViewModel model, string userId, int municipalityId)
+        public async Task NegotiateAsync(NegotiateDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealContractFinish)
         {
             Debt debt = new Debt
             {
-                DebtParentId = model.DebtId,
+                DebtParentId = model.DebtParentId,
                 DebtNumber = model.DebtNumber,
                 ResolutionNumber = model.ResolutionNumber,
-                DateBook = model.DateBook,
-                DateNegotiate = model.DateBook,
-                DateContractFinish = model.DateContractFinish,
-                DateRealFinish = model.DateRealFinish,
+                DateBook = dateBook,
+                DateNegotiate = dateBook,
+                DateContractFinish = dateContractFinish,
+                DateRealFinish = dateRealContractFinish,
                 CurrencyId = model.CurrencyId,
                 DebtAmountOriginalCcy = model.DebtAmountOriginalCcy,
                 DebtAmountLocalCcy = model.DebtAmountLocalCcy,
@@ -321,9 +321,19 @@ namespace MunicipalityDebtsSystem.Core.Services
                 InterestTypeId = model.InterestTypeId,
                 MunicipalityId = municipalityId,
                 UserCreated = userId,
-                DateCreated = DateTime.Now
+                DateCreated = DateTime.Now,
+                CreditStatusId = 5
 
             };
+
+            //some changes to the parent debt
+            var parentEntity = await GetEntityDebtById(model.DebtParentId);
+            parentEntity.DateRealFinish = dateBook;
+            parentEntity.CreditStatusId = 4;//enum to DO
+            parentEntity.UserModified = userId; 
+            parentEntity.DateModified = DateTime.Now;
+            parentEntity.IsNegotiated = true;
+
 
             await repository.AddAsync(debt);
             await repository.SaveChangesAsync();

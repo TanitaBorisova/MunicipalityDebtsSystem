@@ -63,7 +63,7 @@ namespace MunicipalityDebtsSystem.Controllers
             bool debtPurposeTypeExists = await debtService.CheckDebtPurposeTypeExistAsync(model.DebtPurposeTypeId);
             bool interestTypeExists = await debtService.CheckInterestTypeExistAsync(model.InterestTypeId);
 
-            
+
             if (!currencyExists)
             {
                 ModelState.AddModelError(nameof(model.CurrencyId), ValidationConstants.CurrencyNotExist);
@@ -94,29 +94,54 @@ namespace MunicipalityDebtsSystem.Controllers
                 ModelState.AddModelError(nameof(model.InterestTypeId), ValidationConstants.InterestTypeNotExist);
             }
 
+            //DateTime dateBook;
+            //string strDateBook = model.DateBook.ToString(ValidationConstants.DateFormat);
+            //bool isDateBookValid = DateTime.TryParseExact(strDateBook, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateBook);
+            //if (!isDateBookValid)
+            //{
+            //    ModelState.AddModelError(nameof(model.DateBook), ValidationConstants.InvalidDateErrorMessage);
+            //}
+
             DateTime dateBook;
-            string strDateBook = model.DateBook.ToString(ValidationConstants.DateFormat);
-            bool isDateBookValid = DateTime.TryParseExact(strDateBook, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateBook);
-            if (!isDateBookValid)
+
+            bool isAddedDateValid = DateTime.TryParseExact(model.DateBook, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateBook);
+            if (!isAddedDateValid)
             {
                 ModelState.AddModelError(nameof(model.DateBook), ValidationConstants.InvalidDateErrorMessage);
             }
+
+            //DateTime dateContractFinish;
+            //string strDateContractFinish = model.DateContractFinish.ToString(ValidationConstants.DateFormat);
+            //bool isDateContractFinishValid = DateTime.TryParseExact(strDateContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateContractFinish);
+            //if (!isDateContractFinishValid)
+            //{
+            //    ModelState.AddModelError(nameof(model.DateContractFinish), ValidationConstants.InvalidDateErrorMessage);
+            //}
+
             DateTime dateContractFinish;
-            string strDateContractFinish = model.DateContractFinish.ToString(ValidationConstants.DateFormat);
-            bool isDateContractFinishValid = DateTime.TryParseExact(strDateContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateContractFinish);
+
+            bool isDateContractFinishValid = DateTime.TryParseExact(model.DateContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateContractFinish);
             if (!isDateContractFinishValid)
             {
                 ModelState.AddModelError(nameof(model.DateContractFinish), ValidationConstants.InvalidDateErrorMessage);
             }
 
+            //DateTime dateRealContractFinish;
+            //string strDateRealContractFinish = model.DateRealFinish.ToString(ValidationConstants.DateFormat);
+            //bool isDateRealContractFinishValid = DateTime.TryParseExact(strDateRealContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateRealContractFinish);
+            //if (!isDateContractFinishValid)
+            //{
+            //    ModelState.AddModelError(nameof(model.DateRealContractFinish), ValidationConstants.InvalidDateErrorMessage);
+            //}
+
             DateTime dateRealContractFinish;
-            string strDateRealContractFinish = model.DateRealFinish.ToString(ValidationConstants.DateFormat);
-            bool isDateRealContractFinishValid = DateTime.TryParseExact(strDateRealContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateRealContractFinish);
+
+            bool isDateRealContractFinishValid = DateTime.TryParseExact(model.DateRealFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateRealContractFinish);
             if (!isDateContractFinishValid)
             {
-                ModelState.AddModelError(nameof(model.DateContractFinish), ValidationConstants.InvalidDateErrorMessage);
+                ModelState.AddModelError(nameof(model.DateRealFinish), ValidationConstants.InvalidDateErrorMessage);
             }
-           
+
             if (!ModelState.IsValid)
             {
                 model.Currencies = await debtService.GetAllCurrenciesAsync();
@@ -138,7 +163,7 @@ namespace MunicipalityDebtsSystem.Controllers
             //model.InterestTypes = await debtService.GetAllInterestTypesAsync();
            
             
-            await debtService.AddAsync(model, User.Id(), municipalityId);  //userId
+            await debtService.AddAsync(model, User.Id(), municipalityId, dateBook, dateContractFinish, dateRealContractFinish);  //userId
             return RedirectToAction(nameof(Index));
 
             
@@ -172,10 +197,10 @@ namespace MunicipalityDebtsSystem.Controllers
                 DebtParentId = entity.DebtParentId,
                 DebtNumber = entity.DebtNumber,
                 ResolutionNumber = entity.ResolutionNumber,
-                DateBook = entity.DateBook,   //entity.DateBook.ToString(ValidationConstants.DateFormat),
+                DateBook = entity.DateBook.ToString(ValidationConstants.DateFormat),   //entity.DateBook.ToString(ValidationConstants.DateFormat),
                 //DateNegotiate = model.DateBook,
-                DateContractFinish = entity.DateContractFinish,
-                DateRealFinish = entity.DateRealFinish,
+                DateContractFinish = entity.DateContractFinish.ToString(ValidationConstants.DateFormat),
+                DateRealFinish = entity.DateRealFinish.ToString(ValidationConstants.DateFormat),
                 CurrencyId = entity.CurrencyId,
                 DebtAmountOriginalCcy = entity.DebtAmountOriginalCcy,
                 DebtAmountLocalCcy = entity.DebtAmountLocalCcy,
@@ -211,6 +236,44 @@ namespace MunicipalityDebtsSystem.Controllers
 
             model.MunicipalityName = municipalityName;
             model.MunicipalityCode = municipalityCode;
+
+            bool currencyExists = await debtService.CheckCurrencyExistAsync(model.CurrencyId);
+            bool creditTypeExists = await debtService.CheckCreditTypeExistAsync(model.CreditTypeId);
+            bool creditorTypeExists = await debtService.CheckCreditorTypeExistAsync(model.CreditorTypeId);
+            bool debtTermTypeExists = await debtService.CheckCreditorTypeExistAsync(model.DebtTermTypeId);
+            bool debtPurposeTypeExists = await debtService.CheckDebtPurposeTypeExistAsync(model.DebtPurposeTypeId);
+            bool interestTypeExists = await debtService.CheckInterestTypeExistAsync(model.InterestTypeId);
+
+
+            if (!currencyExists)
+            {
+                ModelState.AddModelError(nameof(model.CurrencyId), ValidationConstants.CurrencyNotExist);
+            }
+
+            if (!creditTypeExists)
+            {
+                ModelState.AddModelError(nameof(model.CreditTypeId), ValidationConstants.CreditTypeNotExist);
+            }
+
+            if (!creditorTypeExists)
+            {
+                ModelState.AddModelError(nameof(model.CreditorTypeId), ValidationConstants.CreditorTypeNotExist);
+            }
+
+            if (!debtTermTypeExists)
+            {
+                ModelState.AddModelError(nameof(model.DebtTermTypeId), ValidationConstants.DebtTermTypeNotExist);
+            }
+
+            if (!debtPurposeTypeExists)
+            {
+                ModelState.AddModelError(nameof(model.DebtPurposeTypeId), ValidationConstants.DebtPurposeTypeNotExist);
+            }
+
+            if (!interestTypeExists)
+            {
+                ModelState.AddModelError(nameof(model.InterestTypeId), ValidationConstants.InterestTypeNotExist);
+            }
             var entity = await debtService.GetEntityDebtById(id);
 
             if (entity == null || entity.IsDeleted)
@@ -224,28 +287,32 @@ namespace MunicipalityDebtsSystem.Controllers
             {
                 return Unauthorized();
             }
-
+                       
             DateTime dateBook;
-            string strDateBook = model.DateBook.ToString(ValidationConstants.DateFormat);
-            bool isDateBookValid = DateTime.TryParseExact(strDateBook, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateBook);
-            if (!isDateBookValid)
+
+            bool isAddedDateValid = DateTime.TryParseExact(model.DateBook, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateBook);
+            if (!isAddedDateValid)
             {
                 ModelState.AddModelError(nameof(model.DateBook), ValidationConstants.InvalidDateErrorMessage);
             }
+
+
             DateTime dateContractFinish;
-            string strDateContractFinish = model.DateContractFinish.ToString(ValidationConstants.DateFormat);
-            bool isDateContractFinishValid = DateTime.TryParseExact(strDateContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateContractFinish);
+
+            bool isDateContractFinishValid = DateTime.TryParseExact(model.DateContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateContractFinish);
             if (!isDateContractFinishValid)
             {
                 ModelState.AddModelError(nameof(model.DateContractFinish), ValidationConstants.InvalidDateErrorMessage);
             }
 
+            
+
             DateTime dateRealContractFinish;
-            string strDateRealContractFinish = model.DateRealFinish.ToString(ValidationConstants.DateFormat);
-            bool isDateRealContractFinishValid = DateTime.TryParseExact(strDateRealContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateRealContractFinish);
+
+            bool isDateRealContractFinishValid = DateTime.TryParseExact(model.DateRealFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateRealContractFinish);
             if (!isDateContractFinishValid)
             {
-                ModelState.AddModelError(nameof(model.DateContractFinish), ValidationConstants.InvalidDateErrorMessage);
+                ModelState.AddModelError(nameof(model.DateRealFinish), ValidationConstants.InvalidDateErrorMessage);
             }
 
             if (!ModelState.IsValid)
@@ -256,6 +323,7 @@ namespace MunicipalityDebtsSystem.Controllers
                 model.DebtTermTypes = await debtService.GetAllDebtTermTypesAsync();
                 model.DebtPurposeTypes = await debtService.GetAllDebtPurposeTypesAsync();
                 model.InterestTypes = await debtService.GetAllInterestTypesAsync();
+               
                 model.MunicipalityName = municipalityName;
                 model.MunicipalityCode = municipalityCode;
                
@@ -271,7 +339,7 @@ namespace MunicipalityDebtsSystem.Controllers
 
            
 
-            await debtService.EditAsync(model, userId, municipalityId);
+            await debtService.EditAsync(model, userId, municipalityId, dateBook, dateContractFinish, dateRealContractFinish);
             return RedirectToAction(nameof(Index));
 
      }
@@ -371,8 +439,8 @@ namespace MunicipalityDebtsSystem.Controllers
             model.MunicipalityId = municipalityId;
             model.MunicipalityName = municipalityName;
             model.MunicipalityCode = municipalityCode;
+           
             
-
             model.Currencies = await debtService.GetAllCurrenciesAsync();
             model.CreditTypes = await debtService.GetAllCreditTypesAsync();
             model.CreditorTypes = await debtService.GetAllCreditorTypesAsync();
@@ -385,8 +453,9 @@ namespace MunicipalityDebtsSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Negotiate(NegotiateDebtViewModel model)
+        public async Task<IActionResult> Negotiate(NegotiateDebtViewModel model, int id)
         {
+            model.DebtParentId = id;
 
             string userId = User.Id();
          
@@ -402,6 +471,10 @@ namespace MunicipalityDebtsSystem.Controllers
             bool debtPurposeTypeExists = await debtService.CheckDebtPurposeTypeExistAsync(model.DebtPurposeTypeId);
             bool interestTypeExists = await debtService.CheckInterestTypeExistAsync(model.InterestTypeId);
 
+            if (model.MunicipalityId != municipalityId)
+            {
+                return Unauthorized();
+            }
 
             if (!currencyExists)
             {
@@ -433,30 +506,36 @@ namespace MunicipalityDebtsSystem.Controllers
                 ModelState.AddModelError(nameof(model.InterestTypeId), ValidationConstants.InterestTypeNotExist);
             }
 
+            
             DateTime dateBook;
-            string strDateBook = model.DateBook.ToString(ValidationConstants.DateFormat);
-            bool isDateBookValid = DateTime.TryParseExact(strDateBook, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateBook);
-            if (!isDateBookValid)
+
+            bool isAddedDateValid = DateTime.TryParseExact(model.DateBook, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateBook);
+            if (!isAddedDateValid)
             {
                 ModelState.AddModelError(nameof(model.DateBook), ValidationConstants.InvalidDateErrorMessage);
             }
+
+
             DateTime dateContractFinish;
-            string strDateContractFinish = model.DateContractFinish.ToString(ValidationConstants.DateFormat);
-            bool isDateContractFinishValid = DateTime.TryParseExact(strDateContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateContractFinish);
+
+            bool isDateContractFinishValid = DateTime.TryParseExact(model.DateContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateContractFinish);
             if (!isDateContractFinishValid)
             {
                 ModelState.AddModelError(nameof(model.DateContractFinish), ValidationConstants.InvalidDateErrorMessage);
             }
+
+
 
             DateTime dateRealContractFinish;
-            string strDateRealContractFinish = model.DateRealFinish.ToString(ValidationConstants.DateFormat);
-            bool isDateRealContractFinishValid = DateTime.TryParseExact(strDateRealContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateRealContractFinish);
+
+            bool isDateRealContractFinishValid = DateTime.TryParseExact(model.DateRealFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateRealContractFinish);
             if (!isDateContractFinishValid)
             {
-                ModelState.AddModelError(nameof(model.DateContractFinish), ValidationConstants.InvalidDateErrorMessage);
+                ModelState.AddModelError(nameof(model.DateRealFinish), ValidationConstants.InvalidDateErrorMessage);
             }
 
-
+            //model.UserCreated = userId;
+            //model.DateCreated = DateTime.Now;
             if (!ModelState.IsValid)
             {
                 model.Currencies = await debtService.GetAllCurrenciesAsync();
@@ -467,6 +546,11 @@ namespace MunicipalityDebtsSystem.Controllers
                 model.InterestTypes = await debtService.GetAllInterestTypesAsync();
                 model.MunicipalityName = municipalityName;
                 model.MunicipalityCode = municipalityCode;
+
+                var entityParent = await debtService.GetEntityDebtById(id);
+                //Set values from parent
+                model.CreditTypeId = entityParent.CreditTypeId;
+                model.CreditorTypeId = entityParent.CreditorTypeId;
                 return View(model);
             }
 
@@ -478,7 +562,7 @@ namespace MunicipalityDebtsSystem.Controllers
             //model.InterestTypes = await debtService.GetAllInterestTypesAsync();
 
 
-            await debtService.NegotiateAsync(model, User.Id(), municipalityId);  //userId
+            await debtService.NegotiateAsync(model, User.Id(), municipalityId, dateBook, dateContractFinish, dateRealContractFinish);  //userId
             return RedirectToAction(nameof(Index));
 
 
