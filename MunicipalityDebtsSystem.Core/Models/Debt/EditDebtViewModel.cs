@@ -13,7 +13,7 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
         [Required]
         public int DebtId { get; set; }
 
-        public int DebtParentId { get; set; }
+        public int? DebtParentId { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         [StringLength(DebtNumberMaxLength, MinimumLength = DebtNumberMinLength, ErrorMessage = StringLengthErrorMessage)]

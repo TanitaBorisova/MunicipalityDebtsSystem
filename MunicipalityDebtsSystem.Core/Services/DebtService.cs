@@ -25,6 +25,7 @@ namespace MunicipalityDebtsSystem.Core.Services
             Debt debt = new Debt
             {
                 DebtNumber = model.DebtNumber,
+                DebtParentId = model.DebtParentId,
                 ResolutionNumber = model.ResolutionNumber,
                 DateBook = dateBook,
                 DateNegotiate = dateBook,
@@ -288,6 +289,45 @@ namespace MunicipalityDebtsSystem.Core.Services
             return model;
         }
 
+        public async Task<IEnumerable<DebtListViewModel>> GetAllDebtAsync()
+        {
+            var model = await repository.AllReadOnly<Debt>()
+                .Where(d => d.IsDeleted == false)
+                .Include(d => d.Currency)
+                .Include(d => d.CreditType)
+                .Include(d => d.CreditorType)
+                .Include(d => d.DebtType)
+                .Include(d => d.DebtPurposeType)
+                .Include(d => d.InterestType)
+                .Include (d => d.CreditStatusType)
+                .Select(d => new DebtListViewModel
+                {
+                    DebtId = d.Id,
+                    //DebtParentId = d.DebtParentId,
+                    DebtParentNumber = d.ParentDebt.DebtNumber,
+                    DebtNumber = d.DebtNumber,
+                    ResolutionNumber = d.ResolutionNumber,
+                    DateBook = d.DateBook.ToString(ValidationConstants.DateFormat),
+                    DateContractFinish = d.DateContractFinish.ToString(ValidationConstants.DateFormat),
+                    //DateRealFinish = d.DateRealFinish.ToString(ValidationConstants.DateFormat),
+                    CurrencyName = d.Currency.CurrencyCode,
+                    DebtAmountOriginalCcy = d.DebtAmountOriginalCcy.ToString(),
+                    //DebtAmountLocalCcy = d.DebtAmountLocalCcy.ToString(),  //ValidationConstants.CurrencyFormat
+                    //CreditTypeName = d.CreditType.Name.ToString(),  //Include 
+                    //CreditorTypeName = d.CreditorType.Name.ToString(),
+                    //DebtTermTypeName = d.DebtType.Name.ToString(),
+                    //DebtPurposeTypeName = d.DebtPurposeType.Name.ToString(),
+                    //InterestTypeName = d.InterestType.Name.ToString(),
+                    //InterestRate = d.InterestRate.ToString(),
+                    MunicipalityName = d.Municipality.Name.ToString(),
+                    MunicipalityCode = d.Municipality.MunicipalCode.ToString(),
+                    StatusName = d.CreditStatusType.Name.ToString(),    
+                   
+                }).ToListAsync();
+
+            
+            return model;
+        }
         public async Task DeleteProduct(Debt debt)
         {
             debt.IsDeleted = true;
@@ -339,5 +379,7 @@ namespace MunicipalityDebtsSystem.Core.Services
             await repository.SaveChangesAsync();
 
         }
+
+
     }
 }

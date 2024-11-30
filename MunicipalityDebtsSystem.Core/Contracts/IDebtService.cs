@@ -11,6 +11,9 @@ namespace MunicipalityDebtsSystem.Core.Contracts
 {
     public interface IDebtService
     {
+
+        Task<IEnumerable<DebtListViewModel>> GetAllDebtAsync();
+
         Task AddAsync(AddDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealFinish);
 
         Task EditAsync(EditDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealFinish);

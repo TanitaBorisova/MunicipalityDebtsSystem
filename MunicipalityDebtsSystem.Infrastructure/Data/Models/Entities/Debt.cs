@@ -22,9 +22,10 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
         [Comment("Identifier ot the debt")]
         public int Id { get; set; }
 
-        [ForeignKey(nameof(Id))]
+       
         [Comment("Identifier of the parent debt when current debt is created with negotiation")]
-        public int DebtParentId { get; set; }
+        public int?
+            DebtParentId { get; set; }
 
         [Required]
         [MaxLength(ValidationConstants.DebtNumberMaxLength)]
@@ -154,5 +155,9 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
         [ForeignKey(nameof(CurrencyId))]
         public Currency Currency { get; set; }
 
+        //[ForeignKey(nameof(DebtParentId))]
+        public Debt ParentDebt { get; set; } = null!;
+
+        public ICollection<Debt> ChildDebts { get; set; } // Children
     }
 }

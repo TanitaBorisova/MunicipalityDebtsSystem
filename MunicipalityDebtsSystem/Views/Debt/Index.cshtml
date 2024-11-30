@@ -1,5 +1,85 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<DebtListViewModel>
+
 @{
+    ViewData["Title"] = "Списък с дългове";
 }
+
+<h1>@ViewData["Title"]</h1>
+
+<table id = "example" class = "table table-striped" style = "width: 100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(Model => Model.DebtNumber);
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.DateBook);
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.MunicipalityName);
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.MunicipalityCode);
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.DateContractFinish);
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.CurrencyName);
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.DebtAmountOriginalCcy);
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(Model => Model.DebtNumber);
+                </td>
+                <td>
+                    @Html.DisplayNameFor(Model => Model.DateBook);
+                </td>
+                <td>
+                    @Html.DisplayNameFor(Model => Model.MunicipalityName);
+                </td>
+                <td>
+                    @Html.DisplayNameFor(Model => Model.MunicipalityCode);
+                </td>
+                <td>
+                    @Html.DisplayNameFor(Model => Model.DateContractFinish);
+                </td>
+                <td>
+                    @Html.DisplayNameFor(Model => Model.CurrencyName);
+                </td>
+                <td>
+                    @Html.DisplayNameFor(Model => Model.DebtAmountOriginalCcy);
+                </td>
+                <td>
+                    @Html.DisplayNameFor(Model => Model.DebtAmountOriginalCcy);
+                </td>
+                <td>
+                    @Html.ActionLink("Преглед", "Details", "Debt", new {id = item.DebtId}));
+                    @Html.ActionLink("Редакция", "Edit", "Debt", new { id = item.DebtId }));
+                    @Html.ActionLink("Изтриване", "Delete", "Debt", new { id = item.DebtId }));
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts
+{
+    @{
+            <script>
+            $('#example').DataTable({
+                 responsive: true
+             });
+
+            // new DataTable('#example');
+            </script>
+    }
+}
+

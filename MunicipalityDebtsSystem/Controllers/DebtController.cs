@@ -20,9 +20,10 @@ namespace MunicipalityDebtsSystem.Controllers
         }
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var model = await debtService.GetAllDebtAsync();
+            return View(model);
         }
 
         [HttpGet]
@@ -194,7 +195,7 @@ namespace MunicipalityDebtsSystem.Controllers
             EditDebtViewModel model = new EditDebtViewModel
             {
                 DebtId = entity.Id,
-                DebtParentId = entity.DebtParentId,
+                DebtParentId = entity.DebtParentId  ?? 0,
                 DebtNumber = entity.DebtNumber,
                 ResolutionNumber = entity.ResolutionNumber,
                 DateBook = entity.DateBook.ToString(ValidationConstants.DateFormat),   //entity.DateBook.ToString(ValidationConstants.DateFormat),

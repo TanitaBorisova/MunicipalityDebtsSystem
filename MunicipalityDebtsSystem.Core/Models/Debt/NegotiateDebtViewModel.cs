@@ -12,6 +12,7 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
 
         public int DebtId { get; set; }
 
+        [Required]
         public int DebtParentId { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
