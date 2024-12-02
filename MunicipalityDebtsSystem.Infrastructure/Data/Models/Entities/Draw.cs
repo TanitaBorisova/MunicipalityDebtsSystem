@@ -26,7 +26,7 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
 
         [Required]
         [Comment("Identifier of the parent draw - populated for real draw")]
-        public int DrawParentId { get; set; }
+        public int? DrawParentId { get; set; }
 
         [Required]
         [Comment("Date of the draw")]

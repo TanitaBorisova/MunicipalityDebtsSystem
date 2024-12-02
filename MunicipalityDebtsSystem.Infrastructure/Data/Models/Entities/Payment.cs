@@ -25,7 +25,7 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
 
         [Required]
         [Comment("Identifier of the parent payment - populated for real payment")]
-        public int PaymentParentId { get; set; }
+        public int? PaymentParentId { get; set; }
 
         [Required]
         [Comment("Date of the payment")]
@@ -88,5 +88,9 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
 
         [ForeignKey(nameof(MunicipalityId))]
         public Municipality Municipality { get; set; } = null!;
+
+        public Payment ParentPayment { get; set; } = null!;
+
+        public ICollection<Payment> ChildPayments { get; set; } = null!; // Children
     }
 }

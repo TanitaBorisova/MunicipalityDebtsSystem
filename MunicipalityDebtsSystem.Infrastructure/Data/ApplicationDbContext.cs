@@ -78,6 +78,12 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data
            .HasForeignKey(d => d.DrawParentId) // Foreign key
            .OnDelete(DeleteBehavior.Restrict); // Avoid cascade delete 
 
+            builder.Entity<Payment>()
+           .HasOne(d => d.ParentPayment) // Parent
+           .WithMany(d => d.ChildPayments) // Children
+           .HasForeignKey(d => d.PaymentParentId) // Foreign key
+           .OnDelete(DeleteBehavior.Restrict); // Avoid cascade delete 
+
 
             builder.ApplyConfiguration(new CreditorTypeConfiguration());
             builder.ApplyConfiguration(new CreditTypeConfiguration());
