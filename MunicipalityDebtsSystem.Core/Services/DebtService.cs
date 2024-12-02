@@ -13,12 +13,12 @@ namespace MunicipalityDebtsSystem.Core.Services
     public class DebtService : IDebtService
     {
         private readonly IRepository repository;
-        private readonly ApplicationDbContext context;
+        //private readonly ApplicationDbContext context;
 
         public DebtService(IRepository _repository, ApplicationDbContext _context)
         {
             repository = _repository;
-            context = _context;
+            //context = _context;
         }
 
         public async Task AddAsync(AddDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealFinish)
@@ -265,7 +265,7 @@ namespace MunicipalityDebtsSystem.Core.Services
                 .Include(d => d.InterestType)
                 .Select(d => new DetailDebtViewModel
                 {
-                    DebtId = d.Id,
+                    Id = d.Id,
                     DebtNumber = d.DebtNumber,
                     ResolutionNumber = d.ResolutionNumber,
                     DateBook = d.DateBook.ToString(ValidationConstants.DateFormat),

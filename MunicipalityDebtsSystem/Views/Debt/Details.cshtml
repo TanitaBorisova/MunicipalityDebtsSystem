@@ -9,7 +9,15 @@
     <h2>@ViewData["Title"]</h2>
 </div>
 <hr />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
+<ul>
+    <!-- Link to AddPlanned action with DebtId as a parameter -->
+    <li><a href="@Url.Action("AddPlanned", "Draw", new { id = Model.Id })">Add Planned</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Contact</a></li>
+</ul>
 <div class="row justify-content-center" style="margin: 0 auto; max-width: 800px;">
    
 

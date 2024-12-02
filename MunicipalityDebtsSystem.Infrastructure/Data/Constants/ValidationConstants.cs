@@ -40,6 +40,8 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
         public const string DisplayDebtInterestName = "Описание на лихвения процент";
         public const string DebtAmountOriginal  = "Размер на дълга в ориг. валута";
         public const string DebtAmountLocal = "Размер на дълга в местна валута";
+        public const string OperationTypeIdErrorMessage = "Невалиден тип на операция";
+        
 
 
         //DateFormat
@@ -75,7 +77,13 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
         public const int UserLastNameMinLength = 3;
         public const int MinSelectedValue = 1;
         public const int MaxSelectedValue = int.MaxValue;
-        
+
+        //OperationTypes
+        public const int Payment = 1;
+        public const int PlannedPayment = 2;
+        public const int Draw = 3;
+        public const int PlannedDraw = 4;
+
 
     }
 }

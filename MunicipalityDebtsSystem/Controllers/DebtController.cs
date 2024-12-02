@@ -491,7 +491,7 @@ namespace MunicipalityDebtsSystem.Controllers
 
             DeleteDebtViewModel model = new DeleteDebtViewModel
             {
-                Id = modelDebt.DebtId,
+                Id = modelDebt.Id,
                 DebtNumber = modelDebt.DebtNumber,
                 DateBook = modelDebt.DateBook,
                 DateContractFinish = modelDebt.DateContractFinish,
