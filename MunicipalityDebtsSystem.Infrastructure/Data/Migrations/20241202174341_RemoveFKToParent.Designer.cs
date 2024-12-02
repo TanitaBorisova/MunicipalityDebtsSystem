@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MunicipalityDebtsSystem.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using MunicipalityDebtsSystem.Infrastructure.Data;
 namespace MunicipalityDebtsSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241202174341_RemoveFKToParent")]
+    partial class RemoveFKToParent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -327,7 +330,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             Id = "c398bf2f-e8b0-4c64-a99b-492c8c29e9c3",
                             AccessFailedCount = 3,
-                            ConcurrencyStamp = "456ea676-34cc-4a57-b8b3-03ab91ea7ad9",
+                            ConcurrencyStamp = "89c5ae5f-c288-4ad6-a82b-c5eba38fa5c4",
                             Email = "adminDebt@mail.bg",
                             EmailConfirmed = false,
                             FirstName = "Иван",
@@ -335,9 +338,9 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMINDEBT@MAIL.COM",
                             NormalizedUserName = "ADMINDEBT@MAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEV8nUpsa1BgWIFCSruGWPWDBZb70XbDYs+FdxCBroRs5RdOYAu7mQsAyKdr/Y17Cg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDMe6FOc3acr1xgfTsyrj5SVqqUqdompABP3srSEzhdvv+0GMaXbArHv3yZhwcEzDg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2d3b95a4-b7b0-4f32-814f-ae21ee8dbcce",
+                            SecurityStamp = "081bfbbd-da44-4c80-b6c9-0786bbfd5c1f",
                             TwoFactorEnabled = false,
                             UserName = "adminDebt@mail.bg"
                         },
@@ -345,7 +348,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             Id = "22ad10a0-2f69-4735-bd2c-9e944cd80baf",
                             AccessFailedCount = 3,
-                            ConcurrencyStamp = "af3356f9-129c-4927-a8ff-aea6954ca661",
+                            ConcurrencyStamp = "8efb259f-fec9-4b0c-a972-8c26ec298688",
                             Email = "burgas_municipal@mail.bg",
                             EmailConfirmed = false,
                             FirstName = "Стоян",
@@ -354,9 +357,9 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                             MunicipalityId = 16,
                             NormalizedEmail = "BURGAS_MUNICIPAL@MAIL.BG",
                             NormalizedUserName = "BURGAS_MUNICIPAL@MAIL.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEyU9xlfSPpf5R4MxUOIfBd86iTQltrpr943WXua1sJkKTcsk9+Cdzmww8ItchPhwg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM7VwG0Dn8selgyhn3oR+BxDzAhB4MrnMt9btUFqrxlWXfXTtu/69gB0GAZT3uZEkQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "184ca9cc-81ce-42dd-bbb7-2b19bd216012",
+                            SecurityStamp = "fa8122a4-ddbc-4424-83c1-682edefe6d0e",
                             TwoFactorEnabled = false,
                             UserName = "burgas_municipal@mail.bg"
                         },
@@ -364,7 +367,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             Id = "faf648ad-8f38-459d-909f-256f9a167a44",
                             AccessFailedCount = 3,
-                            ConcurrencyStamp = "00295604-9ab7-4b6f-aedb-8b4c18ba9743",
+                            ConcurrencyStamp = "b03e4730-05f3-4d87-8ad8-2ce357100b3e",
                             Email = "VarnaMun@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Георги",
@@ -373,9 +376,9 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                             MunicipalityId = 32,
                             NormalizedEmail = "VARNAMUN@MAIL.COM",
                             NormalizedUserName = "VARNAMUN@MAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEP7sAO16L1n3oKLtwV0yLrkcorqDYz4mjBOrEAwVv+hv3ljrV+EHxenkTfDl6vsxBA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEK+imOEOZL/Ty22kI4/xLrEmK2Z8gwdOfFqJ6heIMkWGF2BBABmaNnjyTb9FFQOkfA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c57e8cc8-f673-499e-a25f-1027a2796fc7",
+                            SecurityStamp = "fae73737-71d2-4ebf-8844-cb2b31cdfc2d",
                             TwoFactorEnabled = false,
                             UserName = "VarnaMun@mail.com"
                         });
@@ -694,6 +697,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         .HasComment("Date of the draw");
 
                     b.Property<int?>("DrawParentId")
+                        .IsRequired()
                         .HasColumnType("int")
                         .HasComment("Identifier of the parent draw - populated for real draw");
 
@@ -802,6 +806,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         .HasComment("Date of the payment");
 
                     b.Property<int?>("PaymentParentId")
+                        .IsRequired()
                         .HasColumnType("int")
                         .HasComment("Identifier of the parent payment - populated for real payment");
 
@@ -824,8 +829,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("MunicipalityId");
-
-                    b.HasIndex("PaymentParentId");
 
                     b.ToTable("Payments", "mundebt", t =>
                         {
@@ -4156,7 +4159,8 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                     b.HasOne("MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.Draw", "ParentDraw")
                         .WithMany("ChildDraws")
                         .HasForeignKey("DrawParentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.Municipality", "Municipality")
                         .WithMany()
@@ -4179,14 +4183,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.Payment", "ParentPayment")
-                        .WithMany("ChildPayments")
-                        .HasForeignKey("PaymentParentId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.Navigation("Municipality");
-
-                    b.Navigation("ParentPayment");
                 });
 
             modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.DebtPurposeType", b =>
@@ -4219,11 +4216,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
             modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.Draw", b =>
                 {
                     b.Navigation("ChildDraws");
-                });
-
-            modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.Payment", b =>
-                {
-                    b.Navigation("ChildPayments");
                 });
 #pragma warning restore 612, 618
         }

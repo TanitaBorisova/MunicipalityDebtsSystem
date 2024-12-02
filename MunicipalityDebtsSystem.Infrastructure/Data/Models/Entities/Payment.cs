@@ -23,7 +23,7 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
         [Comment("Identifier of the debt")]
         public int DebtId { get; set; }
 
-        [Required]
+
         [Comment("Identifier of the parent payment - populated for real payment")]
         public int? PaymentParentId { get; set; }
 
