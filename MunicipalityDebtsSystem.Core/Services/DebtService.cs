@@ -303,7 +303,7 @@ namespace MunicipalityDebtsSystem.Core.Services
                 .Include (d => d.CreditStatusType)
                 .Select(d => new DebtListViewModel
                 {
-                    DebtId = d.Id,
+                    Id = d.Id,
                     //DebtParentId = d.DebtParentId,
                     DebtParentNumber = d.ParentDebt.DebtNumber,
                     DebtNumber = d.DebtNumber,
@@ -340,7 +340,7 @@ namespace MunicipalityDebtsSystem.Core.Services
 
                 .Select(d => new DebtListViewModel
                 {
-                    DebtId = d.Id,
+                    Id = d.Id,
                     //DebtParentId = d.DebtParentId,
                     DebtParentNumber = d.ParentDebt.DebtNumber ?? "няма",
                     DebtNumber = d.DebtNumber,
@@ -356,15 +356,15 @@ namespace MunicipalityDebtsSystem.Core.Services
                     StatusName = d.CreditStatusType.Name.ToString(),
 
                 })
-              //  .Where(d => d.DebtNumber.Contains(searchValue) || d.DebtParentNumber.Contains(searchValue) || d.MunicipalityName.Contains(searchValue) || d.MunicipalityCode.Contains(searchValue))
-                .OrderBy(d => d.DebtId)
+               // .Where((searchValue = "") )  //(d => d.DebtNumber.Contains(searchValue))
+                .OrderBy(d => d.Id)
                 .AsQueryable();
 
 
-            //if (!string.IsNullOrEmpty(searchValue))
-            //{
-            //    query = query.Where(d => d.DebtNumber.Contains(searchValue) || d.DebtParentNumber.Contains(searchValue));
-            //}
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                query = query.Where(d => d.DebtNumber.Contains(searchValue) || d.DebtParentNumber.Contains(searchValue) || d.MunicipalityName.Contains(searchValue));
+            }
 
             //// Apply sorting (optional, if needed)
             //query = query.OrderBy(d => d.DebtNumber); // Or apply sorting logic based on your requirements

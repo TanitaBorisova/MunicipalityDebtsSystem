@@ -7,17 +7,19 @@
 <table id="debtTable" class="display">
     <thead>
         <tr>
-            <th>Debt ID</th>
-            <th>Debt Number</th>
-            <th>Debt Parent Number</th>
-            <th>Resolution Number</th>
-            <th>Date Book</th>
-            <th>Date Contract Finish</th>
-            <th>Amount</th>
-            <th>Currency</th>
-            <th>Municipality Name</th>
-            <th>Municipality Code</th>
-            <th>Status</th>
+            <th></th>
+            <th>Номер на договор/анекс</th>
+            <th>Към договор№</th>
+            <th>Решение №</th>
+            <th>Дата на поемане на дълг</th>
+            <th>Крайна дата на дълг</th>
+            <th>Размер на дълга в оригинална валута</th>
+            <th>Валута</th>
+            <th>Община</th>
+            <th>Код</th>
+            <th>Статус</th>
+            <th></th> @* Предоговаряне, Изтриване от Details *@
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -60,7 +62,13 @@
                 }
             },
             columns: [
-                { data: 'debtId' },
+                {
+                    data: 'id'
+                    // title: '№',
+                    // sortable: true,
+                    // searchable: true,
+                    //visible = false
+                },
                 { data: 'debtNumber' },
                 { data: 'debtParentNumber' },
                 { data: 'resolutionNumber' },
@@ -70,7 +78,19 @@
                 { data: 'currencyName' },
                 { data: 'municipalityName' },
                 { data: 'municipalityCode' },
-                { data: 'statusName' }
+                { data: 'statusName' },
+                {
+                    data: "details",
+                    data: function (a) {
+                        return "<a href = '/Debt/Details/" + a.id + "' target=' _parent' class = 'btn btn-info btn-sm' role = 'button'>Преглед</a>"
+                    }
+                },
+                { data: "edit", 
+                    data: function (a) { 
+                    return "<a href = '/Debt/Edit/" + a.id + "' target=' _parent' class = 'btn btn-info btn-sm' role = 'button'>Редактиране</a>"
+                    }
+                },
+                
             ]
         });
     });

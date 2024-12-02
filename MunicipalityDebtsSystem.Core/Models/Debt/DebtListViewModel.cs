@@ -8,7 +8,7 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
     public class DebtListViewModel
     {
        // [JsonPropertyName("iDebtId")]
-        public int DebtId { get; set; }
+        public int Id { get; set; }
 
         public string DebtNumber { get; set; } = string.Empty;
 
