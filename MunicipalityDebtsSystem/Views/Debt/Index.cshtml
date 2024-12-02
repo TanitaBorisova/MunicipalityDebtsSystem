@@ -1,85 +1,79 @@
-﻿@model IEnumerable<DebtListViewModel>
-
-@{
+﻿@{
     ViewData["Title"] = "Списък с дългове";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<table id = "example" class = "table table-striped" style = "width: 100%">
+<table id="debtTable" class="display">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(Model => Model.DebtNumber);
-            </th>
-            <th>
-                @Html.DisplayNameFor(Model => Model.DateBook);
-            </th>
-            <th>
-                @Html.DisplayNameFor(Model => Model.MunicipalityName);
-            </th>
-            <th>
-                @Html.DisplayNameFor(Model => Model.MunicipalityCode);
-            </th>
-            <th>
-                @Html.DisplayNameFor(Model => Model.DateContractFinish);
-            </th>
-            <th>
-                @Html.DisplayNameFor(Model => Model.CurrencyName);
-            </th>
-            <th>
-                @Html.DisplayNameFor(Model => Model.DebtAmountOriginalCcy);
-            </th>
+            <th>Debt ID</th>
+            <th>Debt Number</th>
+            <th>Debt Parent Number</th>
+            <th>Resolution Number</th>
+            <th>Date Book</th>
+            <th>Date Contract Finish</th>
+            <th>Amount</th>
+            <th>Currency</th>
+            <th>Municipality Name</th>
+            <th>Municipality Code</th>
+            <th>Status</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.DebtNumber);
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.DateBook);
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.MunicipalityName);
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.MunicipalityCode);
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.DateContractFinish);
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.CurrencyName);
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.DebtAmountOriginalCcy);
-                </td>
-                <td>
-                    @Html.DisplayNameFor(Model => Model.DebtAmountOriginalCcy);
-                </td>
-                <td>
-                    @Html.ActionLink("Преглед", "Details", "Debt", new {id = item.DebtId}));
-                    @Html.ActionLink("Редакция", "Edit", "Debt", new { id = item.DebtId }));
-                    @Html.ActionLink("Изтриване", "Delete", "Debt", new { id = item.DebtId }));
-                </td>
-            </tr>
-        }
     </tbody>
 </table>
 
-@section Scripts
-{
-    @{
-            <script>
-            $('#example').DataTable({
-                 responsive: true
-             });
+<!-- DataTables JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script>
 
-            // new DataTable('#example');
-            </script>
-    }
-}
+    $(document).ready(function () {
+        $('#debtTable').DataTable({
+           // processing: true,
+            serverSide: true,
+            ajax: {
+                url: '@Url.Action("GetDebtsForDataTable", "Debt")', // Ensure this URL matches your controller route
+                type: 'GET',  // Explicitly set method to POST
+                contentType: 'application/json',  // Specify content type as JSON
+                data: function (d) {
+                    ////Modify the data being sent to the server
+                    // return JSON.stringify({
+                    //     draw: d.draw,
+                    //     start: d.start,
+                    //     length: d.length,
+                    //     searchValue: d.search.value  // Add any additional filters
+                    // });
+                    return {
+                        draw: d.draw,
+                        start: d.start,
+                        length: d.length,
+                        searchValue: d.search.value  // Add any additional filters
+                    };
+                },
+                dataSrc: function (json) {
+                    return json.data;
+                },
+                error: function (xhr, error, code) {
+                    console.error("Error:", error, code);
+                }
+            },
+            columns: [
+                { data: 'debtId' },
+                { data: 'debtNumber' },
+                { data: 'debtParentNumber' },
+                { data: 'resolutionNumber' },
+                { data: 'dateBook' },
+                { data: 'dateContractFinish' },
+                { data: 'debtAmountOriginalCcy' },
+                { data: 'currencyName' },
+                { data: 'municipalityName' },
+                { data: 'municipalityCode' },
+                { data: 'statusName' }
+            ]
+        });
+    });
+</script>
 
+        

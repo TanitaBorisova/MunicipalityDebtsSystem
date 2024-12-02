@@ -13,7 +13,14 @@ namespace MunicipalityDebtsSystem.Core.Contracts
     {
 
         Task<IEnumerable<DebtListViewModel>> GetAllDebtAsync();
+        // Task<(IEnumerable<DebtListViewModel> debts, int totalRecords)> GetDebtsWithPagingAsync(int start, int length, string searchValue, string orderBy, string orderDir);
 
+        //Task<(IEnumerable<DebtListViewModel> debts, int totalRecords, int filteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize, string searchValue);
+        //Task<(IEnumerable<DebtListViewModel> debts, int totalRecords)> GetDebtsWithPagingAsync();
+
+        Task<(List<DebtListViewModel> Debts, int TotalRecords, int FilteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize, string searchValue);
+
+        //Task<(List<DebtListViewModel> Debts, int TotalRecords, int FilteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize);
         Task AddAsync(AddDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealFinish);
 
         Task EditAsync(EditDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealFinish);

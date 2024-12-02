@@ -6,6 +6,7 @@ using MunicipalityDebtsSystem.Infrastructure.Data.Common;
 using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
+using System.Text.Json.Nodes;
 
 namespace MunicipalityDebtsSystem.Core.Services
 {
@@ -309,16 +310,10 @@ namespace MunicipalityDebtsSystem.Core.Services
                     ResolutionNumber = d.ResolutionNumber,
                     DateBook = d.DateBook.ToString(ValidationConstants.DateFormat),
                     DateContractFinish = d.DateContractFinish.ToString(ValidationConstants.DateFormat),
-                    //DateRealFinish = d.DateRealFinish.ToString(ValidationConstants.DateFormat),
+                
                     CurrencyName = d.Currency.CurrencyCode,
                     DebtAmountOriginalCcy = d.DebtAmountOriginalCcy.ToString(),
-                    //DebtAmountLocalCcy = d.DebtAmountLocalCcy.ToString(),  //ValidationConstants.CurrencyFormat
-                    //CreditTypeName = d.CreditType.Name.ToString(),  //Include 
-                    //CreditorTypeName = d.CreditorType.Name.ToString(),
-                    //DebtTermTypeName = d.DebtType.Name.ToString(),
-                    //DebtPurposeTypeName = d.DebtPurposeType.Name.ToString(),
-                    //InterestTypeName = d.InterestType.Name.ToString(),
-                    //InterestRate = d.InterestRate.ToString(),
+      
                     MunicipalityName = d.Municipality.Name.ToString(),
                     MunicipalityCode = d.Municipality.MunicipalCode.ToString(),
                     StatusName = d.CreditStatusType.Name.ToString(),    
@@ -327,6 +322,80 @@ namespace MunicipalityDebtsSystem.Core.Services
 
             
             return model;
+           
+        }
+        public async Task<(List<DebtListViewModel> Debts, int TotalRecords, int FilteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize, string searchValue)
+        //public async Task<(List<DebtListViewModel> Debts, int TotalRecords, int FilteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize)
+        {
+            // Query to get debts from the database, applying optional filters and pagination
+            var query = repository.AllReadOnly<Debt>()
+                .Where(d => d.IsDeleted == false)
+                .Include(d => d.Currency)
+                .Include(d => d.CreditType)
+                .Include(d => d.CreditorType)
+                .Include(d => d.DebtType)
+                .Include(d => d.DebtPurposeType)
+                .Include(d => d.InterestType)
+                .Include(d => d.CreditStatusType)
+
+                .Select(d => new DebtListViewModel
+                {
+                    DebtId = d.Id,
+                    //DebtParentId = d.DebtParentId,
+                    DebtParentNumber = d.ParentDebt.DebtNumber ?? "няма",
+                    DebtNumber = d.DebtNumber,
+                    ResolutionNumber = d.ResolutionNumber,
+                    DateBook = d.DateBook.ToString(ValidationConstants.DateFormat),
+                    DateContractFinish = d.DateContractFinish.ToString(ValidationConstants.DateFormat),
+
+                    CurrencyName = d.Currency.CurrencyCode,
+                    DebtAmountOriginalCcy = d.DebtAmountOriginalCcy.ToString(),
+
+                    MunicipalityName = d.Municipality.Name.ToString(),
+                    MunicipalityCode = d.Municipality.MunicipalCode.ToString(),
+                    StatusName = d.CreditStatusType.Name.ToString(),
+
+                })
+              //  .Where(d => d.DebtNumber.Contains(searchValue) || d.DebtParentNumber.Contains(searchValue) || d.MunicipalityName.Contains(searchValue) || d.MunicipalityCode.Contains(searchValue))
+                .OrderBy(d => d.DebtId)
+                .AsQueryable();
+
+
+            //if (!string.IsNullOrEmpty(searchValue))
+            //{
+            //    query = query.Where(d => d.DebtNumber.Contains(searchValue) || d.DebtParentNumber.Contains(searchValue));
+            //}
+
+            //// Apply sorting (optional, if needed)
+            //query = query.OrderBy(d => d.DebtNumber); // Or apply sorting logic based on your requirements
+
+            // Fetch the data with pagination
+            var debts = await query
+                .Skip(pageIndex * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+                //.Select(d => new DebtListViewModel
+                //{
+                //    DebtId = d.DebtId,
+                //    DebtNumber = d.DebtNumber,
+                //    DebtParentNumber = d.DebtParentNumber,
+                //    ResolutionNumber = d.ResolutionNumber,
+                //    DateBook = d.DateBook.ToString("yyyy-MM-dd"),
+                //    DateContractFinish = d.DateContractFinish.ToString("yyyy-MM-dd"),
+                //    DebtAmountOriginalCcy = d.DebtAmountOriginalCcy.ToString(),
+                //    CurrencyName = d.Currency.CurrencyCode,
+                //    MunicipalityCode = d.MunicipalityCode,
+                //    MunicipalityName = d.MunicipalityName,
+                //    StatusName = d.StatusName
+                //}).ToListAsync();
+
+            // Get the total record count (without filtering)
+            var totalRecords = await query.CountAsync();
+
+            // Get the filtered record count (after applying search filter)
+            var filteredRecords = query.Count();
+
+            return (debts, totalRecords, filteredRecords);
         }
         public async Task DeleteProduct(Debt debt)
         {

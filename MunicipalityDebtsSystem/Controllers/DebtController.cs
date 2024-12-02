@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MunicipalityDebtsSystem.Core.Contracts;
 using MunicipalityDebtsSystem.Core.Models.Debt;
+using MunicipalityDebtsSystem.Core.Services;
 using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
+using System.Buffers;
 using System.Globalization;
 using System.Security.Claims;
 using static MunicipalityDebtsSystem.Infrastructure.Data.Constants.CustomClaims;
@@ -19,12 +22,123 @@ namespace MunicipalityDebtsSystem.Controllers
             debtService = _debtService;
         }
 
-
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var model = await debtService.GetAllDebtAsync();
-            return View(model);
+           //var result = await debtService.GetDebtsWithPagingAsync(0, 10, "");
+           // var debts = result.Debts;
+           // return Json(debts); 
+
+            return View();
         }
+        public class DataTableRequest
+        {
+            public int draw { get; set; }
+            public int start { get; set; }
+            public int length { get; set; }
+            public string searchValue { get; set; } = string.Empty;
+        }
+
+
+        //public async Task<IActionResult> GetDebtsForDataTable(
+        //[FromQuery] int draw,
+        //[FromQuery] int start,
+        //[FromQuery] int length,
+        //[FromQuery] string searchValue)
+
+        [HttpGet]
+        public async Task<IActionResult> GetDebtsForDataTable(DataTableRequest model) //
+        {
+            // Perform the necessary logic to fetch the data
+            //var result = await debtService.GetDebtsWithPagingAsync(
+            //    model.start, model.length, model.searchValue
+            //);
+
+            var result = await debtService.GetDebtsWithPagingAsync(model.start, model.length, model.searchValue);  //0, 10, ""
+
+            // Return the data in the expected DataTable format
+            return Json(new
+            {
+                draw = 1,
+                recordsTotal = result.TotalRecords,
+                recordsFiltered = result.TotalRecords, // You may adjust this based on actual filtering
+                data = result.Debts
+            });
+        }
+
+
+
+        //int draw,
+        //int start,
+        //int length,
+        //string searchValue)
+        //[FromQuery] int draw,
+        //[FromQuery] int start,
+        //[FromQuery] int length,
+        //[FromQuery] string searchValue)
+
+        //[HttpPost]
+        //[Route("Debt/GetDebtsForDataTable")]
+        //public async Task<IActionResult> GetDebtsForDataTable([FromBody] DataTableRequest request)
+
+        //{
+        //    try
+        //    {
+        //        //var result = await debtService.GetDebtsWithPagingAsync(start / length, length, searchValue);
+        //        int start = request.start;
+        //        int length = request.length;
+        //        string searchValue = request.searchValue;
+        //        int draw = 1;
+
+        //        int first = start / length;
+        //        var result = await debtService.GetDebtsWithPagingAsync(first, length, searchValue);
+
+        //        var jsonResponse = new
+        //        {
+        //            draw = draw,
+        //            recordsTotal = result.TotalRecords,
+        //            recordsFiltered = result.FilteredRecords,
+        //            data = result.Debts
+        //        };
+
+        //        return Json(jsonResponse);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest("An error occurred while fetching the data.");
+        //    }
+        //}
+
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> GetDebtsForDataTable(int draw, int start, int length, string searchValue)
+        //{
+        //    try
+        //    {
+        //        // Log incoming parameters
+        //        //_logger.LogInformation($"Received request: draw={draw}, start={start}, length={length}, searchValue={searchValue}");
+
+        //        var result = await debtService.GetDebtsWithPagingAsync(start / length, length, searchValue);
+
+        //        var jsonResponse = new
+        //        {
+        //            draw = draw,
+        //            recordsTotal = result.TotalRecords,
+        //            recordsFiltered = result.FilteredRecords,
+        //            data = result.Debts
+        //        };
+
+        //        return Json(jsonResponse);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //_logger.LogError($"Error: {ex.Message}");
+        //        return BadRequest("An error occurred while fetching the data.");
+        //    }
+        //}
+
+
 
         [HttpGet]
         public async Task<IActionResult> Add()
