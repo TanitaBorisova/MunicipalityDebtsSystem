@@ -22,7 +22,7 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
 
         [Required]
         [Comment("Identifier of the debt")]
-        public int DebtId { get; set; }
+        public int? DebtId { get; set; }
 
         [Required]
         [Comment("Identifier of the parent draw - populated for real draw")]
@@ -76,6 +76,10 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
 
         [ForeignKey(nameof(DebtId))]
         public Debt Debt { get; set; } = null!;
+
+        public Draw ParentDraw { get; set; } = null!;
+
+        public ICollection<Draw> ChildDraws { get; set; } = null!; // Children
 
 
     }
