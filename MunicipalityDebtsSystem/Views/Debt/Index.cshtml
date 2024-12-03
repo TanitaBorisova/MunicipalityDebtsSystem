@@ -1,8 +1,9 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Списък с дългове";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="smart-title">@ViewData["Title"]</h1>
 
 <table id="debtTable" class="display">
     <thead>
@@ -33,7 +34,7 @@
 
     $(document).ready(function () {
         $('#debtTable').DataTable({
-           // processing: true,
+            // processing: true,
             serverSide: true,
             ajax: {
                 url: '@Url.Action("GetDebtsForDataTable", "Debt")', // Ensure this URL matches your controller route
@@ -63,7 +64,7 @@
             },
             columns: [
                 {
-                    data: 'id'
+                    data: 'id',
                     // title: '№',
                     // sortable: true,
                     // searchable: true,
@@ -85,15 +86,93 @@
                         return "<a href = '/Debt/Details/" + a.id + "' target=' _parent' class = 'btn btn-info btn-sm' role = 'button'>Преглед</a>"
                     }
                 },
-                { data: "edit", 
-                    data: function (a) { 
-                    return "<a href = '/Debt/Edit/" + a.id + "' target=' _parent' class = 'btn btn-info btn-sm' role = 'button'>Редактиране</a>"
+                {
+                    data: "edit",
+                    data: function (a) {
+                        return "<a href = '/Debt/Edit/" + a.id + "' target=' _parent' class = 'btn btn-info btn-sm' role = 'button'>Редактиране</a>"
                     }
                 },
-                
-            ]
+
+            ],
+
+            // Pagination and ordering settings
+            pageLength: 10, // Show 10 records per page
+            lengthMenu: [10, 25, 50, 100], // Options for records per page
+            order: [[4, 'asc']], // Default ordering by 'dateBook' column (4th)
+            responsive: true, // Enable responsive design
+            language: {
+                search: "Търсене:",
+                lengthMenu: "Показване на _MENU_ реда на страница",
+                info: "Показване на _START_ до _END_ от _TOTAL_ реда",
+                infoEmpty: "Няма данни за показване",
+                infoFiltered: "(филтрирани от _MAX_ общо реда)",
+                paginate: {
+                    next: "Следваща",
+                    previous: "Предишна"
+                }
+            }
+
+
+
         });
     });
 </script>
 
-        
+
+
+<style>
+    .smart-title {
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #4A90E2;
+        background: linear-gradient(135deg, #4A90E2, #5C6BC0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+
+    table.dataTable {
+        width: 100%;
+        margin: 20px 0;
+        border-collapse: collapse;
+    }
+
+        table.dataTable th,
+        table.dataTable td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        table.dataTable th {
+            background-color: #f1f1f1;
+            font-weight: bold;
+        }
+
+        table.dataTable tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+    .btn {
+        font-size: 12px;
+        padding: 6px 12px;
+        margin-right: 5px;
+        text-align: center;
+    }
+
+    .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
+
+    .btn-sm {
+        padding: 5px 10px;
+    }
+</style>

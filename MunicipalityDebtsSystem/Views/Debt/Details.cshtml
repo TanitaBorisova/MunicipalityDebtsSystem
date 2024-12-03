@@ -1,48 +1,145 @@
 ﻿@model DetailDebtViewModel
 
-
 @{
     ViewData["Title"] = "Преглед на дълг";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
-    <h2>@ViewData["Title"]</h2>
-</div>
-<hr />
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<div class="container py-5">
+    <!-- Title Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="smart-title">@ViewData["Title"]</h2>
+    </div>
+    <hr />
 
-<ul>
-    <!-- Link to AddPlanned action with DebtId as a parameter -->
-    <li><a href="@Url.Action("AddPlanned", "Draw", new { id = Model.Id })">Add Planned</a></li>
-    <li><a href="#">About</a></li>
-    <li><a href="#">Services</a></li>
-    <li><a href="#">Contact</a></li>
-</ul>
-<div class="row justify-content-center" style="margin: 0 auto; max-width: 800px;">
-   
+    <!-- Navigation Links -->
+    <ul class="list-unstyled d-flex justify-content-start gap-4 mb-4">
+        <!-- Link to AddPlanned action with DebtId as a parameter -->
+        <li><a href="@Url.Action("AddPlanned", "Draw", new { id = Model.Id })" class="btn btn-link text-primary">Add Planned</a></li>
+        <li><a href="#" class="btn btn-link text-primary">About</a></li>
+        <li><a href="#" class="btn btn-link text-primary">Services</a></li>
+        <li><a href="#" class="btn btn-link text-primary">Contact</a></li>
+    </ul>
 
-    <div class="col-md-8">
-        <div class="card-body">
-            <h5 class="card-title">Община: @Model.MunicipalityName: @Model.MunicipalityCode</h5>
-            <hr />
-            <p class="card-text"> Номер на дълг: @Model.DebtNumber</p>
-            <p class="card-text"> Решение за поемане на дълг: @Model.ResolutionNumber</p>
-            <p class="card-text"> Дата на поемане на дълга: @Model.DateBook</p>
-            <p class="card-text"> Размер на кредита в оригинална валута: @Model.DebtAmountOriginalCcy</p>
-            <p class="card-text"> Валута: @Model.CurrencyName</p>
-            <p class="card-text"> Размер на дълга в лева: @Model.DebtAmountLocalCcy</p>
-            <p class="card-text"> Дата на приключване на кредита: @Model.DateContractFinish</p>
-            <p class="card-text"> Дата на реално приключване на кредита: @Model.DateRealFinish</p>
-            <p class="card-text"> Тип на кредитора: @Model.CreditorTypeName</p>
-            <p class="card-text"> Предназначение: @Model.CreditTypeName</p>
-            <p class="card-text"> Цел на поемането на дълга: @Model.DebtPurposeTypeName</p>
-            <p class="card-text"> Вид на дълга: @Model.DebtTermTypeName</p>
-            <p class="card-text"> Описание на лихвения процент: @Model.InterestTypeName</p>
-            <p class="card-text"> Лихвен процент: @Model.InterestRate</p>
-            
-            
-            <hr />            
+    <!-- Debt Details -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title smart-title fs-4">Община: @Model.MunicipalityName: @Model.MunicipalityCode</h5>
+                    <hr />
+                    <p class="card-text"><strong>Номер на дълг:</strong> @Model.DebtNumber</p>
+                    <p class="card-text"><strong>Решение за поемане на дълг:</strong> @Model.ResolutionNumber</p>
+                    <p class="card-text"><strong>Дата на поемане на дълга:</strong> @Model.DateBook</p>
+                    <p class="card-text"><strong>Размер на кредита в оригинална валута:</strong> @Model.DebtAmountOriginalCcy</p>
+                    <p class="card-text"><strong>Валута:</strong> @Model.CurrencyName</p>
+                    <p class="card-text"><strong>Размер на дълга в лева:</strong> @Model.DebtAmountLocalCcy</p>
+                    <p class="card-text"><strong>Дата на приключване на кредита:</strong> @Model.DateContractFinish</p>
+                    <p class="card-text"><strong>Дата на реално приключване на кредита:</strong> @Model.DateRealFinish</p>
+                    <p class="card-text"><strong>Тип на кредитора:</strong> @Model.CreditorTypeName</p>
+                    <p class="card-text"><strong>Предназначение:</strong> @Model.CreditTypeName</p>
+                    <p class="card-text"><strong>Цел на поемането на дълга:</strong> @Model.DebtPurposeTypeName</p>
+                    <p class="card-text"><strong>Вид на дълга:</strong> @Model.DebtTermTypeName</p>
+                    <p class="card-text"><strong>Описание на лихвения процент:</strong> @Model.InterestTypeName</p>
+                    <p class="card-text"><strong>Лихвен процент:</strong> @Model.InterestRate</p>
+
+                    <hr />
+                </div>
+            </div>
         </div>
-       
     </div>
 </div>
+
+<!-- Styles for Title and Links -->
+<style>
+    .smart-title {
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #4A90E2; /* Soft Blue */
+        background: linear-gradient(135deg, #4A90E2, #5C6BC0); /* Soft Blue Gradient */
+        -webkit-background-clip: text;
+        background-clip: text;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
+        letter-spacing: 1px;
+        display: inline-block;
+        padding-bottom: 5px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .smart-title:hover {
+        color: #fff;
+        transform: scale(1.05);
+    }
+
+    /* Style for Navigation Links */
+    ul {
+        padding-left: 0;
+    }
+
+    ul li a {
+        font-size: 1rem;
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+
+    ul li a:hover {
+        color: #007bff;
+        text-decoration: underline;
+    }
+
+    /* Card Style */
+    .card-body {
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+</style>
+<style>
+    /* Style for Navigation Links */
+    ul {
+        list-style: none;
+        padding-left: 0;
+        display: flex;
+        gap: 20px; /* Space out the items */
+        flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        justify-content: center; /* Center the items */
+    }
+
+        ul li {
+            position: relative;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background-color: #F1F8FF; /* Light background for the items */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            transition: background-color 0.3s, transform 0.3s ease-in-out;
+        }
+
+            ul li a {
+                text-decoration: none;
+                font-size: 1.1rem;
+                font-weight: 500;
+                color: #4A90E2; /* Match the gradient blue */
+                transition: color 0.3s ease, transform 0.2s;
+            }
+
+            ul li:hover {
+                background-color: #4A90E2; /* Hover background color */
+                transform: translateY(-5px); /* Slight lift effect */
+            }
+
+                ul li:hover a {
+                    color: #fff; /* Change text color on hover */
+                    transform: scale(1.1); /* Slightly enlarge text */
+                }
+
+            ul li a:hover {
+                color: #fff;
+                text-decoration: none; /* Remove underline on hover */
+            }
+</style>
+
+
+
+
+
