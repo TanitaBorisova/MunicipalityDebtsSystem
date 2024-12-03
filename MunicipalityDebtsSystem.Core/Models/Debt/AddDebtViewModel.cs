@@ -4,6 +4,7 @@ using static MunicipalityDebtsSystem.Infrastructure.Data.Constants.ValidationCon
 
 using MunicipalityDebtsSystem.Infrastructure.Data.CustomValidations;
 using System.ComponentModel;
+using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
 namespace MunicipalityDebtsSystem.Core.Models.Debt
 {
     public class AddDebtViewModel
@@ -97,7 +98,8 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
         [Required]
         public DateTime DateCreated { get; set; }
 
-      
+
+        
         public List<CurrencyViewModel> Currencies { get; set; } = new List<CurrencyViewModel>();
         public List<CreditTypeViewModel> CreditTypes { get; set; } = new List<CreditTypeViewModel>();
         public List<CreditorTypeViewModel> CreditorTypes { get; set; } = new List<CreditorTypeViewModel>();

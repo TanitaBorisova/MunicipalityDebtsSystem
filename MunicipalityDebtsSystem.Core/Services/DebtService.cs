@@ -15,7 +15,7 @@ namespace MunicipalityDebtsSystem.Core.Services
         private readonly IRepository repository;
         //private readonly ApplicationDbContext context;
 
-        public DebtService(IRepository _repository, ApplicationDbContext _context)
+        public DebtService(IRepository _repository)
         {
             repository = _repository;
             //context = _context;
@@ -93,27 +93,35 @@ namespace MunicipalityDebtsSystem.Core.Services
 
         public async Task<CreditorType> GetEntityCreditorTypeById(int id)
         {
-            var entity = await repository.All<CreditorType>()
-                .FirstOrDefaultAsync(d => d.Id == id);
+            var entity = await repository.GetByIdAsync<CreditorType>(id);
             return entity;
+            //var entity = await repository.All<CreditorType>()
+            //    .FirstOrDefaultAsync(d => d.Id == id);
+            //return entity;
         }
         public async Task<CreditType> GetEntityCreditTypeById(int id)
         {
-            var entity = await repository.All<CreditType>()
-                .FirstOrDefaultAsync(d => d.Id == id);
+            var entity = await repository.GetByIdAsync<CreditType>(id);
             return entity;
+            //var entity = await repository.All<CreditType>()
+            //    .FirstOrDefaultAsync(d => d.Id == id);
+            //return entity;
         }
         public async Task<DebtType> GetEntityDebtTermTypeById(int id)
         {
-            var entity = await repository.All<DebtType>()
-                .FirstOrDefaultAsync(d => d.Id == id);
+            var entity = await repository.GetByIdAsync<DebtType>(id);
             return entity;
+            //var entity = await repository.All<DebtType>()
+            //    .FirstOrDefaultAsync(d => d.Id == id);
+            //return entity;
         }
         public async Task<DebtPurposeType> GetEntityDebtPurposeTypeById(int id)
         {
-            var entity = await repository.All<DebtPurposeType>()
-                .FirstOrDefaultAsync(d => d.Id == id);
+            var entity = await repository.GetByIdAsync<DebtPurposeType>(id);
             return entity;
+            //var entity = await repository.All<DebtPurposeType>()
+            //    .FirstOrDefaultAsync(d => d.Id == id);
+            //return entity;
         }
         public async Task<List<CurrencyViewModel>> GetAllCurrenciesAsync()
         {
@@ -290,40 +298,40 @@ namespace MunicipalityDebtsSystem.Core.Services
             return model;
         }
 
-        public async Task<IEnumerable<DebtListViewModel>> GetAllDebtAsync()
-        {
-            var model = await repository.AllReadOnly<Debt>()
-                .Where(d => d.IsDeleted == false)
-                .Include(d => d.Currency)
-                .Include(d => d.CreditType)
-                .Include(d => d.CreditorType)
-                .Include(d => d.DebtType)
-                .Include(d => d.DebtPurposeType)
-                .Include(d => d.InterestType)
-                .Include (d => d.CreditStatusType)
-                .Select(d => new DebtListViewModel
-                {
-                    Id = d.Id,
-                    //DebtParentId = d.DebtParentId,
-                    DebtParentNumber = d.ParentDebt.DebtNumber,
-                    DebtNumber = d.DebtNumber,
-                    ResolutionNumber = d.ResolutionNumber,
-                    DateBook = d.DateBook.ToString(ValidationConstants.DateFormat),
-                    DateContractFinish = d.DateContractFinish.ToString(ValidationConstants.DateFormat),
+        //public async Task<IEnumerable<DebtListViewModel>> GetAllDebtAsync()
+        //{
+        //    var model = await repository.AllReadOnly<Debt>()
+        //        .Where(d => d.IsDeleted == false)
+        //        .Include(d => d.Currency)
+        //        .Include(d => d.CreditType)
+        //        .Include(d => d.CreditorType)
+        //        .Include(d => d.DebtType)
+        //        .Include(d => d.DebtPurposeType)
+        //        .Include(d => d.InterestType)
+        //        .Include (d => d.CreditStatusType)
+        //        .Select(d => new DebtListViewModel
+        //        {
+        //            Id = d.Id,
+        //            //DebtParentId = d.DebtParentId,
+        //            DebtParentNumber = d.ParentDebt.DebtNumber,
+        //            DebtNumber = d.DebtNumber,
+        //            ResolutionNumber = d.ResolutionNumber,
+        //            DateBook = d.DateBook.ToString(ValidationConstants.DateFormat),
+        //            DateContractFinish = d.DateContractFinish.ToString(ValidationConstants.DateFormat),
                 
-                    CurrencyName = d.Currency.CurrencyCode,
-                    DebtAmountOriginalCcy = d.DebtAmountOriginalCcy.ToString(),
+        //            CurrencyName = d.Currency.CurrencyCode,
+        //            DebtAmountOriginalCcy = d.DebtAmountOriginalCcy.ToString(),
       
-                    MunicipalityName = d.Municipality.Name.ToString(),
-                    MunicipalityCode = d.Municipality.MunicipalCode.ToString(),
-                    StatusName = d.CreditStatusType.Name.ToString(),    
+        //            MunicipalityName = d.Municipality.Name.ToString(),
+        //            MunicipalityCode = d.Municipality.MunicipalCode.ToString(),
+        //            StatusName = d.CreditStatusType.Name.ToString(),    
                    
-                }).ToListAsync();
+        //        }).ToListAsync();
 
             
-            return model;
+        //    return model;
            
-        }
+        //}
         public async Task<(List<DebtListViewModel> Debts, int TotalRecords, int FilteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize, string searchValue)
         //public async Task<(List<DebtListViewModel> Debts, int TotalRecords, int FilteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize)
         {
@@ -397,16 +405,13 @@ namespace MunicipalityDebtsSystem.Core.Services
 
             return (debts, totalRecords, filteredRecords);
         }
-        public async Task DeleteProduct(Debt debt)
+        public async Task DeleteDebt(Debt debt)
         {
             debt.IsDeleted = true;
             await repository.SaveChangesAsync();
         }
 
-        public Task DeleteDebt(Debt debt)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public async Task NegotiateAsync(NegotiateDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealContractFinish)
         {
