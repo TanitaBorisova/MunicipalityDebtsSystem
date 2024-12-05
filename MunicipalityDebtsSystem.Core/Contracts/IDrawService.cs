@@ -1,5 +1,6 @@
 ﻿using MunicipalityDebtsSystem.Core.Enums;
 using MunicipalityDebtsSystem.Core.Models.Draw;
+using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,14 @@ namespace MunicipalityDebtsSystem.Core.Contracts
     public interface IDrawService
     {
         Task AddPlannedAsync(AddPlannedDrawViewModel model, string userId, int municipalityId, DateTime dateDraw);
+        Task AddRealAsync(AddDrawViewModel model, string userId, int municipalityId, DateTime dateDraw, int drawParentId);
 
-        Task AddAsync(AddDrawViewModel model, string userId, int municipalityId, DateTime dateDraw);
+        Task<List<PlannedDrawDateViewModel>> GetAllPlannedDrawDatesAsync(int debtId);
+
+        Task<Draw> GetPlannedDrawInfoByIdAsync(int id);
+
+
+
+
     }
 }

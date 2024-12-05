@@ -5,7 +5,7 @@
 
 <h1 class="smart-title">@ViewData["Title"]</h1>
 
-<table id="debtTable" class="display">
+@* <table id="debtTable" class="display">
     <thead>
         <tr>
             <th></th>
@@ -19,106 +19,97 @@
             <th>Община</th>
             <th>Код</th>
             <th>Статус</th>
-            <th></th> @* Предоговаряне, Изтриване от Details *@
+            <th></th> 
             <th></th>
         </tr>
     </thead>
     <tbody>
     </tbody>
-</table>
+ </table> *@
 
 <!-- DataTables JS and jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script> 
 
-    $(document).ready(function () {
-        $('#debtTable').DataTable({
-            // processing: true,
-            serverSide: true,
-            ajax: {
-                url: '@Url.Action("GetDebtsForDataTable", "Debt")', // Ensure this URL matches your controller route
-                type: 'GET',  // Explicitly set method to POST
-                contentType: 'application/json',  // Specify content type as JSON
-                data: function (d) {
-                    ////Modify the data being sent to the server
-                    // return JSON.stringify({
-                    //     draw: d.draw,
-                    //     start: d.start,
-                    //     length: d.length,
-                    //     searchValue: d.search.value  // Add any additional filters
-                    // });
-                    return {
-                        draw: d.draw,
-                        start: d.start,
-                        length: d.length,
-                        searchValue: d.search.value  // Add any additional filters
-                    };
-                },
-                dataSrc: function (json) {
-                    return json.data;
-                },
-                error: function (xhr, error, code) {
-                    console.error("Error:", error, code);
-                }
-            },
-            columns: [
-                {
-                    data: 'id',
-                    // title: '№',
-                    // sortable: true,
-                    // searchable: true,
-                    //visible = false
-                },
-                { data: 'debtNumber' },
-                { data: 'debtParentNumber' },
-                { data: 'resolutionNumber' },
-                { data: 'dateBook' },
-                { data: 'dateContractFinish' },
-                { data: 'debtAmountOriginalCcy' },
-                { data: 'currencyName' },
-                { data: 'municipalityName' },
-                { data: 'municipalityCode' },
-                { data: 'statusName' },
-                {
-                    data: "details",
-                    data: function (a) {
-                        return "<a href = '/Debt/Details/" + a.id + "' target=' _parent' class = 'btn btn-info btn-sm' role = 'button'>Преглед</a>"
+
+ <script>
+        $(function () {
+            var table = $('#debtTable').DataTable({
+                ajax: {
+                    "url": "@Url.Action("GetDebtsForDataTable", "Debt")",
+                    "type": "POST",
+                    "datatype": "json",
+                    data: function (d) {
+                        
+                        // // return {
+                        // draw: d.draw,
+                        // start: d.start,
+                        // length: d.length,
+                        // searchValue: d.search.value  // Add any additional filters
+
                     }
+
                 },
-                {
-                    data: "edit",
-                    data: function (a) {
-                        return "<a href = '/Debt/Edit/" + a.id + "' target=' _parent' class = 'btn btn-info btn-sm' role = 'button'>Редактиране</a>"
+                columns: [
+                    // {
+                    //     className: 'col-md-1',
+                    //     name: 'selectionDate',
+                    //     data: 'selectionDate',
+                    //     title: 'Дата',
+                    //     sortable: true,
+                    //     searchable: false,
+                    //     "render": function (value) {
+                    //         if (value)
+                    //             return moment(value).format("DD.MM.YYYY");
+                    //         else
+                    //             return "";
+                    //     }
+                    // },
+                    {
+                        name: 'debtNumber',
+                        data: 'debtNumber',
+                        title: 'Номер на дълг/анекс',
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'debtParentNumber',
+                        data: 'debtParentNumber',
+                        title: 'Към договор№',
+                        sortable: true,
+                        searchable: true
                     }
-                },
+                    // {
+                    //     name: 'selectedLawUnitName',
+                    //     data: 'selectedLawUnitName',
+                    //     title: 'Съдебен състав',
+                    //     sortable: true,
+                    //     searchable: true
+                    // },
+                    // {
+                    //     name: 'selectionProtokolStateName',
+                    //     data: 'selectionProtokolStateName',
+                    //     title: 'Статус',
+                    //     sortable: true,
+                    //     searchable: true
+                    // },
 
-            ],
+                    // {
+                    //     name: 'actions',
+                    //     data: "id",
+                    //     title: "",
+                    //     sortable: false,
+                    //     searchable: false,
+                    //     className: "text-center noExport",
+                    //     "render": function (value) {
+                    //         return TemplateToHtml('#caseSelectionProtokolTemplateEdit', value);
+                    //     }
+                    // }
 
-            // Pagination and ordering settings
-            pageLength: 10, // Show 10 records per page
-            lengthMenu: [10, 25, 50, 100], // Options for records per page
-            order: [[4, 'asc']], // Default ordering by 'dateBook' column (4th)
-            responsive: true, // Enable responsive design
-            language: {
-                search: "Търсене:",
-                lengthMenu: "Показване на _MENU_ реда на страница",
-                info: "Показване на _START_ до _END_ от _TOTAL_ реда",
-                infoEmpty: "Няма данни за показване",
-                infoFiltered: "(филтрирани от _MAX_ общо реда)",
-                paginate: {
-                    next: "Следваща",
-                    previous: "Предишна"
-                }
-            }
-
-
-
+                ]
+            });
         });
-    });
-</script>
-
-
+    </script>
 
 <style>
     .smart-title {

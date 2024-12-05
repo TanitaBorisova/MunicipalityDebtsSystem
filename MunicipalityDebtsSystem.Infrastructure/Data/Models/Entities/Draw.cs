@@ -81,6 +81,7 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
 
         public ICollection<Draw> ChildDraws { get; set; } = null!; // Children
 
-
+        public bool? IsFinished { get; set; }
     }
 }
+

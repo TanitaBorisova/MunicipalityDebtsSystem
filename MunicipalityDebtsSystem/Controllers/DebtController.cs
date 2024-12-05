@@ -46,7 +46,7 @@ namespace MunicipalityDebtsSystem.Controllers
         //[FromQuery] int length,
         //[FromQuery] string searchValue)
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> GetDebtsForDataTable(DataTableRequest model) //
         {
             // Perform the necessary logic to fetch the data

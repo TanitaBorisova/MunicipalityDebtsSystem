@@ -5,6 +5,7 @@ using MunicipalityDebtsSystem.Core.Models.Debt;
 using MunicipalityDebtsSystem.Core.Models.Draw;
 using MunicipalityDebtsSystem.Core.Services;
 using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
+using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using System.Globalization;
 using System.Security.Claims;
 using System.Security.Claims;
@@ -122,5 +123,92 @@ namespace MunicipalityDebtsSystem.Controllers
 
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> AddReal(int id)
+        {
+            string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
+            string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
+
+            AddDrawViewModel model = new AddDrawViewModel();
+
+            model.PlannedDrawDates = await drawService.GetAllPlannedDrawDatesAsync(id);
+            model.MunicipalityName = municipalityName;
+            model.MunicipalityCode = municipalityCode;
+
+            return View(model);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddReal(AddDrawViewModel model, int id)
+        {
+            model.DebtId = id;
+            string userId = User.Id();
+         
+            int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
+            string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
+            string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
+            model.MunicipalityName = municipalityName;
+            model.MunicipalityCode = municipalityCode;
+            //model.DebtParentId = model.DrawParentId;
+           
+            //bool currencyExists = await debtService.CheckCurrencyExistAsync(model.CurrencyId);
+
+
+            //if (!currencyExists)
+            //{
+            //    ModelState.AddModelError(nameof(model.CurrencyId), ValidationConstants.CurrencyNotExist);
+            //}
+
+
+
+
+
+            DateTime dateDraw;
+
+            bool isDateDrawValid = DateTime.TryParseExact(model.DrawDate, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateDraw);
+            if (!isDateDrawValid)
+            {
+                ModelState.AddModelError(nameof(model.DrawDate), ValidationConstants.InvalidDateErrorMessage);
+            }
+
+
+            model.OperationTypeId = (int)OperationType.Draw;
+
+            if (model.OperationTypeId != (int)OperationType.Draw)
+            {
+                ModelState.AddModelError(nameof(model.OperationTypeId), ValidationConstants.OperationTypeIdErrorMessage);
+            }
+
+
+            if (!ModelState.IsValid)
+            {
+             
+                model.PlannedDrawDates = await drawService.GetAllPlannedDrawDatesAsync(id);
+                model.MunicipalityName = municipalityName;
+                model.MunicipalityCode = municipalityCode;
+                return View(model);
+            }
+
+        
+            int drawParentId = Convert.ToInt32(TempData["PlannedDrawId"]);
+            await drawService.AddRealAsync(model, userId, municipalityId, dateDraw, drawParentId);  //userId
+            return RedirectToAction(nameof(Index));
+
+
+
+
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetPlannedDrawInfo(int plannedDrawId)
+        {
+            TempData["PlannedDrawId"] = plannedDrawId;  
+            var plannedDrawInfo = await drawService.GetPlannedDrawInfoByIdAsync(plannedDrawId);
+            return Json(plannedDrawInfo);
+        }
+
+       
     }
 }

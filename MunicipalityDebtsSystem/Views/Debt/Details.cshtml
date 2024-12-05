@@ -14,8 +14,8 @@
     <!-- Navigation Links -->
     <ul class="list-unstyled d-flex justify-content-start gap-4 mb-4">
         <!-- Link to AddPlanned action with DebtId as a parameter -->
-        <li><a href="@Url.Action("AddPlanned", "Draw", new { id = Model.Id })" class="btn btn-link text-primary">Add Planned</a></li>
-        <li><a href="#" class="btn btn-link text-primary">About</a></li>
+        <li><a href="@Url.Action("AddPlanned", "Draw", new { id = Model.Id })" class="btn btn-link text-primary">Планирани усвоявания</a></li>
+        <li><a href="@Url.Action("AddReal", "Draw", new { id = Model.Id })" class="btn btn-link text-primary">Реални усвоявания</a></li>
         <li><a href="#" class="btn btn-link text-primary">Services</a></li>
         <li><a href="#" class="btn btn-link text-primary">Contact</a></li>
     </ul>
@@ -26,6 +26,7 @@
             <div class="card shadow-sm border-0">
                 <div class="card-body">
                     <h5 class="card-title smart-title fs-4">Община: @Model.MunicipalityName: @Model.MunicipalityCode</h5>
+                    <input type="hidden" asp-for="@Model.Id" />
                     <hr />
                     <p class="card-text"><strong>Номер на дълг:</strong> @Model.DebtNumber</p>
                     <p class="card-text"><strong>Решение за поемане на дълг:</strong> @Model.ResolutionNumber</p>

@@ -9,8 +9,8 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
 {
     public class DetailDebtViewModel
     {
-     
-        public int Id { get; set; }  //DebtId
+
+        public int Id { get; set; }   //DebtId
 
         public string DebtNumber { get; set; } = string.Empty;
                

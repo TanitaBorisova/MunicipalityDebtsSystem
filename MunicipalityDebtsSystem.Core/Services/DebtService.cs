@@ -364,19 +364,22 @@ namespace MunicipalityDebtsSystem.Core.Services
                     StatusName = d.CreditStatusType.Name.ToString(),
 
                 })
-               // .Where((searchValue = "") )  //(d => d.DebtNumber.Contains(searchValue))
+                //.Where(d => searchValue != string.Empty ?  d.DebtNumber.Contains(searchValue) )
+                //.Where(x => (searchValue != null ? (x.DateSent != null && x.DateSent.Value.Date <= dateSendTo) : (x.Id == x.Id)))
+               // .Where(x => (searchValue != null ? (x.DebtNumber.Contains(searchValue)) : (x.Id == x.Id)))
                 .OrderBy(d => d.Id)
                 .AsQueryable();
 
+            //|| d.ResolutionNumber.Contains(searchValue) || d.MunicipalityName.Contains(searchValue) || d.MunicipalityCode.Contains(searchValue) || d.CurrencyName.Contains(searchValue) || d.DebtAmountOriginalCcy.Contains(searchValue) || d.DebtAmountOriginalCcy.Contains(searchValue)
 
-            if (!string.IsNullOrEmpty(searchValue))
+          if (!string.IsNullOrEmpty(searchValue))
             {
-                query = query.Where(d => d.DebtNumber.Contains(searchValue) || d.DebtParentNumber.Contains(searchValue) || d.MunicipalityName.Contains(searchValue));
+                query = query.Where(d => d.DebtNumber.Contains(searchValue)|| d.DebtParentNumber.Contains(searchValue) || d.MunicipalityName.Contains(searchValue) || d.ResolutionNumber.Contains(searchValue) || d.MunicipalityName.Contains(searchValue) || d.MunicipalityCode.Contains(searchValue) || d.CurrencyName.Contains(searchValue) || d.DebtAmountOriginalCcy.Contains(searchValue) || d.DebtAmountOriginalCcy.Contains(searchValue)).AsQueryable();
             }
 
             //// Apply sorting (optional, if needed)
             //query = query.OrderBy(d => d.DebtNumber); // Or apply sorting logic based on your requirements
-
+            var p = query;
             // Fetch the data with pagination
             var debts = await query
                 .Skip(pageIndex * pageSize)

@@ -10,14 +10,14 @@
     <h2>@ViewData["Title"]</h2>
 </div>
 <hr />
-
-<div class="row">
+<div class="row card-body">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form asp-action="AddPlanned" asp-controller ="Draw" method="post" enctype="multipart/form-data">
+        <form id="plannedDraws" asp-action="AddPlanned" asp-controller ="Draw" method="post" enctype="multipart/form-data">
            <input type="hidden" asp-for="@Model.DebtId" />
             <input type="hidden" asp-for="@Model.OperationTypeId" />
-            @*  <input type="hidden" asp-for="@Model.UserCreated" /> *@
-           @*  <input type="hidden" asp-for="@Model.DateCreated" /> *@
+            <input type="hidden" asp-for="@Model.MunicipalityName" />
+            <input type="hidden" asp-for="@Model.MunicipalityCode" />
+           
             <div class="row">
                 <div class="col-sm-6 mb-2">
                     <p class="card-text">Община: @Model.MunicipalityName</p>
