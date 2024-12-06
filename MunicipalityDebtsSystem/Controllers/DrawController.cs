@@ -4,6 +4,7 @@ using MunicipalityDebtsSystem.Core.Enums;
 using MunicipalityDebtsSystem.Core.Models.Debt;
 using MunicipalityDebtsSystem.Core.Models.Draw;
 using MunicipalityDebtsSystem.Core.Services;
+using MunicipalityDebtsSystem.Data.Migrations;
 using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using System.Globalization;
@@ -28,15 +29,12 @@ namespace MunicipalityDebtsSystem.Controllers
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
 
             AddPlannedDrawViewModel model = new AddPlannedDrawViewModel();
-
-            //model.Currencies = await debtService.GetAllCurrenciesAsync();
-            //model.CreditTypes = await debtService.GetAllCreditTypesAsync();
-            //model.CreditorTypes = await debtService.GetAllCreditorTypesAsync();
-            //model.DebtTermTypes = await debtService.GetAllDebtTermTypesAsync();
-            //model.DebtPurposeTypes = await debtService.GetAllDebtPurposeTypesAsync();
-            //model.InterestTypes = await debtService.GetAllInterestTypesAsync();
+        
             model.MunicipalityName = municipalityName;
             model.MunicipalityCode = municipalityCode;
+
+            //only for test added
+            var data = await drawService.GetAllPlannedDrawsAsync();
 
             return View(model);
 
@@ -145,7 +143,7 @@ namespace MunicipalityDebtsSystem.Controllers
         {
             model.DebtId = id;
             string userId = User.Id();
-         
+            //To DO - to get it fro user profile
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
             string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
@@ -206,9 +204,26 @@ namespace MunicipalityDebtsSystem.Controllers
         {
             TempData["PlannedDrawId"] = plannedDrawId;  
             var plannedDrawInfo = await drawService.GetPlannedDrawInfoByIdAsync(plannedDrawId);
-            return Json(plannedDrawInfo);
+                return Json(plannedDrawInfo);
         }
 
-       
+        //[HttpGet]
+        //public async Task<IActionResult> GetPlannedDrawsForDataTable() //int id
+        //{
+        //    var data = await drawService.GetAllPlannedDrawsAsync(); //id
+        //    return Json(new { data = data }); 
+
+        //}
+
+        [HttpGet]
+        public async Task<IActionResult> GetPlannedDrawsForDataTable()
+        {
+            //int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
+            var data = await drawService.GetAllPlannedDrawsAsync();  //id
+            return Json(new { data = data });
+
+        }
+
+
     }
 }

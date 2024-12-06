@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using DataTables.AspNet.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MunicipalityDebtsSystem.Core.Contracts;
@@ -31,13 +32,13 @@ namespace MunicipalityDebtsSystem.Controllers
 
             return View();
         }
-        public class DataTableRequest
-        {
-            public int draw { get; set; }
-            public int start { get; set; }
-            public int length { get; set; }
-            public string searchValue { get; set; } = string.Empty;
-        }
+        //public class DataTableRequest
+        //{
+        //    public int draw { get; set; }
+        //    public int start { get; set; }
+        //    public int length { get; set; }
+        //    public string searchValue { get; set; } = string.Empty;
+        //}
 
 
         //public async Task<IActionResult> GetDebtsForDataTable(
@@ -46,24 +47,12 @@ namespace MunicipalityDebtsSystem.Controllers
         //[FromQuery] int length,
         //[FromQuery] string searchValue)
 
-        [HttpPost]
-        public async Task<IActionResult> GetDebtsForDataTable(DataTableRequest model) //
+        [HttpGet]
+        public async Task<IActionResult> GetDebtsForDataTable() 
         {
-            // Perform the necessary logic to fetch the data
-            //var result = await debtService.GetDebtsWithPagingAsync(
-            //    model.start, model.length, model.searchValue
-            //);
+            var data = await this.debtService.GetAllDebtAsync();
+            return Json(new { data = data });
 
-            var result = await debtService.GetDebtsWithPagingAsync(model.start, model.length, model.searchValue);  //0, 10, ""
-
-            // Return the data in the expected DataTable format
-            return Json(new
-            {
-                draw = 1,
-                recordsTotal = result.TotalRecords,
-                recordsFiltered = result.TotalRecords, // You may adjust this based on actual filtering
-                data = result.Debts
-            });
         }
 
 

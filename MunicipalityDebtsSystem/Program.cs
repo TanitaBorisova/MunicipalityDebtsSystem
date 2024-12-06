@@ -6,6 +6,7 @@ using MunicipalityDebtsSystem.Data;
 using MunicipalityDebtsSystem.Extensions.DependancyInjection;
 using MunicipalityDebtsSystem.ModelBinders;
 using MunicipalityDebtsSystem.Infrastructure.Data;
+using DataTables.AspNet.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,8 +30,7 @@ builder.Services.AddControllersWithViews(options =>
     
 
 
-builder.Services.AddApplicationServices();    
-
+builder.Services.AddApplicationServices();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -58,6 +58,14 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapDefaultControllerRoute();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+      name: "areas",
+      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+});
+
 app.MapRazorPages();
 
 await app.RunAsync();

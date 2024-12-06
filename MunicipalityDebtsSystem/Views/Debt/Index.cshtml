@@ -2,69 +2,67 @@
 @{
     ViewData["Title"] = "Списък с дългове";
 }
-
+<link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/lib/data-tables/datatables.min.css" rel="stylesheet" />
 <h1 class="smart-title">@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-lg-12">
+        <table id="debtTable" class="table table-hover table-striped"></table>
+    </div>
+</div>
 
-@* <table id="debtTable" class="display">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Номер на договор/анекс</th>
-            <th>Към договор№</th>
-            <th>Решение №</th>
-            <th>Дата на поемане на дълг</th>
-            <th>Крайна дата на дълг</th>
-            <th>Размер на дълга в оригинална валута</th>
-            <th>Валута</th>
-            <th>Община</th>
-            <th>Код</th>
-            <th>Статус</th>
-            <th></th> 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
- </table> *@
 
 <!-- DataTables JS and jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script> 
-
-
+<script src="~/lib/data-tables/datatables.min.js"></script>
  <script>
+     $.fn.dataTable.ext.buttons.io_colvis = {
+        extend: 'colvis',
+        text: '<i class="eye outline icon"></i>',
+        titleAttr: 'Видими Колони',
+        className: 'ui basic button'
+    };
+    $.fn.dataTable.ext.buttons.io_pageLength = {
+        extend: 'pageLength',
+        className: 'ui basic button'
+    };
+
         $(function () {
-            var table = $('#debtTable').DataTable({
+            $('#debtTable').DataTable({
+                dom: '<"row"<"col-sm-6 dataTables_buttons"B><"col-sm-6"f>>rtip',
+                serverSide:false,
                 ajax: {
                     "url": "@Url.Action("GetDebtsForDataTable", "Debt")",
-                    "type": "POST",
+                                        
+                    "type": "GET",
                     "datatype": "json",
-                    data: function (d) {
+                    // data: function (d) {
                         
-                        // // return {
-                        // draw: d.draw,
-                        // start: d.start,
-                        // length: d.length,
-                        // searchValue: d.search.value  // Add any additional filters
+                    //     // // return {
+                    //     // draw: d.draw,
+                    //     // start: d.start,
+                    //     // length: d.length,
+                    //     // searchValue: d.search.value  // Add any additional filters
 
-                    }
+                    // }
 
                 },
+                // buttons: {                    
+                //     buttons: ['io_pageLength', 'io_colvis']
+                // },
+                // lengthMenu: [
+                //     [10, 25, 50, 100, -1],
+                //     ['10 реда', '25 реда', '50 реда', '100 реда', 'Покажи всички']
+                // ],
+                language: {
+                    url: "/lib/data-tables/dataTables.bgBG.json",
+                    search: "", // Change the default placeholder
+                    searchPlaceholder: "Търсене" // Custom placeholder text
+                },
                 columns: [
-                    // {
-                    //     className: 'col-md-1',
-                    //     name: 'selectionDate',
-                    //     data: 'selectionDate',
-                    //     title: 'Дата',
-                    //     sortable: true,
-                    //     searchable: false,
-                    //     "render": function (value) {
-                    //         if (value)
-                    //             return moment(value).format("DD.MM.YYYY");
-                    //         else
-                    //             return "";
-                    //     }
-                    // },
+                   
+
                     {
                         name: 'debtNumber',
                         data: 'debtNumber',
@@ -78,21 +76,93 @@
                         title: 'Към договор№',
                         sortable: true,
                         searchable: true
-                    }
-                    // {
-                    //     name: 'selectedLawUnitName',
-                    //     data: 'selectedLawUnitName',
-                    //     title: 'Съдебен състав',
-                    //     sortable: true,
-                    //     searchable: true
-                    // },
-                    // {
-                    //     name: 'selectionProtokolStateName',
-                    //     data: 'selectionProtokolStateName',
-                    //     title: 'Статус',
-                    //     sortable: true,
-                    //     searchable: true
-                    // },
+                    },
+                    {
+                        // className: 'col-md-1',
+                        name: 'dateBook',
+                        data: 'dateBook',
+                        title: 'Начална дата на дълг',
+                        sortable: true,
+                        searchable: false,
+                        // "render": function (value) {
+                        //     if (value)
+                        //         return moment(value).format("DD.MM.YYYY");
+                        //     else
+                        //         return "";
+                        // }
+                    },
+                    {
+                        // className: 'col-md-1',
+                        name: 'dateContractFinish',
+                        data: 'dateContractFinish',
+                        title: 'Крайна дата на дълг',
+                        sortable: true,
+                        searchable: false,
+                        // "render": function (value) {
+                        //     if (value)
+                        //         return moment(value).format("DD.MM.YYYY");
+                        //     else
+                        //         return "";
+                        // }
+                    },
+                     {
+                        name: 'municipalityCode',
+                        data: 'municipalityCode',
+                        title: 'Община',
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'municipalityName',
+                        data: 'municipalityName',
+                        title: 'Община',
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'debtAmountOriginalCcy',
+                        data: 'debtAmountOriginalCcy',
+                        title: 'Размер на дълга в оригинална валута',
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'currencyName',
+                        data: 'currencyName',
+                        title: 'Валута',
+                        sortable: true,
+                        searchable: true
+                    },
+                     {
+                        name: 'statusName',
+                        data: 'statusName',
+                        title: 'Статус',
+                        sortable: true,
+                        searchable: true
+                    },
+                    
+                    {
+                         name: 'actions',
+                         data: 'id',
+                         title: '',
+                         sortable: false,
+                         searchable: false,
+                         className: "text-right",
+                         render: function (data, type, row, meta) {
+                             return '<a href="Debt/Details/' + row.id + '" class="btn btn-primary" title="Преглед"><i class="fa fa-info-circle"></i></a>';
+                         }
+                    },
+                    {
+                         name: 'actions',
+                         data: 'id',
+                         title: '',
+                         sortable: false,
+                         searchable: false,
+                         className: "text-right",
+                         render: function (data, type, row, meta) {
+                             return '<a href="Debt/Edit/' + row.id + '" class="btn btn-warning" title="Редакция"><i class="fa fa-info-circle"></i></a>';
+                         }
+                    },
 
                     // {
                     //     name: 'actions',

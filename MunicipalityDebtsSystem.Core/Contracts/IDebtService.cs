@@ -1,4 +1,5 @@
 ﻿using MunicipalityDebtsSystem.Core.Models.Debt;
+using MunicipalityDebtsSystem.Core.Models.Draw;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
 using System;
@@ -12,11 +13,13 @@ namespace MunicipalityDebtsSystem.Core.Contracts
     public interface IDebtService
     {
 
-        //Task<IEnumerable<DebtListViewModel>> GetAllDebtAsync();
+        Task<IEnumerable<DebtListViewModel>> GetAllDebtAsync();
         // Task<(IEnumerable<DebtListViewModel> debts, int totalRecords)> GetDebtsWithPagingAsync(int start, int length, string searchValue, string orderBy, string orderDir);
-       // Task<List<Currency>> GetAllCurrenciesAsync();
+        // Task<List<Currency>> GetAllCurrenciesAsync();
         //Task<(IEnumerable<DebtListViewModel> debts, int totalRecords, int filteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize, string searchValue);
         //Task<(IEnumerable<DebtListViewModel> debts, int totalRecords)> GetDebtsWithPagingAsync();
+
+        //Task<IEnumerable<PlannedDrawListViewModel>> GetAllPlannedDrawsAsync(int id);
 
         Task<(List<DebtListViewModel> Debts, int TotalRecords, int FilteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize, string searchValue);
 

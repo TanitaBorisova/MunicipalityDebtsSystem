@@ -69,7 +69,7 @@ namespace MunicipalityDebtsSystem.Core.Services
 
         }
 
-        public async Task<List<PlannedDrawDateViewModel>> GetAllPlannedDrawDatesAsync(int debtId)
+        public async Task<List<PlannedDrawDateViewModel>> GetAllPlannedDrawDatesAsync(int debtId) //int debtId
         {
             return await repository.AllReadOnly<Draw>()
                 .Where(d=> d.OperationTypeId == (int)OperationType.PlannedDraw && d.DebtId == debtId)
@@ -85,6 +85,27 @@ namespace MunicipalityDebtsSystem.Core.Services
         {
             var entity = await repository.GetByIdAsync<Draw>(id);
             return entity;
+        }
+
+        public async Task<IEnumerable<PlannedDrawListViewModel>> GetAllPlannedDrawsAsync()  //int id
+        {
+            var model = await repository.AllReadOnly<Draw>()
+                .Where(d => d.IsDeleted == false && d.OperationTypeId == (int)OperationType.PlannedDraw)  //&& d.Debt.Id == id
+                .Include(d => d.Debt)
+                .ThenInclude(d => d.Currency)
+                     
+                .Select(d => new PlannedDrawListViewModel
+                {
+                    // //= d.DebtId,
+                    ////DrawId = d.
+                    DrawDate = d.DrawDate.ToString(ValidationConstants.DateFormat),
+                    DrawAmount = d.DrawAmount
+
+                }).ToListAsync();
+
+
+            return model;
+
         }
 
     }

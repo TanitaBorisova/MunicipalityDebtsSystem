@@ -298,40 +298,41 @@ namespace MunicipalityDebtsSystem.Core.Services
             return model;
         }
 
-        //public async Task<IEnumerable<DebtListViewModel>> GetAllDebtAsync()
-        //{
-        //    var model = await repository.AllReadOnly<Debt>()
-        //        .Where(d => d.IsDeleted == false)
-        //        .Include(d => d.Currency)
-        //        .Include(d => d.CreditType)
-        //        .Include(d => d.CreditorType)
-        //        .Include(d => d.DebtType)
-        //        .Include(d => d.DebtPurposeType)
-        //        .Include(d => d.InterestType)
-        //        .Include (d => d.CreditStatusType)
-        //        .Select(d => new DebtListViewModel
-        //        {
-        //            Id = d.Id,
-        //            //DebtParentId = d.DebtParentId,
-        //            DebtParentNumber = d.ParentDebt.DebtNumber,
-        //            DebtNumber = d.DebtNumber,
-        //            ResolutionNumber = d.ResolutionNumber,
-        //            DateBook = d.DateBook.ToString(ValidationConstants.DateFormat),
-        //            DateContractFinish = d.DateContractFinish.ToString(ValidationConstants.DateFormat),
-                
-        //            CurrencyName = d.Currency.CurrencyCode,
-        //            DebtAmountOriginalCcy = d.DebtAmountOriginalCcy.ToString(),
-      
-        //            MunicipalityName = d.Municipality.Name.ToString(),
-        //            MunicipalityCode = d.Municipality.MunicipalCode.ToString(),
-        //            StatusName = d.CreditStatusType.Name.ToString(),    
-                   
-        //        }).ToListAsync();
+        public async Task<IEnumerable<DebtListViewModel>> GetAllDebtAsync()
+        {
+            var model = await repository.AllReadOnly<Debt>()
+                .Where(d => d.IsDeleted == false)
+                .Include(d => d.Currency)
+                //.Include(d => d.CreditType)
+                //.Include(d => d.CreditorType)
+                //.Include(d => d.DebtType)
+                //.Include(d => d.DebtPurposeType)
+                //.Include(d => d.InterestType)
+                .Include(d => d.CreditStatusType)
+                .Select(d => new DebtListViewModel
+                {
+                    Id = d.Id,
+                    //DebtParentId = d.DebtParentId,
+                    DebtParentNumber = d.ParentDebt.DebtNumber,
+                    DebtNumber = d.DebtNumber,
+                    ResolutionNumber = d.ResolutionNumber,
+                    DateBook = d.DateBook.ToString(ValidationConstants.DateFormat),
+                    DateContractFinish = d.DateContractFinish.ToString(ValidationConstants.DateFormat),
 
-            
-        //    return model;
-           
-        //}
+                    CurrencyName = d.Currency.CurrencyCode,
+                    DebtAmountOriginalCcy = d.DebtAmountOriginalCcy.ToString(),
+
+                    MunicipalityName = d.Municipality.Name,
+                    MunicipalityCode = d.Municipality.MunicipalCode,
+                    StatusName = d.CreditStatusType.Name,
+
+                }).ToListAsync();
+
+
+            return model;
+
+        }
+       
         public async Task<(List<DebtListViewModel> Debts, int TotalRecords, int FilteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize, string searchValue)
         //public async Task<(List<DebtListViewModel> Debts, int TotalRecords, int FilteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize)
         {
