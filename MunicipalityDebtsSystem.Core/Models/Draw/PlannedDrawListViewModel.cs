@@ -9,7 +9,7 @@ namespace MunicipalityDebtsSystem.Core.Models.Draw
 {
     public class PlannedDrawListViewModel
     {
-        //public int DebtId { get; set; }
+        public int DebtId { get; set; }
 
         //public int? DrawParentId { get; set; }
 

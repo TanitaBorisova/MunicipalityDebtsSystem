@@ -23,18 +23,18 @@ namespace MunicipalityDebtsSystem.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddPlanned()
+        public async Task<IActionResult> AddPlanned(int id)
         {
             string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
-
+            
             AddPlannedDrawViewModel model = new AddPlannedDrawViewModel();
-        
+            model.DebtId = id;
             model.MunicipalityName = municipalityName;
             model.MunicipalityCode = municipalityCode;
 
             //only for test added
-            var data = await drawService.GetAllPlannedDrawsAsync();
+           // var data = await drawService.GetAllPlannedDrawsAsync();
 
             return View(model);
 
@@ -216,10 +216,10 @@ namespace MunicipalityDebtsSystem.Controllers
         //}
 
         [HttpGet]
-        public async Task<IActionResult> GetPlannedDrawsForDataTable()
+        public async Task<IActionResult> GetPlannedDrawsForDataTable(int id)  //int id
         {
-            //int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
-            var data = await drawService.GetAllPlannedDrawsAsync();  //id
+            
+            var data = await drawService.GetAllPlannedDrawsAsync(id);  //id
             return Json(new { data = data });
 
         }

@@ -87,10 +87,10 @@ namespace MunicipalityDebtsSystem.Core.Services
             return entity;
         }
 
-        public async Task<IEnumerable<PlannedDrawListViewModel>> GetAllPlannedDrawsAsync()  //int id
+        public async Task<IEnumerable<PlannedDrawListViewModel>> GetAllPlannedDrawsAsync(int id)  //int id
         {
             var model = await repository.AllReadOnly<Draw>()
-                .Where(d => d.IsDeleted == false && d.OperationTypeId == (int)OperationType.PlannedDraw)  //&& d.Debt.Id == id
+                .Where(d => d.IsDeleted == false && d.OperationTypeId == (int)OperationType.PlannedDraw && d.Debt.Id == id)  //&& d.Debt.Id == id
                 .Include(d => d.Debt)
                 .ThenInclude(d => d.Currency)
                      

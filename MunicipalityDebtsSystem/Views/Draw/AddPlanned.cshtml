@@ -19,7 +19,7 @@
 <div class="row card-body">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
         <form id="plannedDraws" asp-action="AddPlanned" asp-controller ="Draw" method="post" enctype="multipart/form-data">
-           <input type="hidden" asp-for="@Model.DebtId" />
+            <input type="hidden" asp-for="@Model.DebtId" />
             <input type="hidden" asp-for="@Model.OperationTypeId" />
             <input type="hidden" asp-for="@Model.MunicipalityName" />
             <input type="hidden" asp-for="@Model.MunicipalityCode" />
@@ -82,23 +82,23 @@
     };
 
         $(function () {
+            var debtId = @Model.DebtId; 
             $('#drawTable').DataTable({
                 dom: '<"row"<"col-sm-6 dataTables_buttons"B><"col-sm-6"f>>rtip',
                 serverSide:false,
                 ajax: {
                     "url": "@Url.Action("GetPlannedDrawsForDataTable", "Draw")",
                     "type": "GET",
-                    "datatype": "json"
-                    // data: function (d) {
-
-                    //      // d.debtId = id;
-
-                    // }
+                    "datatype": "json",
+                    "data" : function(d){
+                        d.id = debtId;
+                    }
+                    
 
                 },
                
                 language: {
-                    url: "/lib/data-tables/dataTables.bgBG.json",
+                    url: "/lib/data-tables/dataTables.bgBG.json", 
                     search: "", // Change the default placeholder
                     searchPlaceholder: "Търсене" // Custom placeholder text
                 },
@@ -119,60 +119,7 @@
                         sortable: true,
                         searchable: true
                     },
-                    // {
-                    //     // className: 'col-md-1',
-                    //     name: 'dateBook',
-                    //     data: 'dateBook',
-                    //     title: 'Начална дата на дълг',
-                    //     sortable: true,
-                    //     searchable: false,
-                        
-                    // },
-                    // {
-                    //     // className: 'col-md-1',
-                    //     name: 'dateContractFinish',
-                    //     data: 'dateContractFinish',
-                    //     title: 'Крайна дата на дълг',
-                    //     sortable: true,
-                    //     searchable: false,
-                        
-                    // },
-                    //  {
-                    //     name: 'municipalityCode',
-                    //     data: 'municipalityCode',
-                    //     title: 'Община',
-                    //     sortable: true,
-                    //     searchable: true
-                    // },
-                    // {
-                    //     name: 'municipalityName',
-                    //     data: 'municipalityName',
-                    //     title: 'Община',
-                    //     sortable: true,
-                    //     searchable: true
-                    // },
-                    // {
-                    //     name: 'debtAmountOriginalCcy',
-                    //     data: 'debtAmountOriginalCcy',
-                    //     title: 'Размер на дълга в оригинална валута',
-                    //     sortable: true,
-                    //     searchable: true
-                    // },
-                    // {
-                    //     name: 'currencyName',
-                    //     data: 'currencyName',
-                    //     title: 'Валута',
-                    //     sortable: true,
-                    //     searchable: true
-                    // },
-                    //  {
-                    //     name: 'statusName',
-                    //     data: 'statusName',
-                    //     title: 'Статус',
-                    //     sortable: true,
-                    //     searchable: true
-                    // },
-
+                   
                     // {
                     //      name: 'actions',
                     //      data: 'id',
@@ -200,3 +147,6 @@
             });
         });
     </script>
+
+
+    
