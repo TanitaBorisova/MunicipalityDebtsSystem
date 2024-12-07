@@ -86,6 +86,7 @@
 
         $(function () {
             var debtId = @Model.DebtId; 
+            
             $('#drawTable').DataTable({
                 dom: '<"row"<"col-sm-6 dataTables_buttons"B><"col-sm-6"f>>rtip',
                 serverSide:false,
@@ -94,7 +95,8 @@
                     "type": "GET",
                     "datatype": "json",
                     "data" : function(d){
-                        d.id = debtId;
+                        d.id = debtId
+                       
                     }
                     
 
@@ -122,7 +124,39 @@
                         sortable: true,
                         searchable: true
                     },
-                   
+                    {
+                data: 'drawId', // This is where drawId comes from
+                title: 'Действия',
+                render: function (data, type, row) {
+                    return `
+                        <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
+                    `;
+                }
+            }
+
+            //          {
+            //     data: 'drawId',
+            //     title: 'Действия',
+            //     render: function (data, type, row) {
+            //         return `
+            //             <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
+            //         `;
+            //     }
+            // }
+                    // {
+                    //     name: 'actions',
+                    //     data: 'drawId',  //id
+                    //     title: 'Действия',
+                    //     sortable: false,
+                    //     searchable: false,
+                    //     className: "text-center",
+                    //     render: function (data, type, row) {
+                    //          return '<button class="btn btn-danger delete-btn" data-id="' + data.drawId + '" title="Изтрий"><i class="fa fa-trash"></i> Изтрий</button>';
+                    //          //return '<button class="btn btn-danger delete-btn" data-id="' + row.drawId + '" title="Изтрий"><i class="fa fa-trash"></i> Изтрий</button>';
+                    //     }
+                    // }
+
+
                     // {
                     //      name: 'actions',
                     //      data: 'id',
@@ -149,6 +183,32 @@
                 ]
             });
         });
+    </script>
+    <script>
+
+        $('#drawTable').on('click', '.delete-btn', function () {
+         var drawId = 14//$(this).data('drawId');  // Get the ID of the record to delete  - was id
+         
+        
+    if (confirm('Сигурни ли сте, че искате да изтриете този запис?')) {
+        $.ajax({
+            url: '@Url.Action("DeletePlannedDraw", "Draw")',  // Action to handle deletion
+            type: 'POST',
+            data: { id: 14 },  // Pass the ID to delete
+            success: function (result) {
+                if (result.success) {
+                    alert('Записът беше успешно изтрит!');
+                    $('#drawTable').DataTable().ajax.reload();  // Reload the table after deletion
+                } else {
+                    alert(result.message);  // Show the message from the server
+                }
+            },
+            error: function () {
+                alert('Грешка при комуникация със сървъра!');
+            }
+        });
+    }
+});
     </script>
     <style>
     .smart-title {
@@ -206,6 +266,25 @@
     .btn-sm {
         padding: 5px 10px;
     }
+
+    .delete-btn {
+    background-color: #f44336;  /* Red */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 3px;
+    }
+
+    .delete-btn:hover {
+        background-color: #d32f2f;
+    }
+
+    .delete-btn i {
+        margin-right: 5px;
+    }
+
     </style>
 
      <div class="text-center">

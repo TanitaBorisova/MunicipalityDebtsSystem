@@ -13,7 +13,7 @@ namespace MunicipalityDebtsSystem.Core.Models.Draw
 
         //public int? DrawParentId { get; set; }
 
-               
+        public int DrawId { get; set; }
         public string DrawDate { get; set; } = string.Empty;
 
         public decimal DrawAmount { get; set; }

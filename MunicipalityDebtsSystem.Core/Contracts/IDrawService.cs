@@ -21,9 +21,10 @@ namespace MunicipalityDebtsSystem.Core.Contracts
         Task<IEnumerable<PlannedDrawListViewModel>> GetAllPlannedDrawsAsync(int id);
 
         //Task<IEnumerable<PlannedDrawListViewModel>> GetAllPlannedDrawsAsync();
+        Task<Draw> GetDrawEntityByIdAsync(int id);
 
+        Task<bool> PlannedDrawHasChildsAsync(int id);
 
-
-
+        Task RemoveDraw(int id);
     }
 }

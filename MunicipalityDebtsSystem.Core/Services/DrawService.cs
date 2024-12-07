@@ -97,7 +97,7 @@ namespace MunicipalityDebtsSystem.Core.Services
                 .Select(d => new PlannedDrawListViewModel
                 {
                     // //= d.DebtId,
-                    ////DrawId = d.
+                    DrawId = d.Id,
                     DrawDate = d.DrawDate.ToString(ValidationConstants.DateFormat),
                     DrawAmount = d.DrawAmount
 
@@ -108,5 +108,28 @@ namespace MunicipalityDebtsSystem.Core.Services
 
         }
 
+        public async Task<Draw> GetDrawEntityByIdAsync(int id)
+        {
+            return await repository.GetByIdAsync<Draw>(id);
+ 
+               
+        }
+
+        public async Task<bool> PlannedDrawHasChildsAsync(int id)
+        {
+           
+            bool hasChildDraws = await repository.AllReadOnly<Draw>()
+                   .AnyAsync(d => d.DrawParentId == id);  
+            return hasChildDraws;   
+        }
+
+
+        public async Task RemoveDraw(int id)
+        {
+          await repository.DeleteAsync<Draw>(id);
+          
+        }
+
+                         
     }
 }
