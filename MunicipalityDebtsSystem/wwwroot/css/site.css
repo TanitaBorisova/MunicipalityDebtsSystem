@@ -20,3 +20,58 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.smart-title {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #4A90E2;
+    background: linear-gradient(135deg, #4A90E2, #5C6BC0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+table.dataTable {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+}
+
+    table.dataTable th,
+    table.dataTable td {
+        text-align: left;
+        padding: 8px;
+    }
+
+    table.dataTable th {
+        background-color: #f1f1f1;
+        font-weight: bold;
+    }
+
+    table.dataTable tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+.btn {
+    font-size: 12px;
+    padding: 6px 12px;
+    margin-right: 5px;
+    text-align: center;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-sm {
+    padding: 5px 10px;
+}
