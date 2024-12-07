@@ -1,4 +1,5 @@
 ﻿@using MunicipalityDebtsSystem.Core.Models.Draw
+@using MunicipalityDebtsSystem.Core.Models.Debt
 @model AddPlannedDrawViewModel;
 
 
@@ -6,32 +7,32 @@
 <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 <link href="~/lib/data-tables/datatables.min.css" rel="stylesheet" />
 @{
-    ViewData["Title"] = "Ново планирано плащане";
+    ViewData["Title"] = "Планирани плащания";
+    ViewData["NewPlannedDraw"] = "Ново плащане";
     var today = DateTime.Now.ToString("dd.MM.yyyy");//"dd-MM-yyyy" //"dd/MM/yyyy"
 }
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="~/lib/data-tables/datatables.min.js"></script>
 
-<div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
+<div class="smart-title">
     <h2>@ViewData["Title"]</h2>
 </div>
 <hr />
+<partial name="_DebtInfo" model="Model.DebtPartialInfo" />
+<hr />
+<div class="smart-title">
+    <h4>@ViewData["NewPlannedDraw"]</h4>
+</div>
 <div class="row card-body">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
         <form id="plannedDraws" asp-action="AddPlanned" asp-controller ="Draw" method="post" enctype="multipart/form-data">
             <input type="hidden" asp-for="@Model.DebtId" />
             <input type="hidden" asp-for="@Model.OperationTypeId" />
-            <input type="hidden" asp-for="@Model.MunicipalityName" />
-            <input type="hidden" asp-for="@Model.MunicipalityCode" />
+            @* <input type="hidden" asp-for="@Model.MunicipalityName" />
+            <input type="hidden" asp-for="@Model.MunicipalityCode" /> *@
            
             <div class="row">
-                <div class="col-sm-6 mb-2">
-                    <p class="card-text">Община: @Model.MunicipalityName</p>
-                </div>
-                <div class="col-sm-6 mb-2">
-                    <p class="card-text">Код: @Model.MunicipalityCode</p>
-                </div>
-                
+                              
                 <div class="col-sm-6 mb-2">
                     <label asp-for="@Model.DrawDate" class="form-label-add-edit">Дата на планирано усвояване:</label>
                     <input asp-for="@Model.DrawDate" class="form-control" aria-required="true" value="@(string.IsNullOrEmpty(Model.DrawDate) ? today : Model.DrawDate)" /> @* value="@(string.IsNullOrEmpty(Model.DateBook) ? today : Model.DateBook)" *@
@@ -60,12 +61,14 @@
         </form>
     </div>
 </div>
-
+<hr />
 <div class="row">
     <div class="col-lg-12">
         <table id="drawTable" class="table table-hover table-striped"></table>
     </div>
 </div>
+
+
 <!-- DataTables JS and jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="~/lib/data-tables/datatables.min.js"></script>
@@ -147,6 +150,64 @@
             });
         });
     </script>
+    <style>
+    .smart-title {
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #4A90E2;
+        background: linear-gradient(135deg, #4A90E2, #5C6BC0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
+        display: inline-block;
+        padding-bottom: 5px;
+    }
 
 
-    
+    table.dataTable {
+        width: 100%;
+        margin: 20px 0;
+        border-collapse: collapse;
+    }
+
+        table.dataTable th,
+        table.dataTable td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        table.dataTable th {
+            background-color: #f1f1f1;
+            font-weight: bold;
+        }
+
+        table.dataTable tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+    .btn {
+        font-size: 12px;
+        padding: 6px 12px;
+        margin-right: 5px;
+        text-align: center;
+    }
+
+    .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
+
+    .btn-sm {
+        padding: 5px 10px;
+    }
+    </style>
+
+     <div class="text-center">
+        <button class="btn btn-primary btn-lg" onclick="window.history.back()">Назад</button>
+    </div>

@@ -48,11 +48,13 @@ namespace MunicipalityDebtsSystem.Core.Models.Draw
         public int PlannedDrawId { get; set; }
 
 
-        public string MunicipalityCode { get; set; } = string.Empty;
+        //public string MunicipalityCode { get; set; } = string.Empty;
 
         
-        public string MunicipalityName { get; set; } = string.Empty;
+        //public string MunicipalityName { get; set; } = string.Empty;
 
         public List<PlannedDrawDateViewModel> PlannedDrawDates { get; set; } = new List<PlannedDrawDateViewModel>();
+
+        public DebtPartialInfoViewModel DebtPartialInfo { get; set; } = null!;
     }
 }

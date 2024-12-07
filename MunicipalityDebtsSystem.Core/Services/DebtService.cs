@@ -458,6 +458,50 @@ namespace MunicipalityDebtsSystem.Core.Services
 
         }
 
+        //public async Task<DebtPartialInfoViewModel> GetDebtInfoForPartial()
+        //{
+        ////    return await repository.AllReadOnly<Currency>()
 
+        ////        .Select(c => new CurrencyViewModel
+        ////        {
+        ////            Id = c.Id,
+        ////            Name = c.Name
+        ////        }).ToListAsync();
+        //}
+
+        public async Task<decimal> ReturnSumOfOperationType(int operType, int debtId)
+        {
+            decimal result;
+            switch (operType)
+            {
+                case 1:
+                    result = await repository.AllReadOnly<Payment>()
+                         .Where(p => p.DebtId == debtId && p.IsDeleted == false && p.OperationTypeId == operType)
+                          .SumAsync(p => (decimal?)p.PaymentAmount ?? 0);
+                    break;
+                case 2:
+                    result = await repository.AllReadOnly<Payment>()
+                           .Where(p => p.DebtId == debtId && p.IsDeleted == false && p.OperationTypeId == operType)
+                            .SumAsync(p => (decimal?)p.PaymentAmount ?? 0);
+                    break;
+                case 3:
+                    result = await repository.AllReadOnly<Draw>()
+                          .Where(d => d.DebtId == debtId && d.IsDeleted == false && d.OperationTypeId == operType)
+                           .SumAsync(d => (decimal?)d.DrawAmount ?? 0);
+                    break;
+                case 4:
+                    result = await repository.AllReadOnly<Draw>()
+                          .Where(d => d.DebtId == debtId && d.IsDeleted == false && d.OperationTypeId == operType)
+                           .SumAsync(d => (decimal?)d.DrawAmount ?? 0);
+                    break;
+               
+                default:
+                    result = 0;
+                    break;
+            }
+
+            return result;
+           
+        }
     }
 }

@@ -1,0 +1,124 @@
+﻿@* @using MunicipalityDebtsSystem.Core.Models.Debt;
+@model DebtPartialInfoViewModel;
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-body">
+                    <h5 class="card-title text-center text-primary mb-4">Информация за дълг №@Model.DebtNumber/@Model.BookDate</h5>
+
+                    <!-- Municipality Information -->
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <p class="card-text"><strong>Община:</strong> <span class="text-info">@Model.MunicipalityName</span></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="card-text"><strong>Код на общината:</strong> <span class="text-success">@Model.MunicipalityCode</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Debt and Payments Information -->
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <p class="card-text"><strong>Сума на планираните усвоявания:</strong> <span class="text-warning">@Model.PlannedDraws @Model.CurrencyName</span></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="card-text"><strong>Сума на реалните усвоявания:</strong> <span class="text-danger">@Model.Draws @Model.CurrencyName</span></p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <p class="card-text"><strong>Сума на планираните плащания:</strong> <span class="text-info">@Model.PlannedPayments @Model.CurrencyName</span></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="card-text"><strong>Сума на реалните плащания:</strong> <span class="text-danger">@Model.Payments @Model.CurrencyName</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Debt Remaining Information -->
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <p class="card-text"><strong>Планиран остатъчен размер на дълга:</strong> <span class="text-primary">@Model.PlannedRemainDebt @Model.CurrencyName</span></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="card-text"><strong>Реален остатъчен размер на дълга:</strong> <span class="text-muted">@Model.RealRemainDebt @Model.CurrencyName</span></p>
+                        </div>
+                    </div>
+
+                    
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div> *@
+
+@using MunicipalityDebtsSystem.Core.Models.Debt;
+@model DebtPartialInfoViewModel
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-body">
+                    
+                    <!-- Title: Debt Information -->
+                    <h5 class="card-title text-center text-warning mb-4 custom-title">
+                        Информация за дълг №@Model.DebtNumber/@Model.BookDate
+                    </h5>
+
+                    <!-- Municipality Information with Special Styling -->
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <p class="card-text text-secondary">
+                                <strong>Община:</strong>
+                                <span class="municipality-name text-success"><strong>@Model.MunicipalityName</strong></span>
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="card-text text-secondary ">
+                                <strong>Код на общината:</strong>
+                                <span class="municipality-code text-success"><strong>@Model.MunicipalityCode</strong></span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Debt and Payments Information -->
+                    <div class="row mb-3">
+                        <div class="col-sm-6 text-secondary">
+                            <p class="card-text"><strong>Сума на планираните усвоявания:</strong> <span class="text-warning">@Model.PlannedDraws @Model.CurrencyName</span></p>
+                        </div>
+                        <div class="col-sm-6 text-secondary">
+                            <p class="card-text"><strong>Сума на реалните усвоявания:</strong> <span class="text-danger">@Model.Draws @Model.CurrencyName</span></p>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-6 text-secondary">
+                            <p class="card-text"><strong>Сума на планираните плащания:</strong> <span class="text-info">@Model.PlannedPayments @Model.CurrencyName</span></p>
+                        </div>
+                        <div class="col-sm-6 text-secondary">
+                            <p class="card-text"><strong>Сума на реалните плащания:</strong> <span class="text-danger">@Model.Payments @Model.CurrencyName</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Debt Remaining Information -->
+                    <div class="row mb-3">
+                        <div class="col-sm-6 text-secondary">
+                            <p class="card-text"><strong>Планиран остатъчен размер на дълга:</strong> <span class="text-primary">@Model.PlannedRemainDebt @Model.CurrencyName</span></p>
+                        </div>
+                        <div class="col-sm-6 text-secondary">
+                            <p class="card-text"><strong>Реален остатъчен размер на дълга:</strong> <span class="text-muted">@Model.RealRemainDebt @Model.CurrencyName</span></p>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

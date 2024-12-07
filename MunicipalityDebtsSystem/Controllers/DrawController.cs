@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MunicipalityDebtsSystem.Core.Contracts;
 using MunicipalityDebtsSystem.Core.Enums;
-using MunicipalityDebtsSystem.Core.Models.Debt;
 using MunicipalityDebtsSystem.Core.Models.Draw;
-using MunicipalityDebtsSystem.Core.Services;
-using MunicipalityDebtsSystem.Data.Migrations;
 using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
-using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using System.Globalization;
-using System.Security.Claims;
 using System.Security.Claims;
 using static MunicipalityDebtsSystem.Infrastructure.Data.Constants.CustomClaims;
 namespace MunicipalityDebtsSystem.Controllers
@@ -16,25 +11,38 @@ namespace MunicipalityDebtsSystem.Controllers
     public class DrawController : BaseController
     {
         private readonly IDrawService drawService;
+        private readonly IDebtService debtService;
 
-        public DrawController(IDrawService _drawService)
+        public DrawController(IDrawService _drawService, IDebtService _debtService)
         {
-            drawService = _drawService;   
+            drawService = _drawService;
+            debtService = _debtService;
         }
 
         [HttpGet]
         public async Task<IActionResult> AddPlanned(int id)
         {
+            var debt = await debtService.GetDebtByIdAsync(id);
+            if (debt == null)
+            {
+                throw new ArgumentNullException("The debt does not exist");
+            }
+
             string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
             
             AddPlannedDrawViewModel model = new AddPlannedDrawViewModel();
             model.DebtId = id;
-            model.MunicipalityName = municipalityName;
-            model.MunicipalityCode = municipalityCode;
+            model.DebtPartialInfo.Payments = await debtService.ReturnSumOfOperationType((int)OperationType.Payment, id);
+            model.DebtPartialInfo.PlannedPayments = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedPayment, id);
+            model.DebtPartialInfo.Draws = await debtService.ReturnSumOfOperationType((int)OperationType.Draw, id);
+            model.DebtPartialInfo.PlannedDraws = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedDraw, id);
 
-            //only for test added
-           // var data = await drawService.GetAllPlannedDrawsAsync();
+            model.DebtPartialInfo.MunicipalityName = municipalityName;
+            model.DebtPartialInfo.MunicipalityCode = municipalityCode;
+            model.DebtPartialInfo.CurrencyName = debt.CurrencyName;
+            model.DebtPartialInfo.DebtNumber = debt.DebtNumber;
+            model.DebtPartialInfo.BookDate = debt.DateBook;
 
             return View(model);
 
@@ -43,6 +51,12 @@ namespace MunicipalityDebtsSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPlanned(AddPlannedDrawViewModel model, int id)
         {
+            var debt = await debtService.GetDebtByIdAsync(id);
+            if (debt == null)
+            {
+                throw new ArgumentNullException("The debt does not exist");
+            }
+
             model.DebtId = id;
             string userId = User.Id();
             //To DO - to get it fro user profile
@@ -50,25 +64,20 @@ namespace MunicipalityDebtsSystem.Controllers
             string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
 
-            //bool currencyExists = await debtService.CheckCurrencyExistAsync(model.CurrencyId);
-           
+            //////////////////////////////////////////////////////////
+            ///model.DebtId = id;
+            model.DebtPartialInfo.Payments = await debtService.ReturnSumOfOperationType((int)OperationType.Payment, id);
+            model.DebtPartialInfo.PlannedPayments = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedPayment, id);
+            model.DebtPartialInfo.Draws = await debtService.ReturnSumOfOperationType((int)OperationType.Draw, id);
+            model.DebtPartialInfo.PlannedDraws = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedDraw, id);
 
-            //if (!currencyExists)
-            //{
-            //    ModelState.AddModelError(nameof(model.CurrencyId), ValidationConstants.CurrencyNotExist);
-            //}
-
-            
-
-
-            //DateTime dateContractFinish;
-            //string strDateContractFinish = model.DateContractFinish.ToString(ValidationConstants.DateFormat);
-            //bool isDateContractFinishValid = DateTime.TryParseExact(strDateContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateContractFinish);
-            //if (!isDateContractFinishValid)
-            //{
-            //    ModelState.AddModelError(nameof(model.DateContractFinish), ValidationConstants.InvalidDateErrorMessage);
-            //}
-
+            model.DebtPartialInfo.MunicipalityName = municipalityName;
+            model.DebtPartialInfo.MunicipalityCode = municipalityCode;
+            model.DebtPartialInfo.CurrencyName = debt.CurrencyName;
+            model.DebtPartialInfo.DebtNumber = debt.DebtNumber;
+            model.DebtPartialInfo.BookDate = debt.DateBook;
+            ///////////////////////////////////////////////////////////////////////////
+                        
             DateTime datePlannedDraw;
 
             bool isDatePlannedDrawValid = DateTime.TryParseExact(model.DrawDate, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out datePlannedDraw);
@@ -77,13 +86,6 @@ namespace MunicipalityDebtsSystem.Controllers
                 ModelState.AddModelError(nameof(model.DrawDate), ValidationConstants.InvalidDateErrorMessage);
             }
 
-            //DateTime dateRealContractFinish;
-            //string strDateRealContractFinish = model.DateRealFinish.ToString(ValidationConstants.DateFormat);
-            //bool isDateRealContractFinishValid = DateTime.TryParseExact(strDateRealContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateRealContractFinish);
-            //if (!isDateContractFinishValid)
-            //{
-            //    ModelState.AddModelError(nameof(model.DateRealContractFinish), ValidationConstants.InvalidDateErrorMessage);
-            //}
 
             model.OperationTypeId = (int)OperationType.PlannedDraw;
 
@@ -95,30 +97,13 @@ namespace MunicipalityDebtsSystem.Controllers
 
             if (!ModelState.IsValid)
             {
-                //model.Currencies = await debtService.GetAllCurrenciesAsync();
-                //model.CreditTypes = await debtService.GetAllCreditTypesAsync();
-                //model.CreditorTypes = await debtService.GetAllCreditorTypesAsync();
-                //model.DebtTermTypes = await debtService.GetAllDebtTermTypesAsync();
-                //model.DebtPurposeTypes = await debtService.GetAllDebtPurposeTypesAsync();
-                //model.InterestTypes = await debtService.GetAllInterestTypesAsync();
-                model.MunicipalityName = municipalityName;
-                model.MunicipalityCode = municipalityCode;
+               //reload partial
+               //reload dataTable???
                 return View(model);
             }
 
-            //model.Currencies = await debtService.GetAllCurrenciesAsync();
-            //model.CreditTypes = await debtService.GetAllCreditTypesAsync();
-            //model.CreditorTypes = await debtService.GetAllCreditorTypesAsync();
-            //model.DebtTermTypes = await debtService.GetAllDebtTermTypesAsync();
-            //model.DebtPurposeTypes = await debtService.GetAllDebtPurposeTypesAsync();
-            //model.InterestTypes = await debtService.GetAllInterestTypesAsync();
-
-
             await drawService.AddPlannedAsync(model, userId, municipalityId, datePlannedDraw);  //userId
-            return RedirectToAction(nameof(Index));
-
-
-
+            return RedirectToAction("AddPlanned", "Draw", new { id = model.DebtId });
 
         }
 
@@ -131,8 +116,8 @@ namespace MunicipalityDebtsSystem.Controllers
             AddDrawViewModel model = new AddDrawViewModel();
 
             model.PlannedDrawDates = await drawService.GetAllPlannedDrawDatesAsync(id);
-            model.MunicipalityName = municipalityName;
-            model.MunicipalityCode = municipalityCode;
+            //model.MunicipalityName = municipalityName;
+            //model.MunicipalityCode = municipalityCode;
 
             return View(model);
 
@@ -147,8 +132,8 @@ namespace MunicipalityDebtsSystem.Controllers
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
             string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
-            model.MunicipalityName = municipalityName;
-            model.MunicipalityCode = municipalityCode;
+            //model.MunicipalityName = municipalityName;
+            //model.MunicipalityCode = municipalityCode;
             //model.DebtParentId = model.DrawParentId;
            
             //bool currencyExists = await debtService.CheckCurrencyExistAsync(model.CurrencyId);
@@ -184,8 +169,8 @@ namespace MunicipalityDebtsSystem.Controllers
             {
              
                 model.PlannedDrawDates = await drawService.GetAllPlannedDrawDatesAsync(id);
-                model.MunicipalityName = municipalityName;
-                model.MunicipalityCode = municipalityCode;
+                //model.MunicipalityName = municipalityName;
+                //model.MunicipalityCode = municipalityCode;
                 return View(model);
             }
 

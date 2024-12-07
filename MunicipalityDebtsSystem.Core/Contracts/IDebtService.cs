@@ -12,7 +12,7 @@ namespace MunicipalityDebtsSystem.Core.Contracts
 {
     public interface IDebtService
     {
-
+        Task<decimal> ReturnSumOfOperationType(int operType, int debtId);
         Task<IEnumerable<DebtListViewModel>> GetAllDebtAsync();
         // Task<(IEnumerable<DebtListViewModel> debts, int totalRecords)> GetDebtsWithPagingAsync(int start, int length, string searchValue, string orderBy, string orderDir);
         // Task<List<Currency>> GetAllCurrenciesAsync();

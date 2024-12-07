@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MunicipalityDebtsSystem.Core.Models.Debt;
+using System.ComponentModel.DataAnnotations;
 using static MunicipalityDebtsSystem.Infrastructure.Data.Constants.ValidationConstants;
 
 namespace MunicipalityDebtsSystem.Core.Models.Draw
@@ -23,12 +24,12 @@ namespace MunicipalityDebtsSystem.Core.Models.Draw
         //[Range(4, 4)]
         public int OperationTypeId { get; set; }
 
-        //[Required]
-        public string MunicipalityCode { get; set; } = string.Empty;
+        ////[Required]
+        //public string MunicipalityCode { get; set; } = string.Empty;
 
-        //[Required]
-        public string MunicipalityName { get; set; } = string.Empty;
+        ////[Required]
+        //public string MunicipalityName { get; set; } = string.Empty;
 
-       
+        public DebtPartialInfoViewModel DebtPartialInfo { get; set; } = new DebtPartialInfoViewModel();
     }
 }
