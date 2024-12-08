@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using MunicipalityDebtsSystem.Areas.Admin.Components;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -22,7 +23,7 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                   @*   register main menu component *@
-                    @await Component.InvokeAsync(nameof(MainMenuComponent))
+                    @await Component.InvokeAsync(nameof(AdminMenuComponent))
                     <partial name="_LoginPartial" />
                 </div>
             </div>

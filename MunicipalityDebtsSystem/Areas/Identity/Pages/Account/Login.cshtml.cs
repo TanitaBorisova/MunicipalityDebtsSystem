@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using System.ComponentModel.DataAnnotations;
 using static MunicipalityDebtsSystem.Infrastructure.Data.Constants.ValidationConstants;
+using static MunicipalityDebtsSystem.Core.Constants.AdminConstants;
 namespace MunicipalityDebtsSystem.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
@@ -124,6 +125,12 @@ namespace MunicipalityDebtsSystem.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+                    if (await _userManager.IsInRoleAsync(user, AdminRole))
+                    {
+                        return RedirectToAction("Index", "Home", new { area = "Admin" });
+                    }
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
