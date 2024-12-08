@@ -2,31 +2,33 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
+using System.ComponentModel.DataAnnotations;
 using static MunicipalityDebtsSystem.Infrastructure.Data.Constants.ValidationConstants;
-
 namespace MunicipalityDebtsSystem.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(
+                SignInManager<ApplicationUser> signInManager, 
+                UserManager<ApplicationUser> userManager,
+                RoleManager<IdentityRole> roleManager,
+                ILogger<LoginModel> logger
+            )
         {
             _signInManager = signInManager;
+            _userManager = userManager;
+            _roleManager = roleManager;
             _logger = logger;
         }
 
@@ -110,6 +112,9 @@ namespace MunicipalityDebtsSystem.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            //Added
+            await SeedRoles();
+            await SeedRolesToUsers();
 
             if (ModelState.IsValid)
             {
@@ -139,6 +144,50 @@ namespace MunicipalityDebtsSystem.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        private async Task SeedRoles()
+        {
+            bool roleAdminExists = await _roleManager.RoleExistsAsync("Administrator");
+
+            if (roleAdminExists == false)
+            {
+                var role = new IdentityRole("Administrator");
+                await _roleManager.CreateAsync(role);
+
+            }
+
+            bool roleMunicipalExists = await _roleManager.RoleExistsAsync("UserMun");
+
+            if (roleMunicipalExists == false)
+            {
+                var role = new IdentityRole("UserMun");
+                await _roleManager.CreateAsync(role);
+
+            }
+
+        }
+
+        private async Task SeedRolesToUsers()
+        {
+            var admin = await _userManager.FindByEmailAsync("adminDebt@mail.bg");
+
+            if (admin != null)
+            {
+                await _userManager.AddToRoleAsync(admin, "Administrator");
+            }
+
+            var burgasUser = await _userManager.FindByEmailAsync("burgas_municipal@mail.bg");
+            if (burgasUser != null)
+            {
+                await _userManager.AddToRoleAsync(burgasUser, "UserMun");
+            }
+
+            var varnaUser = await _userManager.FindByEmailAsync("VarnaMun@mail.com");
+            if (varnaUser != null)
+            {
+                await _userManager.AddToRoleAsync(varnaUser, "UserMun");
+            }
         }
     }
 }

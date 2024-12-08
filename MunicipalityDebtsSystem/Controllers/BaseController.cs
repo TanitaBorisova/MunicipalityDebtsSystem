@@ -4,7 +4,7 @@ using System.Security.Claims;
 
 namespace MunicipalityDebtsSystem.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class BaseController : Controller
     {
         protected string GetUserId()

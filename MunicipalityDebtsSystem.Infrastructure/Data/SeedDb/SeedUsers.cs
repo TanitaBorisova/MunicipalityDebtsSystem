@@ -40,9 +40,9 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.SeedDb
             {
                 Id = "c398bf2f-e8b0-4c64-a99b-492c8c29e9c3",
                 UserName = "adminDebt@mail.bg",
-                NormalizedUserName = "ADMINDEBT@MAIL.COM",
+                NormalizedUserName = "ADMINDEBT@MAIL.BG",
                 Email = "adminDebt@mail.bg",
-                NormalizedEmail = "ADMINDEBT@MAIL.COM",
+                NormalizedEmail = "ADMINDEBT@MAIL.BG",
                 EmailConfirmed = false,
                 PhoneNumberConfirmed = false,
                 TwoFactorEnabled = false,

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MunicipalityDebtsSystem.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using MunicipalityDebtsSystem.Infrastructure.Data;
 namespace MunicipalityDebtsSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241208093820_PeeriodListWithMaxLength")]
+    partial class PeeriodListWithMaxLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -327,17 +330,17 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             Id = "c398bf2f-e8b0-4c64-a99b-492c8c29e9c3",
                             AccessFailedCount = 3,
-                            ConcurrencyStamp = "f890d53c-9541-4dfa-a27e-438664986fb1",
+                            ConcurrencyStamp = "021acb66-2ef9-45a6-b508-2b913a8ee82c",
                             Email = "adminDebt@mail.bg",
                             EmailConfirmed = false,
                             FirstName = "Иван",
                             LastName = "Петров",
                             LockoutEnabled = false,
-                            NormalizedEmail = "ADMINDEBT@MAIL.BG",
-                            NormalizedUserName = "ADMINDEBT@MAIL.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPoMEkwlFeP64WewjwPp3SOlCPzIUGEiwmzHRCnOSnqvHvpsLMMY0uquKoONHwACQw==",
+                            NormalizedEmail = "ADMINDEBT@MAIL.COM",
+                            NormalizedUserName = "ADMINDEBT@MAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFqk9yEZJHIDxMWdMVWWvO8aaArQDIptgHL0DJb/HLZkEL1igA6saAbgZBCHT96yuA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "57bd9e73-943d-4482-a600-635a79872a4c",
+                            SecurityStamp = "3b8e552f-87fe-4d96-93cc-22fc2a492788",
                             TwoFactorEnabled = false,
                             UserName = "adminDebt@mail.bg"
                         },
@@ -345,7 +348,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             Id = "22ad10a0-2f69-4735-bd2c-9e944cd80baf",
                             AccessFailedCount = 3,
-                            ConcurrencyStamp = "68b75200-d6ca-46d4-9954-a0c083495f7d",
+                            ConcurrencyStamp = "92fb716f-b49d-4292-8633-27b39f514ba2",
                             Email = "burgas_municipal@mail.bg",
                             EmailConfirmed = false,
                             FirstName = "Стоян",
@@ -354,9 +357,9 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                             MunicipalityId = 16,
                             NormalizedEmail = "BURGAS_MUNICIPAL@MAIL.BG",
                             NormalizedUserName = "BURGAS_MUNICIPAL@MAIL.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJ3eLvdHOKQJDyUFVHGTAnQWASCr6qH0JV5B2FGDyaKHmg+XIRAkv2M+6tLqtFuz8Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMYoy+ViY55B5Ta8VwdEVo2YwcJY2YzgifmRU6LnbzKBxLtUp69sn8PMTcedDE73Og==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2f0fccb5-9694-40e1-bac5-c0dd5a441bbb",
+                            SecurityStamp = "46174673-e02a-4438-ae82-9ecbb38067ad",
                             TwoFactorEnabled = false,
                             UserName = "burgas_municipal@mail.bg"
                         },
@@ -364,7 +367,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             Id = "faf648ad-8f38-459d-909f-256f9a167a44",
                             AccessFailedCount = 3,
-                            ConcurrencyStamp = "345501da-44a0-4f9d-a8be-b99b75ab8c27",
+                            ConcurrencyStamp = "6edfab1a-4f24-405a-80a6-e9bf5eb89f85",
                             Email = "VarnaMun@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Георги",
@@ -373,9 +376,9 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                             MunicipalityId = 32,
                             NormalizedEmail = "VARNAMUN@MAIL.COM",
                             NormalizedUserName = "VARNAMUN@MAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEgbe4WEjcPV3Ti/3vLbHXMrCS6TKHvyjvmCuE4N1YWoEER6+vptbLsCk5flTKGV2Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPWlUADeeLrMKB+r/6wNFm5kWnrcJkC0oQex35fJ1Rp5vbu+lBorquhzX1VCzGohBA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d324fd2f-3774-4a0e-99f1-48b6097bf8b9",
+                            SecurityStamp = "c39e465a-a0af-4679-9364-50e97e6ee572",
                             TwoFactorEnabled = false,
                             UserName = "VarnaMun@mail.com"
                         });

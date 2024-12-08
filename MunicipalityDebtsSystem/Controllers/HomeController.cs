@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MunicipalityDebtsSystem.Models;
 using System.Diagnostics;
@@ -12,7 +13,7 @@ namespace MunicipalityDebtsSystem.Controllers
         {
             _logger = logger;
         }
-
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();

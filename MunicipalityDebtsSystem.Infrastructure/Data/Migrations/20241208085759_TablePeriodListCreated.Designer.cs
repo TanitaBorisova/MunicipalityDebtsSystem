@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MunicipalityDebtsSystem.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using MunicipalityDebtsSystem.Infrastructure.Data;
 namespace MunicipalityDebtsSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241208085759_TablePeriodListCreated")]
+    partial class TablePeriodListCreated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -327,17 +330,17 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             Id = "c398bf2f-e8b0-4c64-a99b-492c8c29e9c3",
                             AccessFailedCount = 3,
-                            ConcurrencyStamp = "f890d53c-9541-4dfa-a27e-438664986fb1",
+                            ConcurrencyStamp = "46ff8797-772a-43bc-9705-b7eef3bfb123",
                             Email = "adminDebt@mail.bg",
                             EmailConfirmed = false,
                             FirstName = "Иван",
                             LastName = "Петров",
                             LockoutEnabled = false,
-                            NormalizedEmail = "ADMINDEBT@MAIL.BG",
-                            NormalizedUserName = "ADMINDEBT@MAIL.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPoMEkwlFeP64WewjwPp3SOlCPzIUGEiwmzHRCnOSnqvHvpsLMMY0uquKoONHwACQw==",
+                            NormalizedEmail = "ADMINDEBT@MAIL.COM",
+                            NormalizedUserName = "ADMINDEBT@MAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOj1wMYKumH4p1kQIxXoGD4Ks5YxAQSQwLSxE21ljoBMOXra1Zzjsr3ay7ll/QaE7g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "57bd9e73-943d-4482-a600-635a79872a4c",
+                            SecurityStamp = "6994ad22-04c8-401f-bbd3-0e3873c5cd53",
                             TwoFactorEnabled = false,
                             UserName = "adminDebt@mail.bg"
                         },
@@ -345,7 +348,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             Id = "22ad10a0-2f69-4735-bd2c-9e944cd80baf",
                             AccessFailedCount = 3,
-                            ConcurrencyStamp = "68b75200-d6ca-46d4-9954-a0c083495f7d",
+                            ConcurrencyStamp = "bce51dab-eb06-47a8-b551-eb59da5b63b7",
                             Email = "burgas_municipal@mail.bg",
                             EmailConfirmed = false,
                             FirstName = "Стоян",
@@ -354,9 +357,9 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                             MunicipalityId = 16,
                             NormalizedEmail = "BURGAS_MUNICIPAL@MAIL.BG",
                             NormalizedUserName = "BURGAS_MUNICIPAL@MAIL.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJ3eLvdHOKQJDyUFVHGTAnQWASCr6qH0JV5B2FGDyaKHmg+XIRAkv2M+6tLqtFuz8Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMoLzX4gVv1YdLLMkc8Fi/3oHlxQPWd+eitwtohQQ4lsBbq+xSaLGSr+hsrp/SxQqQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2f0fccb5-9694-40e1-bac5-c0dd5a441bbb",
+                            SecurityStamp = "a5810f73-be18-4298-b8d2-6b01164962bb",
                             TwoFactorEnabled = false,
                             UserName = "burgas_municipal@mail.bg"
                         },
@@ -364,7 +367,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             Id = "faf648ad-8f38-459d-909f-256f9a167a44",
                             AccessFailedCount = 3,
-                            ConcurrencyStamp = "345501da-44a0-4f9d-a8be-b99b75ab8c27",
+                            ConcurrencyStamp = "58a4a137-924b-4c3d-90a5-c8cc94ff1a6b",
                             Email = "VarnaMun@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Георги",
@@ -373,9 +376,9 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                             MunicipalityId = 32,
                             NormalizedEmail = "VARNAMUN@MAIL.COM",
                             NormalizedUserName = "VARNAMUN@MAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEgbe4WEjcPV3Ti/3vLbHXMrCS6TKHvyjvmCuE4N1YWoEER6+vptbLsCk5flTKGV2Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEZFBs9w724IqUjivV1KDqUASsF2KSMxxVa7YoZXEoAElA+7WmsLMxdiOYnNcwZK1w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d324fd2f-3774-4a0e-99f1-48b6097bf8b9",
+                            SecurityStamp = "cb142afe-0942-445d-a731-e10ae5b5219d",
                             TwoFactorEnabled = false,
                             UserName = "VarnaMun@mail.com"
                         });
@@ -833,80 +836,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                     b.ToTable("Payments", "mundebt", t =>
                         {
                             t.HasComment("Table for storing payments of the debt");
-                        });
-                });
-
-            modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.PeriodList", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasComment("Identifier of the period");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("DateLock")
-                        .HasColumnType("datetime2")
-                        .HasComment("User locked the period");
-
-                    b.Property<DateTime>("DateUnlock")
-                        .HasColumnType("datetime2")
-                        .HasComment("Date that period become unlocked");
-
-                    b.Property<string>("Month")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)")
-                        .HasComment("Month of the period like string");
-
-                    b.Property<int>("MonthInt")
-                        .HasColumnType("int")
-                        .HasComment("Month of the period like integer");
-
-                    b.Property<int>("MunicipalityId")
-                        .HasColumnType("int")
-                        .HasComment("Identifier of Municipality");
-
-                    b.Property<int>("MunicipatilyId")
-                        .HasColumnType("int")
-                        .HasComment("Identifier of Municipality");
-
-                    b.Property<DateTime>("PeriodEnd")
-                        .HasColumnType("datetime2")
-                        .HasComment("Ending date of the period");
-
-                    b.Property<DateTime>("PeriodStart")
-                        .HasColumnType("datetime2")
-                        .HasComment("Starting date of the period");
-
-                    b.Property<string>("UserNameLock")
-                        .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)")
-                        .HasComment("User locked the period");
-
-                    b.Property<string>("UserNameUnlock")
-                        .IsRequired()
-                        .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)")
-                        .HasComment("User unlocked the period");
-
-                    b.Property<string>("Year")
-                        .IsRequired()
-                        .HasMaxLength(4)
-                        .HasColumnType("nvarchar(4)")
-                        .HasComment("Year of the period like string");
-
-                    b.Property<int>("YearInt")
-                        .HasColumnType("int")
-                        .HasComment("Year of the period like integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MunicipatilyId");
-
-                    b.ToTable("PeriodsLists", "mundebt", t =>
-                        {
-                            t.HasComment("Table for storing allowed periods for storing data");
                         });
                 });
 
@@ -4264,17 +4193,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                     b.Navigation("Municipality");
 
                     b.Navigation("ParentPayment");
-                });
-
-            modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.PeriodList", b =>
-                {
-                    b.HasOne("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.Municipality", "Municipality")
-                        .WithMany()
-                        .HasForeignKey("MunicipatilyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Municipality");
                 });
 
             modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.DebtPurposeType", b =>

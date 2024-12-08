@@ -84,6 +84,11 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
         public const int Draw = 3;
         public const int PlannedDraw = 4;
 
+        //PeriodList
+        public const int MonthMaxLength = 10;
+        public const int YearMaxLength = 4;
+        public const int UserNameMaxLength = 4;
+
 
     }
 }

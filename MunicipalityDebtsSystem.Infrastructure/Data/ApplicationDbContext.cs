@@ -50,7 +50,10 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data
         public DbSet<Municipality> Municipalities { get; set; } = null!;
 
         public DbSet<Currency> Currencies { get; set; } = null!;
+
         public DbSet<CurrencyRate> CurrenciesRates { get; set; } = null!;
+
+        public DbSet<PeriodList> PeriodsLists { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
