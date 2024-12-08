@@ -73,16 +73,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="~/lib/data-tables/datatables.min.js"></script>
  <script>
-     $.fn.dataTable.ext.buttons.io_colvis = {
-        extend: 'colvis',
-        text: '<i class="eye outline icon"></i>',
-        titleAttr: 'Видими Колони',
-        className: 'ui basic button'
-    };
-    $.fn.dataTable.ext.buttons.io_pageLength = {
-        extend: 'pageLength',
-        className: 'ui basic button'
-    };
+     
 
         $(function () {
             var debtId = @Model.DebtId; 
@@ -128,9 +119,10 @@
                 data: 'drawId', // This is where drawId comes from
                 title: 'Действия',
                 render: function (data, type, row) {
-                    return `
-                        <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
-                    `;
+                    // return `
+                        // <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
+                    // `;
+                    return '<button type="button" class="btn btn-danger" onclick="deletePlannedDraw(' + row.drawId + ');"><i class="fa fa-trash"></i> Изтрий</button>';
                 }
             }
 
@@ -186,15 +178,40 @@
     </script>
     <script>
 
+        function deletePlannedDraw(drawId){
+           
+            if (confirm('Сигурни ли сте, че искате да изтриете този запис?')) {
+                $.ajax({
+                    url: '@Url.Action("DeletePlannedDraw", "Draw")',  // Action to handle deletion
+                    type: 'POST',
+                    headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                    data: { id: drawId },  // Pass the ID to delete
+                    success: function (result) {
+                        if (result.success) {
+                            alert('Записът беше успешно изтрит!');
+                            $('#drawTable').DataTable().ajax.reload();  // Reload the table after deletion
+                        } else {
+                            alert(result.message);  // Show the message from the server
+                        }
+                    },
+                    error: function () {
+                        alert('Грешка при комуникация със сървъра!');
+                    }
+                });
+            }
+        }
+
         $('#drawTable').on('click', '.delete-btn', function () {
-         var drawId = 14//$(this).data('drawId');  // Get the ID of the record to delete  - was id
+
+            debugger;
+         var drawId = $(this).data('drawId');  // Get the ID of the record to delete  - was id
          
         
     if (confirm('Сигурни ли сте, че искате да изтриете този запис?')) {
         $.ajax({
             url: '@Url.Action("DeletePlannedDraw", "Draw")',  // Action to handle deletion
             type: 'POST',
-            data: { id: 14 },  // Pass the ID to delete
+            data: { id: drawId },  // Pass the ID to delete
             success: function (result) {
                 if (result.success) {
                     alert('Записът беше успешно изтрит!');

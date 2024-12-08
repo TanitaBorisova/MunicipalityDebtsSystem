@@ -127,7 +127,7 @@ namespace MunicipalityDebtsSystem.Core.Services
         public async Task RemoveDraw(int id)
         {
           await repository.DeleteAsync<Draw>(id);
-          
+          await repository.SaveChangesAsync();
         }
 
                          

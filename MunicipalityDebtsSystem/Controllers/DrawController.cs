@@ -189,6 +189,7 @@ namespace MunicipalityDebtsSystem.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePlannedDraw(int id)
         {
             try
