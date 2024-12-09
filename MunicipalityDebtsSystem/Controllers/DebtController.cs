@@ -50,7 +50,8 @@ namespace MunicipalityDebtsSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> GetDebtsForDataTable() 
         {
-            var data = await this.debtService.GetAllDebtAsync();
+            int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
+            var data = await this.debtService.GetAllDebtAsync(municipalityId);
             return Json(new { data = data });
 
         }

@@ -298,10 +298,10 @@ namespace MunicipalityDebtsSystem.Core.Services
             return model;
         }
 
-        public async Task<IEnumerable<DebtListViewModel>> GetAllDebtAsync()
+        public async Task<IEnumerable<DebtListViewModel>> GetAllDebtAsync(int municipalityId)
         {
             var model = await repository.AllReadOnly<Debt>()
-                .Where(d => d.IsDeleted == false)
+                .Where(d => d.IsDeleted == false && d.MunicipalityId == municipalityId)
                 .Include(d => d.Currency)
                 //.Include(d => d.CreditType)
                 //.Include(d => d.CreditorType)
