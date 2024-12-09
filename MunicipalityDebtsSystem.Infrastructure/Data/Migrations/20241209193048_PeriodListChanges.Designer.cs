@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MunicipalityDebtsSystem.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using MunicipalityDebtsSystem.Infrastructure.Data;
 namespace MunicipalityDebtsSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241209193048_PeriodListChanges")]
+    partial class PeriodListChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -327,7 +330,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             Id = "c398bf2f-e8b0-4c64-a99b-492c8c29e9c3",
                             AccessFailedCount = 3,
-                            ConcurrencyStamp = "298aad41-7402-4afc-b9d1-cb68b84e1672",
+                            ConcurrencyStamp = "09483c8c-efd7-430c-9d59-c873bb732c76",
                             Email = "adminDebt@mail.bg",
                             EmailConfirmed = false,
                             FirstName = "Иван",
@@ -335,9 +338,9 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMINDEBT@MAIL.BG",
                             NormalizedUserName = "ADMINDEBT@MAIL.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAELx78/hB/cZUKSPkCpx138bzv4HXCZfnfDEe2WS4BSK6AH5EewmGVtYUc+0o2+0Adg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECz454w6qHi9jJFxNb5/6hdY4lS1dklXnIVo3IkeKa/fhizcJ0sajOKqkQDNHP59bg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "884afb47-eb05-4c0e-8a45-6a820dc85910",
+                            SecurityStamp = "b65f11bd-4360-4e5a-b4ff-2b229670252a",
                             TwoFactorEnabled = false,
                             UserName = "adminDebt@mail.bg"
                         },
@@ -345,7 +348,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             Id = "22ad10a0-2f69-4735-bd2c-9e944cd80baf",
                             AccessFailedCount = 3,
-                            ConcurrencyStamp = "0381343f-fbad-4eb9-9285-58c595d71a9d",
+                            ConcurrencyStamp = "f5ab5972-6453-4f46-afa4-fc4548127b43",
                             Email = "burgas_municipal@mail.bg",
                             EmailConfirmed = false,
                             FirstName = "Стоян",
@@ -354,9 +357,9 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                             MunicipalityId = 16,
                             NormalizedEmail = "BURGAS_MUNICIPAL@MAIL.BG",
                             NormalizedUserName = "BURGAS_MUNICIPAL@MAIL.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBsGvcd9GP39KENFml8O8t7TeGPh8Vlp6Vb/4zEtZ5zd1oA3p3sVxVp76FmKSu5oRA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEAJtJB2+TA0pORQ12fwqPI+6D44O1IcQnSbe/hg1p52j7tls6UA1k0k6RLcj/AzKQA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a2e5e722-73e6-428e-89a2-7b4de3d6f945",
+                            SecurityStamp = "d905b1f3-71c3-4822-b7dc-11dd58239a0f",
                             TwoFactorEnabled = false,
                             UserName = "burgas_municipal@mail.bg"
                         },
@@ -364,7 +367,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             Id = "faf648ad-8f38-459d-909f-256f9a167a44",
                             AccessFailedCount = 3,
-                            ConcurrencyStamp = "3e69b97f-2c08-4392-b738-2678fb92391d",
+                            ConcurrencyStamp = "25110fb5-3a86-4279-ac82-e38d5f7e194d",
                             Email = "VarnaMun@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Георги",
@@ -373,9 +376,9 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                             MunicipalityId = 32,
                             NormalizedEmail = "VARNAMUN@MAIL.COM",
                             NormalizedUserName = "VARNAMUN@MAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENeDjm3ITKkMeMwinJXQW5EPtA5kU+tZLBHXwV9oBuR9n4+IRSs21N4+2Ud57A4/cg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEB2M7a+x8kFv2N9jPpvPmfOdE3xbqS3hMiljZHW7W/KVDL0cfAHpFyFCxvDxnGriDA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "43e43330-2ee3-4c65-b129-b9e8288050a3",
+                            SecurityStamp = "afb83612-67a4-457d-81f6-570f46c0b73a",
                             TwoFactorEnabled = false,
                             UserName = "VarnaMun@mail.com"
                         });
@@ -859,8 +862,8 @@ namespace MunicipalityDebtsSystem.Data.Migrations
 
                     b.Property<string>("MonthName")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)")
                         .HasComment("Month of the period like string");
 
                     b.Property<int>("MunicipalityId")
@@ -892,8 +895,8 @@ namespace MunicipalityDebtsSystem.Data.Migrations
 
                     b.Property<string>("YearName")
                         .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)")
+                        .HasMaxLength(4)
+                        .HasColumnType("nvarchar(4)")
                         .HasComment("Year of the period like string");
 
                     b.HasKey("Id");

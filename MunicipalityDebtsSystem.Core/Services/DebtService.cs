@@ -303,11 +303,6 @@ namespace MunicipalityDebtsSystem.Core.Services
             var model = await repository.AllReadOnly<Debt>()
                 .Where(d => d.IsDeleted == false && d.MunicipalityId == municipalityId)
                 .Include(d => d.Currency)
-                //.Include(d => d.CreditType)
-                //.Include(d => d.CreditorType)
-                //.Include(d => d.DebtType)
-                //.Include(d => d.DebtPurposeType)
-                //.Include(d => d.InterestType)
                 .Include(d => d.CreditStatusType)
                 .Select(d => new DebtListViewModel
                 {
@@ -338,11 +333,6 @@ namespace MunicipalityDebtsSystem.Core.Services
             var model = await repository.AllReadOnly<Debt>()
                 .Where(d => d.IsDeleted == false )
                 .Include(d => d.Currency)
-                //.Include(d => d.CreditType)
-                //.Include(d => d.CreditorType)
-                //.Include(d => d.DebtType)
-                //.Include(d => d.DebtPurposeType)
-                //.Include(d => d.InterestType)
                 .Include(d => d.CreditStatusType)
                 .Select(d => new DebtListViewModel
                 {

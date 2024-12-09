@@ -27,8 +27,8 @@ namespace MunicipalityDebtsSystem.Core.Services
             {
                 years.Add(new YearViewModel
                 {
-                    Id = i, // Using the year as the ID
-                    YearName = i.ToString() // Display the year as a string
+                    YearInt = i, 
+                    YearName = i.ToString() 
                 });
             }
 
@@ -44,7 +44,7 @@ namespace MunicipalityDebtsSystem.Core.Services
             {
                 months.Add(new MonthViewModel
                 {
-                    Id = (int)month,
+                    MonthInt = (int)month,
                     MonthName = month.ToString()
                 });
             }
@@ -52,6 +52,6 @@ namespace MunicipalityDebtsSystem.Core.Services
             return months;
         }
 
-
+       
     }
 }

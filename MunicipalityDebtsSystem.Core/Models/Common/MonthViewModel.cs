@@ -9,7 +9,7 @@ namespace MunicipalityDebtsSystem.Core.Models.Common
     public class MonthViewModel
     {
 
-        public int Id { get; set; }
+        public int MonthInt { get; set; }
 
         public string MonthName { get; set; } = string.Empty;
     }

@@ -26,6 +26,8 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
         public const string DebtTermTypeNotExist = "Debt term type не съществува!";
         public const string DebtPurposeTypeNotExist = "Debt purpose type не съществува!";
         public const string InterestTypeNotExist = "Interest type не съществува!";
+        public const string MonthNotExist = "Месецът не съществува!";
+        public const string YearNotExist = "Годината не съществува!";
 
         public const string DisplayDebtNumber = "Номер на договор/анекс";
         public const string DisplayResolutionNumber = "Решение за поемане на дълг";
@@ -85,8 +87,8 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
         public const int PlannedDraw = 4;
 
         //PeriodList
-        public const int MonthMaxLength = 10;
-        public const int YearMaxLength = 4;
+        public const int MonthMaxLength = 20;
+        public const int YearMaxLength = 10;
         public const int UserNameMaxLength = 4;
 
 

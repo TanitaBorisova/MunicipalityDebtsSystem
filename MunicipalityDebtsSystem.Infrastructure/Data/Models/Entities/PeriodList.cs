@@ -30,13 +30,13 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
         [Required]
         [Comment("Month of the period like string")]
         [MaxLength(ValidationConstants.MonthMaxLength)]
-        public string Month { get; set; } = string.Empty;
+        public string MonthName { get; set; } = string.Empty;
 
 
         [Required]
         [Comment("Year of the period like string")]
         [MaxLength(ValidationConstants.YearMaxLength)]
-        public string Year { get; set; } = string.Empty;
+        public string YearName { get; set; } = string.Empty;
 
         [Required]
         [Comment("Month of the period like integer")]
@@ -66,12 +66,9 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
 
         [Comment("User locked the period")]
         public DateTime? DateLock { get; set; }
+               
 
-        [Required]
-        [Comment("Identifier of Municipality")]
-        public int MunicipatilyId { get; set; }
-
-        [ForeignKey(nameof(MunicipatilyId))]
+        [ForeignKey(nameof(MunicipalityId))]
         public Municipality Municipality { get; set; } = null!;
 
 
