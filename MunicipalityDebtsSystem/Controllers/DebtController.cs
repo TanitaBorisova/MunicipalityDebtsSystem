@@ -1,13 +1,7 @@
-﻿using Azure.Core;
-using DataTables.AspNet.Core;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using MunicipalityDebtsSystem.Core.Contracts;
 using MunicipalityDebtsSystem.Core.Models.Debt;
-using MunicipalityDebtsSystem.Core.Services;
 using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
-using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
-using System.Buffers;
 using System.Globalization;
 using System.Security.Claims;
 using static MunicipalityDebtsSystem.Infrastructure.Data.Constants.CustomClaims;
