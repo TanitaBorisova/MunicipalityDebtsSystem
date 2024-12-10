@@ -89,7 +89,7 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
         //PeriodList
         public const int MonthMaxLength = 20;
         public const int YearMaxLength = 10;
-        public const int UserNameMaxLength = 4;
+        public const int UserNameMaxLength = 50;
 
 
     }

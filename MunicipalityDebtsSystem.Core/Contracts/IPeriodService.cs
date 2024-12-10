@@ -1,14 +1,15 @@
-﻿using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MunicipalityDebtsSystem.Core.Models.PeriodList;
+using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
+
 
 namespace MunicipalityDebtsSystem.Core.Contracts
 {
     public interface IPeriodService
     {
         Task AddAsync(PeriodList period);
+
+        Task<bool> IsPeriodExistsAndIsUnlock(int municipalityId, int monthInt, int yearInt);
+
+        Task<PeriodListViewModel> GetPeriodsByMun(int municipalityId);
     }
 }

@@ -15,6 +15,12 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
     [Comment("Table for storing allowed periods for storing data")]
     public class PeriodList
     {
+
+        public PeriodList()
+        {
+            IsUnlock = true;
+        }
+
         [Key]
         [Comment("Identifier of the period")]
         public int Id { get; set; }
@@ -49,6 +55,10 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
         [Required]
         [Comment("Identifier of Municipality")]
         public int MunicipalityId { get; set; }
+
+        [Required]
+        [Comment("Shows whether the period is unlocked")]
+        public bool IsUnlock { get; set; }
 
         [Required]
         [Comment("User unlocked the period")]

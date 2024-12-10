@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MunicipalityDebtsSystem.Core.Models.Common;
+using MunicipalityDebtsSystem.Core.Models.Debt;
 using MunicipalityDebtsSystem.Core.Models.Municipality;
 using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
 using System.ComponentModel.DataAnnotations;
 using static MunicipalityDebtsSystem.Infrastructure.Data.Constants.ValidationConstants;
 
-namespace MunicipalityDebtsSystem.Areas.Admin.Models
+namespace MunicipalityDebtsSystem.Core.Models.PeriodList
 {
     public class AddPeriodViewModel
     {
@@ -15,17 +16,20 @@ namespace MunicipalityDebtsSystem.Areas.Admin.Models
         [Required]
         public DateTime PeriodEnd { get; set; }
 
-        [Required]
+       // [Required]
         [MaxLength(ValidationConstants.MonthMaxLength)]
         public string MonthName { get; set; } = string.Empty;
 
-        [Required]
+        //[Required]
         [MaxLength(ValidationConstants.YearMaxLength)]
         public string YearName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         [Range(1, 12)]
         public int MonthInt { get; set; }
+
+        [Required]
+         public bool IsUnlock { get; set; }
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         [Range(2020, int.MaxValue)]
@@ -39,6 +43,8 @@ namespace MunicipalityDebtsSystem.Areas.Admin.Models
         public List<MonthViewModel> Months { get; set; } = new List<MonthViewModel>();
 
         public List<YearViewModel> Years { get; set; } = new List<YearViewModel>();
+
+       
 
     }
 }

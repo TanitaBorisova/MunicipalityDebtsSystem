@@ -1,16 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MunicipalityDebtsSystem.Core.Models.Common;
 using MunicipalityDebtsSystem.Core.Contracts;
+using MunicipalityDebtsSystem.Core.Enums;
+using MunicipalityDebtsSystem.Core.Models.PeriodList;
+using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using System.Security.Claims;
 using static MunicipalityDebtsSystem.Infrastructure.Data.Constants.CustomClaims;
-using MunicipalityDebtsSystem.Areas.Admin.Models;
-using MunicipalityDebtsSystem.Core.Models.Debt;
-using MunicipalityDebtsSystem.Core.Services;
-using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
-using System.Globalization;
-using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
-using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
-using MunicipalityDebtsSystem.Core.Enums;
 
 namespace MunicipalityDebtsSystem.Areas.Admin.Controllers
 {
@@ -33,9 +27,9 @@ namespace MunicipalityDebtsSystem.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //AddPeriodViewModel model = new AddPeriodViewModel();    
-           // model.Municipalities = await municipalityService.GetAllMunicipalitiesAsync();
-            return View();
+            PeriodListViewModel model = new PeriodListViewModel();    
+            model.Municipalities = await municipalityService.GetAllMunicipalitiesAsync();
+            return View(model);
         }
 
         [HttpGet]
@@ -98,15 +92,17 @@ namespace MunicipalityDebtsSystem.Areas.Admin.Controllers
                 MonthName = model.MonthName,
                 YearName = model.YearName,
                 UserNameUnlock = User.Identity.Name,
-                DateUnlock = DateTime.Now
+                DateUnlock = DateTime.Now,
+                IsUnlock = true
 
             };
+            bool IsPeriodExists = await periodService.IsPeriodExistsAndIsUnlock(model.MunicipalityId, model.MonthInt, model.YearInt);
+            if (!IsPeriodExists)
+            {
+                await periodService.AddAsync(period);
+            }
 
-           
-
-
-
-            await periodService.AddAsync(period);
+            
             return RedirectToAction(nameof(Index));
 
 
@@ -206,6 +202,15 @@ namespace MunicipalityDebtsSystem.Areas.Admin.Controllers
 
 
             return (startDate, endDate); 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUnlockedPeriodsForDataTable(int id)
+        {
+            int municipalityId = id;
+            var data = await this.periodService.GetPeriodsByMun(municipalityId);
+            return Json(new { data = data });
+
         }
     }
 }

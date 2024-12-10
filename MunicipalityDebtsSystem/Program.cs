@@ -68,11 +68,11 @@ app.UseAuthorization();
 //});
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapControllerRoute(
-        name: "Debt",
-        pattern: "/Debt/Details/{id}/{information}",
-        defaults: new { Controller = "Debt", Action = "Details" }
-    );
+    //endpoints.MapControllerRoute(
+    //    name: "Debt",
+    //    pattern: "/Debt/Details/{id}/{information}",
+    //    defaults: new { Controller = "Debt", Action = "Details" }
+    //);
 
     endpoints.MapControllerRoute(
             name: "areas",
