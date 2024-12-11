@@ -80,6 +80,7 @@ namespace MunicipalityDebtsSystem.Core.Services
                     PlannedDate = c.DrawDate.ToString(ValidationConstants.DateFormat)
                 }).ToListAsync();
         }
+      
         //GetPlannedPaymentInfo(plannedDrawId)
         public async Task<Draw> GetPlannedDrawInfoByIdAsync(int id)
         {
@@ -100,6 +101,32 @@ namespace MunicipalityDebtsSystem.Core.Services
                     DrawId = d.Id,
                     DrawDate = d.DrawDate.ToString(ValidationConstants.DateFormat),
                     DrawAmount = d.DrawAmount
+
+                }).ToListAsync();
+
+
+            return model;
+
+        }
+
+        public async Task<IEnumerable<DrawListViewModel>> GetAllDrawsAsync(int id)  //int id
+        {
+            var model = await repository.AllReadOnly<Draw>()
+                .Where(d => d.IsDeleted == false && d.OperationTypeId == (int)OperationType.Draw && d.Debt.Id == id)  //&& d.Debt.Id == id
+                .Include(d=> d.ParentDraw)
+                .Include(d => d.Debt)
+                .ThenInclude(d => d.Currency)
+
+                .Select(d => new DrawListViewModel
+                {
+                    // //= d.DebtId,
+                    DrawId = d.Id,
+                    DrawDate = d.DrawDate.ToString(ValidationConstants.DateFormat),
+                    DrawAmount = d.DrawAmount,
+                    DrawParentId = d.DrawParentId ?? 0,
+                    DrawParentAmount = d.ParentDraw.DrawAmount,
+                    DrawParentDate = d.ParentDraw.DrawDate.ToString(ValidationConstants.DateFormat)
+
 
                 }).ToListAsync();
 

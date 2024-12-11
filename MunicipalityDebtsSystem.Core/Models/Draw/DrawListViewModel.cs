@@ -8,5 +8,17 @@ namespace MunicipalityDebtsSystem.Core.Models.Draw
 {
     public class DrawListViewModel
     {
+        public int DebtId { get; set; }
+
+        //public int? DrawParentId { get; set; }
+
+        public int DrawId { get; set; }
+        public string DrawDate { get; set; } = string.Empty;
+
+        public decimal DrawAmount { get; set; }
+        public int DrawParentId { get; set; }
+        public string DrawParentDate { get; set; } = string.Empty;
+
+        public decimal DrawParentAmount { get; set; }
     }
 }

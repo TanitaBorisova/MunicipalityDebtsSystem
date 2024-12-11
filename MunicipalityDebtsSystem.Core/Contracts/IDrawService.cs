@@ -12,6 +12,7 @@ namespace MunicipalityDebtsSystem.Core.Contracts
     public interface IDrawService
     {
         Task AddPlannedAsync(AddPlannedDrawViewModel model, string userId, int municipalityId, DateTime dateDraw);
+
         Task AddRealAsync(AddDrawViewModel model, string userId, int municipalityId, DateTime dateDraw, int drawParentId);
 
         Task<List<PlannedDrawDateViewModel>> GetAllPlannedDrawDatesAsync(int debtId);
@@ -20,7 +21,8 @@ namespace MunicipalityDebtsSystem.Core.Contracts
 
         Task<IEnumerable<PlannedDrawListViewModel>> GetAllPlannedDrawsAsync(int id);
 
-        //Task<IEnumerable<PlannedDrawListViewModel>> GetAllPlannedDrawsAsync();
+        Task<IEnumerable<DrawListViewModel>> GetAllDrawsAsync(int id);
+
         Task<Draw> GetDrawEntityByIdAsync(int id);
 
         Task<bool> PlannedDrawHasChildsAsync(int id);

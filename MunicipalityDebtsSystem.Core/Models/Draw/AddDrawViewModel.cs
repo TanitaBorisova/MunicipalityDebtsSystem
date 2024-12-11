@@ -44,7 +44,7 @@ namespace MunicipalityDebtsSystem.Core.Models.Draw
         public int OperationTypeId { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue)]  //Draw
+        [Range(1, int.MaxValue)]  
         public int PlannedDrawId { get; set; }
 
 
@@ -55,6 +55,6 @@ namespace MunicipalityDebtsSystem.Core.Models.Draw
 
         public List<PlannedDrawDateViewModel> PlannedDrawDates { get; set; } = new List<PlannedDrawDateViewModel>();
 
-        public DebtPartialInfoViewModel DebtPartialInfo { get; set; } = null!;
+        public DebtPartialInfoViewModel DebtPartialInfo { get; set; } = new DebtPartialInfoViewModel();
     }
 }

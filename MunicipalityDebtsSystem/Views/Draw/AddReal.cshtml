@@ -78,7 +78,184 @@
         </form>
     </div>
 </div>
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <table id="drawTable" class="table table-hover table-striped"></table>
+    </div>
+</div>
+<!-- DataTables JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/lib/data-tables/datatables.min.js"></script>
+<script>
 
+
+    $(function () {
+        var debtId = @Model.DebtId
+
+            $('#drawTable').DataTable({
+                dom: '<"row"<"col-sm-6 dataTables_buttons"B><"col-sm-6"f>>rtip',
+                serverSide: false,
+                ajax: {
+                    "url": "@Url.Action("GetDrawsForDataTable", "Draw")",
+                    "type": "GET",
+                    "datatype": "json",
+                    "data": function (d) {
+                        d.id = debtId
+
+                    }
+
+
+                },
+
+                language: {
+                    url: "/lib/data-tables/dataTables.bgBG.json",
+                    search: "", // Change the default placeholder
+                    searchPlaceholder: "Търсене" // Custom placeholder text
+                },
+                columns: [
+
+
+                    {
+                        name: 'drawParentDate',
+                        data: 'drawParentDate',
+                        title: 'Дата на планирано усвояване',
+                        sortable: true,
+                        searchable: false
+                    },
+                    {
+                        name: 'drawParentAmount',
+                        data: 'drawParentAmount',
+                        title: 'Размер на планирано плащане в оригинална валута',
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'drawDate',
+                        data: 'drawDate',
+                        title: 'Дата на планирано усвояване',
+                        sortable: true,
+                        searchable: false
+                    },
+                    {
+                        name: 'drawAmount',
+                        data: 'drawAmount',
+                        title: 'Размер на планирано плащане в оригинална валута',
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        data: 'drawId', // This is where drawId comes from
+                        title: 'Действия',
+                        render: function (data, type, row) {
+                            // return `
+                            // <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
+                            // `;
+                            return '<button type="button" class="btn btn-danger" onclick="deleteDraw(' + row.drawId + ');"><i class="fa fa-trash"></i> Изтрий</button>';
+                        }
+                    }
+
+                    //          {
+                    //     data: 'drawId',
+                    //     title: 'Действия',
+                    //     render: function (data, type, row) {
+                    //         return `
+                    //             <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
+                    //         `;
+                    //     }
+                    // }
+                    // {
+                    //     name: 'actions',
+                    //     data: 'drawId',  //id
+                    //     title: 'Действия',
+                    //     sortable: false,
+                    //     searchable: false,
+                    //     className: "text-center",
+                    //     render: function (data, type, row) {
+                    //          return '<button class="btn btn-danger delete-btn" data-id="' + data.drawId + '" title="Изтрий"><i class="fa fa-trash"></i> Изтрий</button>';
+                    //          //return '<button class="btn btn-danger delete-btn" data-id="' + row.drawId + '" title="Изтрий"><i class="fa fa-trash"></i> Изтрий</button>';
+                    //     }
+                    // }
+
+
+                    // {
+                    //      name: 'actions',
+                    //      data: 'id',
+                    //      title: '',
+                    //      sortable: false,
+                    //      searchable: false,
+                    //      className: "text-right",
+                    //      render: function (data, type, row, meta) {
+                    //          return '<a href="Debt/Details/' + row.id + '" class="btn btn-primary" title="Преглед"><i class="fa fa-info-circle"></i></a>';
+                    //      }
+                    // },
+                    // {
+                    //      name: 'actions',
+                    //      data: 'id',
+                    //      title: '',
+                    //      sortable: false,
+                    //      searchable: false,
+                    //      className: "text-right",
+                    //      render: function (data, type, row, meta) {
+                    //          return '<a href="Debt/Edit/' + row.id + '" class="btn btn-warning" title="Редакция"><i class="fa fa-info-circle"></i></a>';
+                    //      }
+                    // },
+
+                ]
+            });
+    });
+</script>
+<script>
+
+    function deleteDraw(drawId) {
+
+        if (confirm('Сигурни ли сте, че искате да изтриете този запис?')) {
+            $.ajax({
+                url: '@Url.Action("DeleteDraw", "Draw")',  // Action to handle deletion
+                type: 'POST',
+                headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                data: { id: drawId },  // Pass the ID to delete
+                success: function (result) {
+                    if (result.success) {
+                        alert('Записът беше успешно изтрит!');
+                        $('#drawTable').DataTable().ajax.reload();  // Reload the table after deletion
+                    } else {
+                        alert(result.message);  // Show the message from the server
+                    }
+                },
+                error: function () {
+                    alert('Грешка при комуникация със сървъра!');
+                }
+            });
+        }
+    }
+
+    $('#drawTable').on('click', '.delete-btn', function () {
+
+        debugger;
+        var drawId = $(this).data('drawId');  // Get the ID of the record to delete  - was id
+
+
+        if (confirm('Сигурни ли сте, че искате да изтриете този запис?')) {
+            $.ajax({
+                url: '@Url.Action("DeletePlannedDraw", "Draw")',  // Action to handle deletion
+                type: 'POST',
+                data: { id: drawId },  // Pass the ID to delete
+                success: function (result) {
+                    if (result.success) {
+                        alert('Записът беше успешно изтрит!');
+                        $('#drawTable').DataTable().ajax.reload();  // Reload the table after deletion
+                    } else {
+                        alert(result.message);  // Show the message from the server
+                    }
+                },
+                error: function () {
+                    alert('Грешка при комуникация със сървъра!');
+                }
+            });
+        }
+    });
+</script>
 
 <style>
     .smart-title {

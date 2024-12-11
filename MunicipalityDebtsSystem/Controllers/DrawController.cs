@@ -112,14 +112,28 @@ namespace MunicipalityDebtsSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> AddReal(int id)
         {
+            var debt = await debtService.GetDebtByIdAsync(id);
+            
             string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
 
             AddDrawViewModel model = new AddDrawViewModel();
 
             model.PlannedDrawDates = await drawService.GetAllPlannedDrawDatesAsync(id);
- 
+            model.DebtId = id;
+            //////////////////////////////////////////////////////////TO DO IN A METHOD
+            ///model.DebtId = id;
+            model.DebtPartialInfo.Payments = await debtService.ReturnSumOfOperationType((int)OperationType.Payment, id);
+            model.DebtPartialInfo.PlannedPayments = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedPayment, id);
+            model.DebtPartialInfo.Draws = await debtService.ReturnSumOfOperationType((int)OperationType.Draw, id);
+            model.DebtPartialInfo.PlannedDraws = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedDraw, id);
 
+            model.DebtPartialInfo.MunicipalityName = municipalityName;
+            model.DebtPartialInfo.MunicipalityCode = municipalityCode;
+            model.DebtPartialInfo.CurrencyName = debt.CurrencyName;
+            model.DebtPartialInfo.DebtNumber = debt.DebtNumber;
+            model.DebtPartialInfo.BookDate = debt.DateBook;
+            ///////////////////////////////////////////////////////////////////////////
             return View(model);
 
         }
@@ -127,14 +141,29 @@ namespace MunicipalityDebtsSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> AddReal(AddDrawViewModel model, int id)
         {
+            var debt = await debtService.GetDebtByIdAsync(id);
             model.DebtId = id;
             string userId = User.Id();
            
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
             string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
-           
+
             //model.DebtParentId = model.DrawParentId;
+
+            //////////////////////////////////////////////////////////TO DO IN A METHOD
+            ///model.DebtId = id;
+            model.DebtPartialInfo.Payments = await debtService.ReturnSumOfOperationType((int)OperationType.Payment, id);
+            model.DebtPartialInfo.PlannedPayments = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedPayment, id);
+            model.DebtPartialInfo.Draws = await debtService.ReturnSumOfOperationType((int)OperationType.Draw, id);
+            model.DebtPartialInfo.PlannedDraws = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedDraw, id);
+
+            model.DebtPartialInfo.MunicipalityName = municipalityName;
+            model.DebtPartialInfo.MunicipalityCode = municipalityCode;
+            model.DebtPartialInfo.CurrencyName = debt.CurrencyName;
+            model.DebtPartialInfo.DebtNumber = debt.DebtNumber;
+            model.DebtPartialInfo.BookDate = debt.DateBook;
+            ///////////////////////////////////////////////////////////////////////////
 
             DateTime dateDraw;
 
@@ -164,7 +193,7 @@ namespace MunicipalityDebtsSystem.Controllers
 
             int drawParentId = Convert.ToInt32(TempData["PlannedDrawId"]);
             await drawService.AddRealAsync(model, userId, municipalityId, dateDraw, drawParentId);  //userId
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(AddReal));
 
 
         }
@@ -186,6 +215,14 @@ namespace MunicipalityDebtsSystem.Controllers
             return Json(new { data = data });
 
          }
+        [HttpGet]
+        public async Task<IActionResult> GetDrawsForDataTable(int id)
+        {
+
+            var data = await drawService.GetAllDrawsAsync(id);
+            return Json(new { data = data });
+
+        }
 
 
         [HttpPost]
@@ -220,6 +257,35 @@ namespace MunicipalityDebtsSystem.Controllers
             catch (Exception ex)
             {
                
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteDraw(int id)
+        {
+            try
+            {
+
+                var draw = await drawService.GetDrawEntityByIdAsync(id);
+
+                if (draw == null)
+                {
+                    return Json(new { success = false, message = "Записът не съществува." });
+                }
+
+                              
+
+                await drawService.RemoveDraw(id);
+
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+
                 return Json(new { success = false, message = ex.Message });
             }
         }
