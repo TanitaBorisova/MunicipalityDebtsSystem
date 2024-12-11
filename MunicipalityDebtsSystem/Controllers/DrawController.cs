@@ -225,8 +225,8 @@ namespace MunicipalityDebtsSystem.Controllers
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost] 
+       // [ValidateAntiForgeryToken]  //there is global filter
         public async Task<IActionResult> DeletePlannedDraw(int id)
         {
             try
@@ -263,7 +263,7 @@ namespace MunicipalityDebtsSystem.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteDraw(int id)
         {
             try

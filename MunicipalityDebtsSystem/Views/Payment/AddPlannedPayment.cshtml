@@ -1,0 +1,89 @@
+﻿@using MunicipalityDebtsSystem.Core.Models.Payment
+@model AddPlannedPaymentViewModel
+
+<link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/lib/data-tables/datatables.min.css" rel="stylesheet" />
+@{
+    ViewData["Title"] = "Планирани плащания";
+    ViewData["NewPlannedPayment"] = "Ново плащане";
+    var today = DateTime.Now.ToString("dd.MM.yyyy");//"dd-MM-yyyy" //"dd/MM/yyyy"
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/lib/data-tables/datatables.min.js"></script>
+
+<div class="smart-title">
+    <h2>@ViewData["Title"]</h2>
+</div>
+<hr />
+<partial name="_DebtInfo" model="Model.DebtPartialInfo" />
+<hr />
+<div class="smart-title">
+    <h4>@ViewData["NewPlannedPayment"]</h4>
+</div>
+<div class="row card-body">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form id="plannedPayments" asp-action="AddPlannedPayment" asp-controller="Payment" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="@Model.DebtId" />
+            <input type="hidden" asp-for="@Model.OperationTypeId" />
+           
+            <div class="row">
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.PaymentDate" class="form-label-add-edit">Дата на планирано плащане:</label>
+                    <input asp-for="@Model.PaymentDate" class="form-control" aria-required="true" value="@(string.IsNullOrEmpty(Model.PaymentDate) ? today : Model.PaymentDate)" />
+                    <span asp-validation-for="@Model.PaymentDate" class="text-danger"></span>
+                </div>
+
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.PaymentAmount" class="form-label-add-edit">Размер на пл. плащане в ориг. валута:</label>
+                    <div class="input-group">
+                        <input asp-for="PaymentAmount" class="form-control" type="number" step="0.01" min="0" />
+                    </div>
+                    <span asp-validation-for="@Model.PaymentAmount" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.InterestAmount" class="form-label-add-edit">Размер на лихвено плащане:</label>
+                    <div class="input-group">
+                        <input asp-for="InterestAmount" class="form-control" type="number" step="0.01" min="0" />
+                    </div>
+                    <span asp-validation-for="@Model.InterestAmount" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.InterestRate" class="form-label-add-edit">Размер на лихвено плащане:</label>
+                    <div class="input-group">
+                        <input asp-for="InterestRate" class="form-control" type="number" step="0.01" min="0" />
+                    </div>
+                    <span asp-validation-for="@Model.InterestRate" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.OperateTaxAmount" class="form-label-add-edit">Такси и комисионни:</label>
+                    <div class="input-group">
+                        <input asp-for="OperateTaxAmount" class="form-control" type="number" step="0.01" min="0" />
+                    </div>
+                    <span asp-validation-for="@Model.OperateTaxAmount" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.Comment" class="form-label-add-edit">Такси и комисионни:</label>
+                    <div class="input-group">
+                        <input asp-for="Comment" class="form-control" type="text" rows = "3" />
+                    </div>
+                    <span asp-validation-for="@Model.Comment" class="text-danger"></span>
+                </div>
+
+
+                <div class="mb-2">
+                    <input class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Запис" />
+
+                </div>
+                <div class="mb-2">
+                    <input class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Изчисти" />
+                </div>
+        </form>
+    </div>
+</div>

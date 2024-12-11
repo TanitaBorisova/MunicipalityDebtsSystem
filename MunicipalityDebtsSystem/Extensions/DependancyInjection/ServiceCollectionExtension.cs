@@ -16,6 +16,7 @@ namespace MunicipalityDebtsSystem.Extensions.DependancyInjection
         {
             services.AddScoped<IDebtService, DebtService>();
             services.AddScoped<IDrawService, DrawService>();
+            services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IMunicipalityService, MunicipalityService>();
             services.AddScoped<ICommonService, CommonService>();
             services.AddScoped<IPeriodService, PeriodService>();
