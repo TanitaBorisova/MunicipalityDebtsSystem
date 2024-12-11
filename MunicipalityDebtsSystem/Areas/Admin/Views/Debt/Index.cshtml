@@ -168,7 +168,7 @@
                              render: function (data, type, row, meta) {
                                  /* return '<a href="Debt/Details/' + row.id + '" class="btn btn-primary" title="Преглед"><i class="fa fa-info-circle"></i></a>';*/
                              //      return '<a href="' + '@Url.Action("Details", "Debt", new { area = "Admin" })'.replace('1', row.id) +'">Details</a>';
-                             return '<a href="' + '@Url.Action("Details", "Debt", new { area = "Admin" })'+ '/'+  row.id + '">Details</a>';
+                             return '<a href="' + '@Url.Action("Details", "Debt")'+ '/'+  row.id + '">Details</a>';
 
                               }
                         }

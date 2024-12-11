@@ -40,6 +40,15 @@ namespace MunicipalityDebtsSystem.Areas.Admin.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+           
+            string userId = User.Id();
+            var model = await debtService.GetDebtByIdAsync(id);
+            return View(model);
+        }
+
     }
 
 }

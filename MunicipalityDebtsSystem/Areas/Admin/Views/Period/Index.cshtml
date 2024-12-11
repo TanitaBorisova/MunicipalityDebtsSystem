@@ -19,9 +19,15 @@
 
 <div class="row card-body">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-       @*  <form id="periods" asp-action="Index" asp-controller="Period" asp-area="Admin" method="post" enctype="multipart/form-data"> *@
+       <form id="periods" asp-action="Index" asp-controller="Period" asp-area="Admin" method="post" enctype="multipart/form-data"> 
             @* <input type="hidden" asp-for="@Model.DebtId" />
             <input type="hidden" asp-for="@Model.OperationTypeId" /> *@
+            <div class="col-sm-6 mb-2">
+                <p class="card-text"><strong>Изберете община, за която да се визуализират отключените периоди:</strong> </p>
+            </div>
+            <div class="col-sm-6 mb-2">
+                <p id="test" class="card-text"><strong></strong> </p>
+            </div>
             <div class="col-sm-6 mb-2">
                 <label asp-for="@Model.MunicipalityId" class="form-label-add-edit">Община:</label>
 
@@ -36,15 +42,15 @@
 
                 </div> *@
                
-       @*  </form> *@
+       </form> 
     </div>
 </div>
 <hr />
-<@* div class="row">
+<div class="row">
     <div class="col-lg-12">
         <table id="periodTable" class="table table-hover table-striped"></table>
     </div>
-</div> *@
+</div>
 
 
 <!-- DataTables JS and jQuery -->
@@ -52,33 +58,43 @@
 <script src="~/lib/data-tables/datatables.min.js"></script>
 <script>
 
+    $(document).ready(function () {
+        // Call LoadData on page load with the initial MunicipalityId value
+        // var initialMunId = $('#MunicipalityId').val();  // Get the selected value from the select control on page load
+        // if (initialMunId) {
+        //     LoadData(initialMunId);  // Load data with the selected municipality ID on page load
+        // }
 
-    $(function () {
-        var munId = @Model.MunicipalityId
+        
+        $('#MunicipalityId').on('change', function () {
+            
+            $('#test').text('The EVENT IS WORKING')
+             var selectedMunId = $(this).val();
+           
+             LoadData(selectedMunId);
+            
+        });
+    });
 
+    function LoadData(munId) {
+       
         $('#periodTable').DataTable({
             dom: '<"row"<"col-sm-6 dataTables_buttons"B><"col-sm-6"f>>rtip',
-            serverSide:false,
+            serverSide: false,
             ajax: {
-                "url": "@Url.Action("GetUnlockedPeriodsForDataTable", "Period", new { area = "Admin" })",
-                "type": "GET",
-                "datatype": "json",
-                "data" : function(d){
-                    d.id = munId
-
+                'url': '@Url.Action("GetUnlockedPeriodsForDataTable", "Period", new { area = "Admin" })',  
+                'type': 'GET',
+                'datatype': 'json',
+                "data": function (d) {
+                    d.id = munId;  
                 }
-
-
             },
-
             language: {
                 url: "/lib/data-tables/dataTables.bgBG.json",
-                search: "", // Change the default placeholder
-                searchPlaceholder: "Търсене" // Custom placeholder text
+                search: "", 
+                searchPlaceholder: "Търсене" 
             },
             columns: [
-
-
                 {
                     name: 'municipalityCode',
                     data: 'municipalityCode',
@@ -94,117 +110,18 @@
                     searchable: true
                 },
                 {
-            data: 'id', // This is where drawId comes from
-            title: 'Действия',
-            render: function (data, type, row) {
-                // return `
-                    // <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
-                // `;
-                return '<button type="button" class="btn btn-danger" onclick="deletePeriod' + row.id + ');"><i class="fa fa-trash"></i> Изтрий</button>';
-            }
-        }
-
-        //          {
-        //     data: 'drawId',
-        //     title: 'Действия',
-        //     render: function (data, type, row) {
-        //         return `
-        //             <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
-        //         `;
-        //     }
-        // }
-                // {
-                //     name: 'actions',
-                //     data: 'drawId',  //id
-                //     title: 'Действия',
-                //     sortable: false,
-                //     searchable: false,
-                //     className: "text-center",
-                //     render: function (data, type, row) {
-                //          return '<button class="btn btn-danger delete-btn" data-id="' + data.drawId + '" title="Изтрий"><i class="fa fa-trash"></i> Изтрий</button>';
-                //          //return '<button class="btn btn-danger delete-btn" data-id="' + row.drawId + '" title="Изтрий"><i class="fa fa-trash"></i> Изтрий</button>';
-                //     }
-                // }
-
-
-                // {
-                //      name: 'actions',
-                //      data: 'id',
-                //      title: '',
-                //      sortable: false,
-                //      searchable: false,
-                //      className: "text-right",
-                //      render: function (data, type, row, meta) {
-                //          return '<a href="Debt/Details/' + row.id + '" class="btn btn-primary" title="Преглед"><i class="fa fa-info-circle"></i></a>';
-                //      }
-                // },
-                // {
-                //      name: 'actions',
-                //      data: 'id',
-                //      title: '',
-                //      sortable: false,
-                //      searchable: false,
-                //      className: "text-right",
-                //      render: function (data, type, row, meta) {
-                //          return '<a href="Debt/Edit/' + row.id + '" class="btn btn-warning" title="Редакция"><i class="fa fa-info-circle"></i></a>';
-                //      }
-                // },
-
+                    data: 'id', 
+                    title: 'Действия',
+                    render: function (data, type, row) {
+                        
+                        return `<button type="button" class="btn btn-danger" onclick="deletePeriod(${row.id});"><i class="fa fa-trash"></i> Изтрий</button>`;
+                    }
+                }
             ]
         });
-    });
+    }
 </script>
-<script>
 
-            function deletePeriod(id){
-
-                if (confirm('Сигурни ли сте, че искате да заключите този запис?')) {
-                    $.ajax({
-                        url: '@Url.Action("DeletePeriod", "Period")',  // Action to handle deletion
-                        type: 'POST',
-                        headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
-                        data: { id: drawId },  // Pass the ID to delete
-                        success: function (result) {
-                            if (result.success) {
-                                alert('Периодът беше заключен!');
-                                $('#periodTable').DataTable().ajax.reload();  // Reload the table after deletion
-                            } else {
-                                alert(result.message);  // Show the message from the server
-                            }
-                        },
-                        error: function () {
-                            alert('Грешка при комуникация със сървъра!');
-                        }
-                    });
-                }
-            }
-
-            $('#drawTable').on('click', '.delete-btn', function () {
-
-                debugger;
-             var id = $(this).data('id');  // Get the ID of the record to delete  - was id
-
-
-        if (confirm('Сигурни ли сте, че искате да изтриете този запис?')) {
-            $.ajax({
-                url: '@Url.Action("DeletePeriod", "Period")',  // Action to handle deletion
-                type: 'POST',
-                data: { id: id },  // Pass the ID to delete
-                success: function (result) {
-                    if (result.success) {
-                        alert('Записът беше успешно изтрит!');
-                        $('#drawTable').DataTable().ajax.reload();  // Reload the table after deletion
-                    } else {
-                        alert(result.message);  // Show the message from the server
-                    }
-                },
-                error: function () {
-                    alert('Грешка при комуникация със сървъра!');
-                }
-            });
-        }
-    });
-</script>
 <style>
     .smart-title {
         font-family: 'Segoe UI', sans-serif;
@@ -282,6 +199,4 @@
 
 </style>
 
-<div class="text-center">
-    <button class="btn btn-primary btn-lg" onclick="window.history.back()">Назад</button>
-</div>
+

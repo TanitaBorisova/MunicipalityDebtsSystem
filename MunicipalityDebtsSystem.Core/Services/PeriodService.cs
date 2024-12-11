@@ -42,6 +42,7 @@ namespace MunicipalityDebtsSystem.Core.Services
                         .Include(p=> p.Municipality)
                         .Select(p => new PeriodListViewModel
                         {
+                            Id = p.Id,
                             MonthName = p.MonthName,
                             YearName = p.YearName,
                             MunicipalityId = p.MunicipalityId,
