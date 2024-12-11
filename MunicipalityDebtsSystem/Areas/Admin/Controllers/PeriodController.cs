@@ -204,7 +204,7 @@ namespace MunicipalityDebtsSystem.Areas.Admin.Controllers
             return (startDate, endDate); 
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> GetUnlockedPeriodsForDataTable(int id)
         {
             int municipalityId = id;

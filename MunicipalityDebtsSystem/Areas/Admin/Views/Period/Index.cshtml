@@ -77,13 +77,19 @@
     });
 
     function LoadData(munId) {
+
+        // if ($.fn.DataTable.isDataTable('#periodTable')) {
+        //     $('#periodTable').DataTable().clear().destroy();
+        // }
        
         $('#periodTable').DataTable({
             dom: '<"row"<"col-sm-6 dataTables_buttons"B><"col-sm-6"f>>rtip',
             serverSide: false,
             ajax: {
                 'url': '@Url.Action("GetUnlockedPeriodsForDataTable", "Period", new { area = "Admin" })',  
-                'type': 'GET',
+                 'type': 'GET',
+                // type: 'POST',
+                // headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
                 'datatype': 'json',
                 "data": function (d) {
                     d.id = munId;  
@@ -100,12 +106,40 @@
                     data: 'municipalityCode',
                     title: 'Код',
                     sortable: true,
-                    searchable: false
+                    searchable: true
                 },
                 {
                     name: 'municipalityName',
                     data: 'municipalityName',
                     title: 'Община',
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'monthName',
+                    data: 'monthName',
+                    title: 'Месец',
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'yearName',
+                    data: 'yearName',
+                    title: 'Година',
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'userUnlocked',
+                    data: 'userUnlocked',
+                    title: 'Потребител отключил',
+                    sortable: true,
+                    searchable: true
+                },
+                {
+                    name: 'dateUnlocked',
+                    data: 'dateUnlocked',
+                    title: 'Потребител отключил',
                     sortable: true,
                     searchable: true
                 },
