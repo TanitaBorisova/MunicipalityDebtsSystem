@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MunicipalityDebtsSystem.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using MunicipalityDebtsSystem.Infrastructure.Data;
 namespace MunicipalityDebtsSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241211200904_PaymentCommentNullable")]
+    partial class PaymentCommentNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -327,7 +330,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             Id = "c398bf2f-e8b0-4c64-a99b-492c8c29e9c3",
                             AccessFailedCount = 3,
-                            ConcurrencyStamp = "39ee2895-3e42-4f66-a258-160e2aa97dc0",
+                            ConcurrencyStamp = "93beadba-3115-4983-aa0c-da23a18d82a9",
                             Email = "adminDebt@mail.bg",
                             EmailConfirmed = false,
                             FirstName = "Иван",
@@ -335,9 +338,9 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMINDEBT@MAIL.BG",
                             NormalizedUserName = "ADMINDEBT@MAIL.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGl0J5znaOuy2ggDfIB/7qj7tNvhqEKs5gKYuxqoX66gsDja23ABnCmfN4TmR3V+Gg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPYCqNiKBgo1x1TFlT8O1pT/hbrG7MU8m8ep417+ezCFE+no0fj0S9qyCfUNJs3FZw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0bcdbfc2-fe0f-49d6-b4da-ba0c1b974112",
+                            SecurityStamp = "cc8efe24-1377-48c8-ad20-9011287fac5f",
                             TwoFactorEnabled = false,
                             UserName = "adminDebt@mail.bg"
                         },
@@ -345,7 +348,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             Id = "22ad10a0-2f69-4735-bd2c-9e944cd80baf",
                             AccessFailedCount = 3,
-                            ConcurrencyStamp = "afe61622-7805-4268-bc09-91b05682e652",
+                            ConcurrencyStamp = "c2786c42-3340-4205-be9f-e82663349bdf",
                             Email = "burgas_municipal@mail.bg",
                             EmailConfirmed = false,
                             FirstName = "Стоян",
@@ -354,9 +357,9 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                             MunicipalityId = 16,
                             NormalizedEmail = "BURGAS_MUNICIPAL@MAIL.BG",
                             NormalizedUserName = "BURGAS_MUNICIPAL@MAIL.BG",
-                            PasswordHash = "AQAAAAIAAYagAAAAEE2amaq/OLkm64hGyzjWrYpFc9xeezp8ri4d2Bix3hthLulC9mJ/M4Dk6tMO2Np7nA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMF82izaXleQQmt+HCexz5FeV9llR4Q0A00YJ0sN1+pMlOcxZ+Y7Zm6odEWKniMefw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d974579a-b32f-41a2-9881-7c3920fcea4b",
+                            SecurityStamp = "eea41b25-e8de-4d7b-8353-11959db983e3",
                             TwoFactorEnabled = false,
                             UserName = "burgas_municipal@mail.bg"
                         },
@@ -364,7 +367,7 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         {
                             Id = "faf648ad-8f38-459d-909f-256f9a167a44",
                             AccessFailedCount = 3,
-                            ConcurrencyStamp = "d29e0e0c-f08a-43f8-a3bd-3596be0a9427",
+                            ConcurrencyStamp = "2fda5d00-e6d0-4fed-9811-3bea78bf7d98",
                             Email = "VarnaMun@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Георги",
@@ -373,9 +376,9 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                             MunicipalityId = 32,
                             NormalizedEmail = "VARNAMUN@MAIL.COM",
                             NormalizedUserName = "VARNAMUN@MAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECAWYrkgfujaEq8REi8Qs16uEz2TU76oj68TPPnHsGr4NxexkPRo7tYm3vDsg4IaxQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIfMouYXipbSTEfsj8JZy6claotCHx+rSN0P/RTRsRhFLMkN88A9Uof2g3cN/frQRw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e7870c64-a4a3-4518-9c4f-ee7bdbcbea56",
+                            SecurityStamp = "d88945bc-b0df-4b64-b3df-72e0e16e1cae",
                             TwoFactorEnabled = false,
                             UserName = "VarnaMun@mail.com"
                         });
@@ -824,8 +827,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         .HasComment("User modified the payment");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DebtId");
 
                     b.HasIndex("MunicipalityId");
 
@@ -4251,12 +4252,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
 
             modelBuilder.Entity("MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.Payment", b =>
                 {
-                    b.HasOne("MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.Debt", "Debt")
-                        .WithMany()
-                        .HasForeignKey("DebtId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures.Municipality", "Municipality")
                         .WithMany()
                         .HasForeignKey("MunicipalityId")
@@ -4267,8 +4262,6 @@ namespace MunicipalityDebtsSystem.Data.Migrations
                         .WithMany("ChildPayments")
                         .HasForeignKey("PaymentParentId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Debt");
 
                     b.Navigation("Municipality");
 

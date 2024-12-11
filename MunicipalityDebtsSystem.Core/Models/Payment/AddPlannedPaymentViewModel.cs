@@ -41,12 +41,12 @@ namespace MunicipalityDebtsSystem.Core.Models.Payment
         [Required]
         public int MunicipalityId { get; set; }
 
-        [Required]
-        [MaxLength(ValidationConstants.UserMaxLength)]
-        public string UserCreated { get; set; } = string.Empty;
+        //[Required]
+        //[MaxLength(ValidationConstants.UserMaxLength)]
+        //public string UserCreated { get; set; } = string.Empty;
 
-        [Required]
-        public DateTime DateCreated { get; set; }
+        //[Required]
+        //public DateTime DateCreated { get; set; }
 
             
         [Required]
