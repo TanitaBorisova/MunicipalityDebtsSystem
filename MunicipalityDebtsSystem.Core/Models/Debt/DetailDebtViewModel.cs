@@ -53,5 +53,7 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
         public string UserCreated { get; set; } = string.Empty;
                 
         public string DateCreated { get; set; } = string.Empty;
+
+        public DebtPartialInfoViewModel DebtPartialInfo { get; set; } = new DebtPartialInfoViewModel();
     }
 }
