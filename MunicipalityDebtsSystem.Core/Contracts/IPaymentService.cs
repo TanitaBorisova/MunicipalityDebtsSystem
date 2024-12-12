@@ -1,4 +1,5 @@
 ﻿using MunicipalityDebtsSystem.Core.Models.Payment;
+using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,6 @@ namespace MunicipalityDebtsSystem.Core.Contracts
         Task<IEnumerable<PlannedPaymentListViewModel>> GetAllPlannedPaymentsAsync(int id);
         Task<bool> PlannedPaymentHasChildsAsync(int id);
         Task RemovePayment(int id);
+        Task<Payment> GetPaymentEntityByIdAsync(int id);
     }
 }

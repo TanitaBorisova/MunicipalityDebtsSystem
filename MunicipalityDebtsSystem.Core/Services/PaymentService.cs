@@ -85,6 +85,11 @@ namespace MunicipalityDebtsSystem.Core.Services
             return model;
 
         }
+        public async Task<Payment> GetPaymentEntityByIdAsync(int id)
+        {
+            return await repository.GetByIdAsync<Payment>(id);
 
+
+        }
     }
 }
