@@ -91,5 +91,50 @@ namespace MunicipalityDebtsSystem.Core.Services
 
 
         }
+        public async Task<Payment> GetPlannedPaymentInfoByIdAsync(int id)
+        {
+            var entity = await repository.GetByIdAsync<Payment>(id);
+            return entity;
+        }
+
+        public async Task<List<PlannedPaymentDateViewModel>> GetAllPlannedPaymentDatesAsync(int debtId) //int debtId
+        {
+            return await repository.AllReadOnly<Payment>()
+                .Where(d => d.OperationTypeId == (int)OperationType.PlannedPayment && d.DebtId == debtId)
+
+                .Select(c => new PlannedPaymentDateViewModel
+                {
+                    Id = c.Id,
+                    PlannedDate = c.PaymentDate.ToString(ValidationConstants.DateFormat)
+                }).ToListAsync();
+        }
+
+
+        public async Task AddRealAsync(AddPaymentViewModel model, string userId, int municipalityId, DateTime datePayment, int paymentParentId)
+        {
+            Payment payment = new Payment
+            {
+
+                DebtId = model.DebtId,
+                PaymentParentId = paymentParentId,
+                PaymentDate = datePayment,
+                PaymentAmount = model.PaymentAmount,
+                InterestRate = model.InterestRate,
+                InterestAmount = model.InterestAmount,
+                OperateTaxAmount = model.OperateTaxAmount,
+                OperationTypeId = (int)OperationType. Payment,
+                MunicipalityId = municipalityId,
+                UserCreated = userId,
+                DateCreated = DateTime.Now
+
+            };
+
+            await repository.AddAsync(payment);
+            await repository.SaveChangesAsync();
+
+        }
+
+
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MunicipalityDebtsSystem.Core.Contracts;
 using MunicipalityDebtsSystem.Core.Enums;
+using MunicipalityDebtsSystem.Core.Models.Draw;
 using MunicipalityDebtsSystem.Core.Models.Payment;
 using MunicipalityDebtsSystem.Core.Services;
 using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
@@ -194,5 +195,103 @@ namespace MunicipalityDebtsSystem.Controllers
                 return Json(new { success = false, message = ex.Message });
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> AddPayment(int id)
+        {
+            var debt = await debtService.GetDebtByIdAsync(id);
+
+            string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
+            string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
+
+            AddPaymentViewModel model = new AddPaymentViewModel();
+
+            model.PlannedPaymentDates = await paymentService.GetAllPlannedPaymentDatesAsync(id);
+            model.DebtId = id;
+            //////////////////////////////////////////////////////////TO DO IN A METHOD
+            ///model.DebtId = id;
+            model.DebtPartialInfo.Payments = await debtService.ReturnSumOfOperationType((int)OperationType.Payment, id);
+            model.DebtPartialInfo.PlannedPayments = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedPayment, id);
+            model.DebtPartialInfo.Draws = await debtService.ReturnSumOfOperationType((int)OperationType.Draw, id);
+            model.DebtPartialInfo.PlannedDraws = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedDraw, id);
+
+            model.DebtPartialInfo.MunicipalityName = municipalityName;
+            model.DebtPartialInfo.MunicipalityCode = municipalityCode;
+            model.DebtPartialInfo.CurrencyName = debt.CurrencyName;
+            model.DebtPartialInfo.DebtNumber = debt.DebtNumber;
+            model.DebtPartialInfo.BookDate = debt.DateBook;
+            ///////////////////////////////////////////////////////////////////////////
+            return View(model);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPayment(AddPaymentViewModel model, int id)
+        {
+            var debt = await debtService.GetDebtByIdAsync(id);
+            model.DebtId = id;
+            string userId = User.Id();
+
+            int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
+            string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
+            string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
+
+            //model.DebtParentId = model.DrawParentId;
+
+            //////////////////////////////////////////////////////////TO DO IN A METHOD
+            ///model.DebtId = id;
+            model.DebtPartialInfo.Payments = await debtService.ReturnSumOfOperationType((int)OperationType.Payment, id);
+            model.DebtPartialInfo.PlannedPayments = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedPayment, id);
+            model.DebtPartialInfo.Draws = await debtService.ReturnSumOfOperationType((int)OperationType.Draw, id);
+            model.DebtPartialInfo.PlannedDraws = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedDraw, id);
+
+            model.DebtPartialInfo.MunicipalityName = municipalityName;
+            model.DebtPartialInfo.MunicipalityCode = municipalityCode;
+            model.DebtPartialInfo.CurrencyName = debt.CurrencyName;
+            model.DebtPartialInfo.DebtNumber = debt.DebtNumber;
+            model.DebtPartialInfo.BookDate = debt.DateBook;
+            ///////////////////////////////////////////////////////////////////////////
+
+            DateTime datePayment;
+
+            bool isDatePaymentValid = DateTime.TryParseExact(model.PaymentDate, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out datePayment);
+            if (!isDatePaymentValid)
+            {
+                ModelState.AddModelError(nameof(model.PaymentDate), ValidationConstants.InvalidDateErrorMessage);
+            }
+
+
+            model.OperationTypeId = (int)OperationType.Payment;
+
+            if (model.OperationTypeId != (int)OperationType.Payment)
+            {
+                ModelState.AddModelError(nameof(model.OperationTypeId), ValidationConstants.OperationTypeIdErrorMessage);
+            }
+
+
+            if (!ModelState.IsValid)
+            {
+
+                model.PlannedPaymentDates = await paymentService.GetAllPlannedPaymentDatesAsync(id);
+
+                return View(model);
+            }
+
+
+            int paymentParentId = Convert.ToInt32(TempData["PlannedPaymentId"]);
+            await paymentService.AddRealAsync(model, userId, municipalityId, datePayment, paymentParentId);  
+            return RedirectToAction(nameof(AddPayment));
+
+
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetPlannedPaymentInfo(int plannedPaymentId)
+        {
+            TempData["PlannedPaymentId"] = plannedPaymentId;
+            var plannedPaymentInfo = await paymentService.GetPlannedPaymentInfoByIdAsync(plannedPaymentId);
+            return Json(plannedPaymentInfo);
+        }
+
     }
 }

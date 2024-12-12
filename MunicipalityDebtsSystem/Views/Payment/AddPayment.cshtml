@@ -1,0 +1,438 @@
+﻿@using MunicipalityDebtsSystem.Core.Models.Payment
+@model AddPaymentViewModel
+
+<link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+<link href="~/lib/data-tables/datatables.min.css" rel="stylesheet" />
+@{
+    ViewData["Title"] = "Плащания";
+    ViewData["NewPlannedPayment"] = "Ново плащане";
+    var today = DateTime.Now.ToString("dd.MM.yyyy");//"dd-MM-yyyy" //"dd/MM/yyyy"
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/lib/data-tables/datatables.min.js"></script>
+
+<div class="smart-title">
+    <h2>@ViewData["Title"]</h2>
+</div>
+<hr />
+<partial name="_DebtInfo" model="Model.DebtPartialInfo" />
+<hr />
+<div class="smart-title">
+    <h4>@ViewData["NewPlannedPayment"]</h4>
+</div>
+<div class="row card-body">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form id="payments" asp-action="AddPayment" asp-controller="Payment" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="@Model.DebtId" />
+            <input type="hidden" asp-for="@Model.OperationTypeId" />
+
+            <div class="row">
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.PlannedPaymentId" class="form-label-add-edit">Дата на планирано плащане:</label>
+                   
+                    <select asp-for="@Model.PlannedPaymentId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.PlannedPaymentDates, "Id", "PlannedDate"))">
+                        <option value="0">-- Изберете</option>
+                    </select>
+
+                    <span asp-validation-for="@Model.PlannedPaymentId" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.PaymentDate" class="form-label-add-edit">Дата на плащане:</label>
+                    <input asp-for="@Model.PaymentDate" class="form-control" aria-required="true" value="@(string.IsNullOrEmpty(Model.PaymentDate) ? today : Model.PaymentDate)" />
+                    <span asp-validation-for="@Model.PaymentDate" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.PaymentParentAmount" class="form-label-add-edit">Размер на пл. плащане в ориг. валута:</label>
+                    <div class="input-group">
+                        <input asp-for="@Model.PaymentParentAmount" class="form-control" type="number" step="0.01" min="0" readonly="readonly"/>
+                    </div>
+                    <span asp-validation-for="@Model.PaymentParentAmount" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.PaymentAmount" class="form-label-add-edit">Размер на плащане в ориг. валута:</label>
+                    <div class="input-group">
+                        <input asp-for="@Model.PaymentAmount" class="form-control" type="number" step="0.01" min="0" />
+                    </div>
+                    <span asp-validation-for="@Model.PaymentAmount" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.InterestParentAmount" class="form-label-add-edit">Размер на пл. лихвено плащане:</label>
+                    <div class="input-group">
+                        <input asp-for="@Model.InterestParentAmount" class="form-control" type="number" step="0.01" min="0"  />
+                    </div>
+                    <span asp-validation-for="@Model.InterestParentAmount" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.InterestAmount" class="form-label-add-edit">Размер на лихвено плащане:</label>
+                    <div class="input-group">
+                        <input asp-for="@Model.InterestAmount" class="form-control" type="number" step="0.01" min="0" />
+                    </div>
+                    <span asp-validation-for="@Model.InterestAmount" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.InterestParentRate" class="form-label-add-edit">Лихвен процент (планиран):</label>
+                    <div class="input-group">
+                        <input asp-for="@Model.InterestParentRate" class="form-control" type="number" step="0.01" min="0" readonly="readonly" />
+                    </div>
+                    <span asp-validation-for="@Model.InterestParentRate" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.InterestRate" class="form-label-add-edit">Лихвен процент:</label>
+                    <div class="input-group">
+                        <input asp-for="@Model.InterestRate" class="form-control" type="number" step="0.01" min="0"  />
+                    </div>
+                    <span asp-validation-for="@Model.InterestRate" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.OperateTaxParentAmount" class="form-label-add-edit">Планирани такси и комисионни:</label>
+                    <div class="input-group">
+                        <input asp-for="@Model.OperateTaxParentAmount" class="form-control" type="number" step="0.01" min="0" readonly="readonly" />
+                    </div>
+                    <span asp-validation-for="@Model.OperateTaxParentAmount" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.OperateTaxAmount" class="form-label-add-edit">Такси и комисионни:</label>
+                    <div class="input-group">
+                        <input asp-for="@Model.OperateTaxAmount" class="form-control" type="number" step="0.01" min="0" />
+                    </div>
+                    <span asp-validation-for="@Model.OperateTaxAmount" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.ParentComment" class="form-label-add-edit">Коментар към пл. плащане:</label>
+                    <div class="input-group">
+                        @* <input asp-for="@Model.ParentComment" class="form-control" type="text" /> *@
+                        <textarea asp-for="@Model.ParentComment" class="form-control" rows="3"></textarea>
+                    </div>
+                    <span asp-validation-for="@Model.ParentComment" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.RealComment" class="form-label-add-edit">Коментар към плащане:</label>
+                    <div class="input-group">
+                      @*   <input asp-for="@Model.RealComment" class="form-control" type="text" /> *@
+                        <textarea asp-for="@Model.RealComment" class="form-control" rows="3"></textarea>
+                    </div>
+                    <span asp-validation-for="@Model.RealComment" class="text-danger"></span>
+                </div>
+
+
+                <div class="mb-2">
+                    <input class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Запис" />
+
+                </div>
+                <div class="mb-2">
+                    <input class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Изчисти" />
+                </div>
+        </form>
+    </div>
+</div>
+
+
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <table id="paymentTable" class="table table-hover table-striped"></table>
+    </div>
+</div>
+
+
+<!-- DataTables JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/lib/data-tables/datatables.min.js"></script>
+<script>
+
+
+    $(function () {
+        var debtId = @Model.DebtId
+
+            $('#paymentTable').DataTable({
+                dom: '<"row"<"col-sm-6 dataTables_buttons"B><"col-sm-6"f>>rtip',
+                serverSide: false,
+                ajax: {
+                    "url": "@Url.Action("GetPlannedPaymentsForDataTable", "Payment")",
+                    "type": "GET",
+                    "datatype": "json",
+                    "data": function (d) {
+                        d.id = debtId
+
+                    }
+
+
+                },
+
+                language: {
+                    url: "/lib/data-tables/dataTables.bgBG.json",
+                    search: "", // Change the default placeholder
+                    searchPlaceholder: "Търсене" // Custom placeholder text
+                },
+                columns: [
+
+
+                    {
+                        name: 'paymentDate',
+                        data: 'paymentDate',
+                        title: 'Дата на планирано плащане',
+                        sortable: true,
+                        searchable: false
+                    },
+                    {
+                        name: 'paymentAmount',
+                        data: 'paymentAmount',
+                        title: 'Размер на планирано плащане в оригинална валута',
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'interestAmount',
+                        data: 'interestAmount',
+                        title: 'Лихвено плащане',
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'interestRate',
+                        data: 'interestRate',
+                        title: 'Лихвен процент',
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        data: 'paymentId',
+                        title: 'Действия',
+                        render: function (data, type, row) {
+                            // return `
+                            // <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
+                            // `;
+                            return '<button type="button" class="btn btn-danger" onclick="deletePlannedPayment(' + row.paymentId + ');"><i class="fa fa-trash"></i> Изтрий</button>';
+                        }
+                    }
+
+                    //          {
+                    //     data: 'drawId',
+                    //     title: 'Действия',
+                    //     render: function (data, type, row) {
+                    //         return `
+                    //             <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
+                    //         `;
+                    //     }
+                    // }
+                    // {
+                    //     name: 'actions',
+                    //     data: 'drawId',  //id
+                    //     title: 'Действия',
+                    //     sortable: false,
+                    //     searchable: false,
+                    //     className: "text-center",
+                    //     render: function (data, type, row) {
+                    //          return '<button class="btn btn-danger delete-btn" data-id="' + data.drawId + '" title="Изтрий"><i class="fa fa-trash"></i> Изтрий</button>';
+                    //          //return '<button class="btn btn-danger delete-btn" data-id="' + row.drawId + '" title="Изтрий"><i class="fa fa-trash"></i> Изтрий</button>';
+                    //     }
+                    // }
+
+
+                    // {
+                    //      name: 'actions',
+                    //      data: 'id',
+                    //      title: '',
+                    //      sortable: false,
+                    //      searchable: false,
+                    //      className: "text-right",
+                    //      render: function (data, type, row, meta) {
+                    //          return '<a href="Debt/Details/' + row.id + '" class="btn btn-primary" title="Преглед"><i class="fa fa-info-circle"></i></a>';
+                    //      }
+                    // },
+                    // {
+                    //      name: 'actions',
+                    //      data: 'id',
+                    //      title: '',
+                    //      sortable: false,
+                    //      searchable: false,
+                    //      className: "text-right",
+                    //      render: function (data, type, row, meta) {
+                    //          return '<a href="Debt/Edit/' + row.id + '" class="btn btn-warning" title="Редакция"><i class="fa fa-info-circle"></i></a>';
+                    //      }
+                    // },
+
+                ]
+            });
+    });
+</script>
+<script>
+
+    function deletePlannedPayment(paymentId) {
+
+        if (confirm('Сигурни ли сте, че искате да изтриете този запис?')) {
+            $.ajax({
+                url: '@Url.Action("DeletePlannedPayment", "Payment")',
+                type: 'POST',
+                headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                data: { id: paymentId },  // Pass the ID to delete
+                success: function (result) {
+                    if (result.success) {
+                        alert('Записът беше успешно изтрит!');
+                        $('#paymentTable').DataTable().ajax.reload();  // Reload the table after deletion
+                    } else {
+                        alert(result.message);  // Show the message from the server
+                    }
+                },
+                error: function () {
+                    alert('Грешка при комуникация със сървъра!');
+                }
+            });
+        }
+    }
+
+    $('#paymentTable').on('click', '.delete-btn', function () {
+
+
+        var paymentId = $(this).data('paymentId');  // Get the ID of the record to delete  - was id
+
+
+        if (confirm('Сигурни ли сте, че искате да изтриете този запис?')) {
+            $.ajax({
+                url: '@Url.Action("DeletePlannedPayment", "Payment")',  // Action to handle deletion
+                type: 'POST',
+                data: { id: paymentId },  // Pass the ID to delete
+                success: function (result) {
+                    if (result.success) {
+                        alert('Записът беше успешно изтрит!');
+                        $('#paymentTable').DataTable().ajax.reload();  // Reload the table after deletion
+                    } else {
+                        alert(result.message);  // Show the message from the server
+                    }
+                },
+                error: function () {
+                    alert('Грешка при комуникация със сървъра!');
+                }
+            });
+        }
+    });
+</script>
+<style>
+    .smart-title {
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #4A90E2;
+        background: linear-gradient(135deg, #4A90E2, #5C6BC0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+
+
+    table.dataTable {
+        width: 100%;
+        margin: 20px 0;
+        border-collapse: collapse;
+    }
+
+        table.dataTable th,
+        table.dataTable td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        table.dataTable th {
+            background-color: #f1f1f1;
+            font-weight: bold;
+        }
+
+        table.dataTable tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+    .btn {
+        font-size: 12px;
+        padding: 6px 12px;
+        margin-right: 5px;
+        text-align: center;
+    }
+
+    .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+    .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
+
+    .btn-sm {
+        padding: 5px 10px;
+    }
+
+    .delete-btn {
+        background-color: #f44336; /* Red */
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+
+        .delete-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        .delete-btn i {
+            margin-right: 5px;
+        }
+
+</style>
+
+<div class="text-center">
+    <button class="btn btn-primary btn-lg" onclick="window.history.back()">Назад</button>
+</div>
+
+
+<script>
+    document.getElementById('PlannedPaymentId').addEventListener('change', function () {
+        var selectedValue = $('#PlannedPaymentId').val();
+        LoadData();
+    });
+
+    function LoadData() {
+
+        var selectedValue = $('#PlannedPaymentId').val();
+
+        if (selectedValue == 0) {
+            $('#PaymentParentAmount').val('');
+            $('#InterestParentAmount').val('');
+            $('#InterestParentRate').val('');
+            $('#OperateTaxParentAmount').val('');
+            $('#ParentComment').val('');
+            return;
+        }
+
+        $.ajax({
+            url: '/Payment/GetPlannedPaymentInfo',
+            type: 'GET',
+            data: { plannedPaymentId: selectedValue },
+            success: function (response) {
+
+                // var plannedPaymentAmount = response.paymentAmount;
+                // $('#DrawPlannedAmount').val(plannedDrawAmount);
+                // $('#DrawAmount').val(plannedDrawAmount);
+                $('#PaymentParentAmount').val(response.PaymentParentAmount);
+                $('#InterestParentAmount').val(response.InterestParentAmount);
+                $('#InterestParentRate').val(response.InterestParentRate);
+                $('#OperateTaxParentAmount').val(response.OperateTaxParentAmount);
+                $('#ParentComment').val(response.ParentComment);
+            },
+            error: function (xhr, status, error) {
+                console.log("Error fetching data:", error);
+            }
+        });
+    }
+</script>
