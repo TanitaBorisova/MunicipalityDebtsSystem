@@ -75,7 +75,7 @@
 <hr />
 <div class="row">
     <div class="col-lg-12">
-        <table id="paymentTable" class="table table-hover table-striped"></table>
+        <table id="coverTable" class="table table-hover table-striped"></table>
     </div>
 </div>
 
@@ -83,7 +83,169 @@
 <!-- DataTables JS and jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="~/lib/data-tables/datatables.min.js"></script>
+<script>
 
+
+    $(function () {
+        var debtId = @Model.DebtId
+
+            $('#coverTable').DataTable({
+                dom: '<"row"<"col-sm-6 dataTables_buttons"B><"col-sm-6"f>>rtip',
+                serverSide: false,
+                ajax: {
+                    "url": "@Url.Action("GetCoversForDataTable", "Cover")",
+                    "type": "GET",
+                    "datatype": "json",
+                    "data": function (d) {
+                        d.id = debtId
+
+                    }
+
+
+                },
+
+                language: {
+                    url: "/lib/data-tables/dataTables.bgBG.json",
+                    search: "", // Change the default placeholder
+                    searchPlaceholder: "Търсене" // Custom placeholder text
+                },
+                columns: [
+
+
+                    {
+                        name: 'coverTypeName',
+                        data: 'coverTypeName',
+                        title: 'Тип на обезпечението',
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'coverAmount',
+                        data: 'coverAmount',
+                        title: 'Размер',
+                        sortable: true,
+                        searchable: true
+                    },
+                    {
+                        name: 'coverDescription',
+                        data: 'coverDescription',
+                        title: 'Описание',
+                        sortable: true,
+                        searchable: true
+                    },
+                    
+                    {
+                        data: 'coverId', 
+                        title: 'Действия',
+                        render: function (data, type, row) {
+                            // return `
+                            // <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
+                            // `;
+                            return '<button type="button" class="btn btn-danger" onclick="deleteCover(' + row.coverId + ');"><i class="fa fa-trash"></i> Изтрий</button>';
+                        }
+                    }
+
+                    //          {
+                    //     data: 'drawId',
+                    //     title: 'Действия',
+                    //     render: function (data, type, row) {
+                    //         return `
+                    //             <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
+                    //         `;
+                    //     }
+                    // }
+                    // {
+                    //     name: 'actions',
+                    //     data: 'drawId',  //id
+                    //     title: 'Действия',
+                    //     sortable: false,
+                    //     searchable: false,
+                    //     className: "text-center",
+                    //     render: function (data, type, row) {
+                    //          return '<button class="btn btn-danger delete-btn" data-id="' + data.drawId + '" title="Изтрий"><i class="fa fa-trash"></i> Изтрий</button>';
+                    //          //return '<button class="btn btn-danger delete-btn" data-id="' + row.drawId + '" title="Изтрий"><i class="fa fa-trash"></i> Изтрий</button>';
+                    //     }
+                    // }
+
+
+                    // {
+                    //      name: 'actions',
+                    //      data: 'id',
+                    //      title: '',
+                    //      sortable: false,
+                    //      searchable: false,
+                    //      className: "text-right",
+                    //      render: function (data, type, row, meta) {
+                    //          return '<a href="Debt/Details/' + row.id + '" class="btn btn-primary" title="Преглед"><i class="fa fa-info-circle"></i></a>';
+                    //      }
+                    // },
+                    // {
+                    //      name: 'actions',
+                    //      data: 'id',
+                    //      title: '',
+                    //      sortable: false,
+                    //      searchable: false,
+                    //      className: "text-right",
+                    //      render: function (data, type, row, meta) {
+                    //          return '<a href="Debt/Edit/' + row.id + '" class="btn btn-warning" title="Редакция"><i class="fa fa-info-circle"></i></a>';
+                    //      }
+                    // },
+
+                ]
+            });
+    });
+</script>
+<script>
+
+    function deleteCover(coverId) {
+
+        if (confirm('Сигурни ли сте, че искате да изтриете този запис?')) {
+            $.ajax({
+                url: '@Url.Action("DeleteCover", "Cover")', 
+                type: 'POST',
+                headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                data: { id: coverId },  // Pass the ID to delete
+                success: function (result) {
+                    if (result.success) {
+                        alert('Записът беше успешно изтрит!');
+                        $('#coverTable').DataTable().ajax.reload();  // Reload the table after deletion
+                    } else {
+                        alert(result.message);  // Show the message from the server
+                    }
+                },
+                error: function () {
+                    alert('Грешка при комуникация със сървъра!');
+                }
+            });
+        }
+    }
+
+    // $('#drawTable').on('click', '.delete-btn', function () {
+
+    //     debugger;
+    //     var drawId = $(this).data('drawId');  // Get the ID of the record to delete  - was id
+
+
+    //     if (confirm('Сигурни ли сте, че искате да изтриете този запис?')) {
+    //         $.ajax({
+    //             url: '@Url.Action("DeletePlannedDraw", "Draw")',  // Action to handle deletion
+    //             type: 'POST',
+    //             data: { id: drawId },  // Pass the ID to delete
+    //             success: function (result) {
+    //                 if (result.success) {
+    //                     alert('Записът беше успешно изтрит!');
+    //                     $('#drawTable').DataTable().ajax.reload();  // Reload the table after deletion
+    //                 } else {
+    //                     alert(result.message);  // Show the message from the server
+    //                 }
+    //             },
+    //             error: function () {
+    //                 alert('Грешка при комуникация със сървъра!');
+    //             }
+    //         });
+    //     }
+    // });
+</script>
 <style>
     .smart-title {
         font-family: 'Segoe UI', sans-serif;

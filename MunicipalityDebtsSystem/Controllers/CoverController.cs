@@ -3,6 +3,7 @@ using MunicipalityDebtsSystem.Core.Contracts;
 using MunicipalityDebtsSystem.Core.Enums;
 using MunicipalityDebtsSystem.Core.Models.Cover;
 using MunicipalityDebtsSystem.Core.Models.Payment;
+using MunicipalityDebtsSystem.Core.Services;
 using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
 using System.Globalization;
 using System.Security.Claims;
@@ -117,9 +118,48 @@ namespace MunicipalityDebtsSystem.Controllers
                 return View(model);
             }
 
-           // await coverService.AddCoverAsync(model, userId, municipalityId);
+            await coverService.AddCoverAsync(model, userId, municipalityId);
             return RedirectToAction("AddCover", "Cover", new { id = model.DebtId });
 
             }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCoversForDataTable(int id)
+        {
+
+            var data = await coverService.GetAllCoversAsync(id);
+            return Json(new { data = data });
+
         }
+
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteCover(int id)
+        {
+            try
+            {
+
+                var cover = await coverService.GetCoverEntityByIdAsync(id);
+
+                if (cover == null)
+                {
+                    return Json(new { success = false, message = "Записът не съществува." });
+                }
+
+
+
+                await coverService.RemoveCover(id);
+
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+
+    }
 }
