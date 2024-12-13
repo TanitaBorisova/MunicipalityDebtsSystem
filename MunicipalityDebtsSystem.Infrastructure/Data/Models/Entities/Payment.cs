@@ -48,8 +48,6 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
         public decimal InterestRate { get; set; }
 
    
-        [Comment("Comment for the payment")]
-        public string? Comment { get; set; }
 
         [Required]
         [Comment("Identifier of the debt")]

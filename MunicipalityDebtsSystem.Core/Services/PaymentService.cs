@@ -35,7 +35,6 @@ namespace MunicipalityDebtsSystem.Core.Services
                 InterestAmount = model.InterestAmount,
                 InterestRate = model.InterestRate,
                 OperateTaxAmount = model.OperateTaxAmount,
-                Comment = model.Comment,
                 OperationTypeId = (int)OperationType.PlannedPayment,
                 MunicipalityId = municipalityId,
                 UserCreated = userId,
@@ -77,6 +76,30 @@ namespace MunicipalityDebtsSystem.Core.Services
                     PaymentAmount = d.PaymentAmount,
                     InterestRate = d.InterestRate,  
                     InterestAmount = d.InterestAmount,  
+                    OperateTaxAmount = d.OperateTaxAmount
+
+                }).ToListAsync();
+
+
+            return model;
+
+        }
+
+        public async Task<IEnumerable<PlannedPaymentListViewModel>> GetAllPaymentsAsync(int id)
+        {
+            var model = await repository.AllReadOnly<Payment>()
+                .Where(d => d.IsDeleted == false && d.OperationTypeId == (int)OperationType.Payment && d.Debt.Id == id)  //&& d.Debt.Id == id
+                .Include(d => d.Debt)
+                .ThenInclude(d => d.Currency)
+
+                .Select(d => new PlannedPaymentListViewModel
+                {
+                    // //= d.DebtId,
+                    PaymentId = d.Id,
+                    PaymentDate = d.PaymentDate.ToString(ValidationConstants.DateFormat),
+                    PaymentAmount = d.PaymentAmount,
+                    InterestRate = d.InterestRate,
+                    InterestAmount = d.InterestAmount,
                     OperateTaxAmount = d.OperateTaxAmount
 
                 }).ToListAsync();

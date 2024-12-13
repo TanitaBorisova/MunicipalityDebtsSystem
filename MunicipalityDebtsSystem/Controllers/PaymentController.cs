@@ -131,6 +131,16 @@ namespace MunicipalityDebtsSystem.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetPaymentsForDataTable(int id)
+        {
+
+            var data = await paymentService.GetAllPaymentsAsync(id);
+            return Json(new { data = data });
+
+        }
+
+
         [HttpPost]
         // [ValidateAntiForgeryToken]  //there is global filter
         public async Task<IActionResult> DeletePlannedPayment(int id)

@@ -19,8 +19,8 @@ namespace MunicipalityDebtsSystem.Core.Models.Payment
 
         public int PlannedPaymentId { get; set; }
 
-        [Required(ErrorMessage = ValidationConstants.RequiredErrorMessage)]
-        public string PaymentParentDate { get; set; } = string.Empty;
+        //[Required(ErrorMessage = ValidationConstants.RequiredErrorMessage)]
+        //public string PaymentParentDate { get; set; } = string.Empty;
 
         [Required(ErrorMessage = ValidationConstants.RequiredErrorMessage)]
         public decimal PaymentParentAmount { get; set; }
@@ -49,9 +49,6 @@ namespace MunicipalityDebtsSystem.Core.Models.Payment
         [Required(ErrorMessage = ValidationConstants.RequiredErrorMessage)]
         public decimal InterestRate { get; set; }
 
-        public string? ParentComment { get; set; }
-
-        public string? RealComment { get; set; }
 
         [Required]
         public int OperationTypeId { get; set; }

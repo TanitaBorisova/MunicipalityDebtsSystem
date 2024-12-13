@@ -60,7 +60,7 @@
                 <div class="col-sm-6 mb-2">
                     <label asp-for="@Model.InterestParentAmount" class="form-label-add-edit">Размер на пл. лихвено плащане:</label>
                     <div class="input-group">
-                        <input asp-for="@Model.InterestParentAmount" class="form-control" type="number" step="0.01" min="0"  />
+                        <input asp-for="@Model.InterestParentAmount" class="form-control" type="number" step="0.01" min="0" readonly="readonly" />
                     </div>
                     <span asp-validation-for="@Model.InterestParentAmount" class="text-danger"></span>
                 </div>
@@ -103,23 +103,9 @@
                     <span asp-validation-for="@Model.OperateTaxAmount" class="text-danger"></span>
                 </div>
 
-                <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.ParentComment" class="form-label-add-edit">Коментар към пл. плащане:</label>
-                    <div class="input-group">
-                        @* <input asp-for="@Model.ParentComment" class="form-control" type="text" /> *@
-                        <textarea asp-for="@Model.ParentComment" class="form-control" rows="3"></textarea>
-                    </div>
-                    <span asp-validation-for="@Model.ParentComment" class="text-danger"></span>
-                </div>
+               
 
-                <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.RealComment" class="form-label-add-edit">Коментар към плащане:</label>
-                    <div class="input-group">
-                      @*   <input asp-for="@Model.RealComment" class="form-control" type="text" /> *@
-                        <textarea asp-for="@Model.RealComment" class="form-control" rows="3"></textarea>
-                    </div>
-                    <span asp-validation-for="@Model.RealComment" class="text-danger"></span>
-                </div>
+                
 
 
                 <div class="mb-2">
@@ -155,7 +141,7 @@
                 dom: '<"row"<"col-sm-6 dataTables_buttons"B><"col-sm-6"f>>rtip',
                 serverSide: false,
                 ajax: {
-                    "url": "@Url.Action("GetPlannedPaymentsForDataTable", "Payment")",
+                    "url": "@Url.Action("GetPaymentsForDataTable", "Payment")",
                     "type": "GET",
                     "datatype": "json",
                     "data": function (d) {
@@ -411,7 +397,7 @@
             $('#InterestParentAmount').val('');
             $('#InterestParentRate').val('');
             $('#OperateTaxParentAmount').val('');
-            $('#ParentComment').val('');
+           
             return;
         }
 
@@ -424,11 +410,16 @@
                 // var plannedPaymentAmount = response.paymentAmount;
                 // $('#DrawPlannedAmount').val(plannedDrawAmount);
                 // $('#DrawAmount').val(plannedDrawAmount);
-                $('#PaymentParentAmount').val(response.PaymentParentAmount);
-                $('#InterestParentAmount').val(response.InterestParentAmount);
-                $('#InterestParentRate').val(response.InterestParentRate);
-                $('#OperateTaxParentAmount').val(response.OperateTaxParentAmount);
-                $('#ParentComment').val(response.ParentComment);
+                $('#PaymentParentAmount').val(response.paymentAmount);
+                $('#InterestParentAmount').val(response.interestAmount);
+                $('#InterestParentRate').val(response.interestRate);
+                $('#OperateTaxParentAmount').val(response.operateTaxAmount);
+
+                $('#PaymentAmount').val(response.paymentAmount);
+                $('#InterestAmount').val(response.interestAmount);
+                $('#InterestRate').val(response.interestRate);
+                $('#OperateTaxAmount').val(response.operateTaxAmount);
+                
             },
             error: function (xhr, status, error) {
                 console.log("Error fetching data:", error);

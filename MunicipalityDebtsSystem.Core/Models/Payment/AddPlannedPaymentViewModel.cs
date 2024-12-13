@@ -33,7 +33,7 @@ namespace MunicipalityDebtsSystem.Core.Models.Payment
         [Required(ErrorMessage = ValidationConstants.RequiredErrorMessage)]
         public decimal InterestRate { get; set; }
 
-        public string? Comment { get; set; }
+      
 
         [Required]
         public int OperationTypeId { get; set; }

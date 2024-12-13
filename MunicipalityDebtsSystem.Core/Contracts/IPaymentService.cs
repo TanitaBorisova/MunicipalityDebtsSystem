@@ -26,5 +26,7 @@ namespace MunicipalityDebtsSystem.Core.Contracts
         Task AddRealAsync(AddPaymentViewModel model, string userId, int municipalityId, DateTime datePayment, int paymentParentId);
 
         Task<Payment> GetPlannedPaymentInfoByIdAsync(int id);
+
+        Task<IEnumerable<PlannedPaymentListViewModel>> GetAllPaymentsAsync(int id);
     }
 }
