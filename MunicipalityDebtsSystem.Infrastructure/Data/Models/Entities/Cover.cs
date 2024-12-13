@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,23 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
 
         [Comment("Description of the cover")]
         public string? CoverDescription { get; set; }
+
+        [Required]
+        [Comment("User created the cover")]
+        [MaxLength(ValidationConstants.UserMaxLength)]
+        public string UserCreated { get; set; } = string.Empty;
+
+        [Required]
+        [Comment("Date creation of the cover")]
+        public DateTime DateCreated { get; set; }
+
+
+        [Comment("User marked the cover as deleted")]
+        [MaxLength(ValidationConstants.UserMaxLength)]
+        public string? UserDeleted { get; set; }
+
+        [Comment("Date of deletion of the cover")]
+        public DateTime? DateDeleted { get; set; }
 
         [ForeignKey(nameof(DebtId))]
         public Debt Debt { get; set; } = null!;
