@@ -15,8 +15,6 @@
         <form asp-action="Edit" asp-controller="Debt" method="post" enctype="multipart/form-data">
             <input type="hidden" asp-for="@Model.MunicipalityId" />
             <input type="hidden" asp-for="@Model.DebtId" />
-           @*  <input type="hidden" asp-for="@Model.UserMofidied" />
-            <input type="hidden" asp-for="@Model.DateModified" /> *@
             <div class="row card-body">
                 <div class="col-sm-6 mb-2">
                     <p class="card-text">Община: @Model.MunicipalityName</p>
@@ -36,7 +34,7 @@
                 </div>
                 <div class="col-sm-6 mb-2">
                     <label asp-for="@Model.DateBook" class="form-label-add-edit">Дата на договаряне:</label>
-                    <input asp-for="@Model.DateBook" class="form-control" aria-required="true" value="@(string.IsNullOrEmpty(Model.DateBook) ? today : Model.DateBook)" /> @* value="@(string.IsNullOrEmpty(Model.DateBook) ? today : Model.DateBook)" *@
+                    <input asp-for="@Model.DateBook" class="form-control" aria-required="true" value="@(string.IsNullOrEmpty(Model.DateBook) ? today : Model.DateBook)" /> 
                     <span asp-validation-for="@Model.DateBook" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 mb-2">
@@ -61,7 +59,7 @@
                     <label asp-for="@Model.DebtAmountOriginalCcy" class="form-label-add-edit">Размер на дълга в оригинална валута:</label>
                     <div class="input-group">
                         <span class="input-group-text"></span>
-                        <input asp-for="DebtAmountOriginalCcy" class="form-control" aria-required="true" type="number" step="0.01" min="0" /> @* step="0.01" min="0" *@
+                        <input asp-for="DebtAmountOriginalCcy" class="form-control" aria-required="true" type="number" step="0.01" min="0" /> 
                     </div>
                     <span asp-validation-for="@Model.DebtAmountOriginalCcy" class="text-danger"></span>
                 </div>
@@ -69,7 +67,7 @@
                     <label asp-for="@Model.DebtAmountLocalCcy" class="form-label-add-edit">Размер на дълга в местна валута:</label>
                     <div class="input-group">
                         <span class="input-group-text">BGN</span>
-                        <input asp-for="DebtAmountLocalCcy" class="form-control" aria-required="true" type="number" step="0.01" min="0" /> @* step="0.01" min="0" *@
+                        <input asp-for="DebtAmountLocalCcy" class="form-control" aria-required="true" type="number" step="0.01" min="0" readonly="readaonly"/> 
                     </div>
                     <span asp-validation-for="@Model.DebtAmountLocalCcy" class="text-danger"></span>
                 </div>
@@ -124,6 +122,51 @@
         </form>
     </div>
 </div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+         $('#CurrencyId, #DebtAmountOriginalCcy').on('change keyup', function () {
+            const currencyId = parseInt($('#CurrencyId').val());
+            const originalAmount = parseFloat($('#DebtAmountOriginalCcy').val()) || 0;
+
+            if (currencyId > 0 && originalAmount > 0) {
+                fetchCurrencyRate(currencyId).then(rate => {
+                    const localAmount = (originalAmount * rate).toFixed(2);
+                    $('#DebtAmountLocalCcy').val(localAmount);
+                }).catch(error => {
+                    console.error("Error fetching currency rate:", error);
+                    alert("Failed to fetch currency rate. Please try again.");
+                });
+            }
+        });
+
+        // Function to fetch the currency rate from the server
+        function fetchCurrencyRate(currencyId) {
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    url: '/Debt/GetRate', // Adjust this to your controller/action
+                    type: 'GET',
+                    data: { id: currencyId },
+                    success: function (data) {
+                        if (data.success) {
+                            resolve(data.rate); // Return the currency rate
+                        } else {
+                            reject(data.message || "Error fetching rate");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        reject(error);
+                    }
+                });
+            });
+        }
+    });
+
+</script>
 
 
 <style>
