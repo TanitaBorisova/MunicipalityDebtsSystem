@@ -35,10 +35,17 @@ namespace MunicipalityDebtsSystem.Controllers
 
             AddPlannedDrawViewModel model = new AddPlannedDrawViewModel();
             model.DebtId = id;
-            model.DebtPartialInfo.Payments = await debtService.ReturnSumOfOperationType((int)OperationType.Payment, id);
-            model.DebtPartialInfo.PlannedPayments = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedPayment, id);
-            model.DebtPartialInfo.Draws = await debtService.ReturnSumOfOperationType((int)OperationType.Draw, id);
-            model.DebtPartialInfo.PlannedDraws = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedDraw, id);
+            decimal sumPayments = await debtService.ReturnSumOfOperationType((int)OperationType.Payment, id);
+            model.DebtPartialInfo.Payments = sumPayments;
+            decimal sumPlannedPayments = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedPayment, id);
+            model.DebtPartialInfo.PlannedPayments = sumPlannedPayments;
+            decimal sumDraws = await debtService.ReturnSumOfOperationType((int)OperationType.Draw, id);
+            model.DebtPartialInfo.Draws = sumDraws;
+            decimal sumPlannedDraws = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedDraw, id);
+            model.DebtPartialInfo.PlannedDraws = sumPlannedDraws;
+
+            model.DebtPartialInfo.RealRemainDebt = sumDraws - sumPayments;
+            model.DebtPartialInfo.PlannedRemainDebt = sumPlannedDraws - sumPlannedPayments;
 
             model.DebtPartialInfo.MunicipalityName = municipalityName;
             model.DebtPartialInfo.MunicipalityCode = municipalityCode;
