@@ -70,7 +70,7 @@ namespace MunicipalityDebtsSystem.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required(ErrorMessage = RequiredErrorMessage)]
-            [EmailAddress]
+            [EmailAddress(ErrorMessage = InvalidEmailErrorMessage)]
             [Display(Name = "Ел. адрес")]
             public string Email { get; set; }
 

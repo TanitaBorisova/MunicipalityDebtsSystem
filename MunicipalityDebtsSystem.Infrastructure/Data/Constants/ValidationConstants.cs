@@ -10,6 +10,7 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
     {
         //Common
         public const string RequiredErrorMessage = "Полето {0} е задължително.";
+        public const string InvalidEmailErrorMessage = "Полето {0} има невалиден формат.";
         public const string StringLengthErrorMessage = "Полето {0}трябва да съдържа между {2} и {1} символа.";
         public const string InvalidDateErrorMessage = $"Невалидна дата. Форматът трябва да е: {DateFormat}.";
         public const string PasswordAndConfirmErrorMessage = "Паролата и потвърждението ѝ трябва да съвпадат.";

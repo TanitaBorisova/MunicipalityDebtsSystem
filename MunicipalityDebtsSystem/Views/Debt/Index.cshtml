@@ -29,8 +29,8 @@
         <script src="~/lib/data-tables/datatables.min.js"></script>
 
 }
-
-
+@* <a href="Debt/Details/' + row.id + '" class="btn btn-primary" title="Преглед"><i class="fa fa-check-circle"></i></a>
+ *@
 @section Scripts {
    <script>
      $.fn.dataTable.ext.buttons.io_colvis = {
@@ -165,7 +165,7 @@
                          searchable: false,
                          className: "text-right",
                          render: function (data, type, row, meta) {
-                             return '<a href="Debt/Details/' + row.id + '" class="btn btn-primary" title="Преглед"><i class="fa fa-info-circle"></i></a>';
+                            return '<a href="Debt/Details/' + row.id + '" class="btn btn-primary" title="Преглед"><i class="fa-check-circle"></i></a>';
                          }
                     },
                     {

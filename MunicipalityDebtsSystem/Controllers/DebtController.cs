@@ -236,7 +236,7 @@ namespace MunicipalityDebtsSystem.Controllers
             DateTime dateRealContractFinish;
 
             bool isDateRealContractFinishValid = DateTime.TryParseExact(model.DateRealFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateRealContractFinish);
-            if (!isDateContractFinishValid)
+            if (!isDateRealContractFinishValid)
             {
                 ModelState.AddModelError(nameof(model.DateRealFinish), ValidationConstants.InvalidDateErrorMessage);
             }

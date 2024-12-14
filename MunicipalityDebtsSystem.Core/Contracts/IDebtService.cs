@@ -15,6 +15,8 @@ namespace MunicipalityDebtsSystem.Core.Contracts
         Task<decimal> ReturnSumOfOperationType(int operType, int debtId);
         Task<IEnumerable<DebtListViewModel>> GetAllDebtAsync(int municipalityId);
         Task<IEnumerable<DebtListViewModel>> GetAllDebtAdminAsync();
+
+        Task<bool> DebtHasRealDrawsOrPaymentAsync(int id);
         // Task<(IEnumerable<DebtListViewModel> debts, int totalRecords)> GetDebtsWithPagingAsync(int start, int length, string searchValue, string orderBy, string orderDir);
         // Task<List<Currency>> GetAllCurrenciesAsync();
         //Task<(IEnumerable<DebtListViewModel> debts, int totalRecords, int filteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize, string searchValue);

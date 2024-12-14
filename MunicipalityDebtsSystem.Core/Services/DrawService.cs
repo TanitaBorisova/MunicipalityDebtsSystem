@@ -1,18 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MunicipalityDebtsSystem.Core.Contracts;
-using MunicipalityDebtsSystem.Core.Enums;
-using MunicipalityDebtsSystem.Core.Models.Debt;
 using MunicipalityDebtsSystem.Core.Models.Draw;
 using MunicipalityDebtsSystem.Infrastructure.Data.Common;
 using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
-using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OperationType = MunicipalityDebtsSystem.Core.Enums.OperationType;
 
 namespace MunicipalityDebtsSystem.Core.Services

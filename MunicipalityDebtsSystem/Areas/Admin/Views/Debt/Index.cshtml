@@ -171,7 +171,17 @@
                              //return '<a href="' + '@Url.Action("Details", "Debt")'+ '/'+  row.id + '">Details</a>';
                             return '<a href="Debt/Details/' + row.id + '" class="btn btn-primary" title="Преглед"><i class="fa fa-info-circle"></i></a>';
                               }
-                        }
+                        },
+                         {
+                            data: 'id', // This is where drawId comes from
+                            title: 'Действия',
+                            render: function (data, type, row) {
+                                // return `
+                                    // <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
+                                // `;
+                                return '<button type="button" class="btn btn-danger" onclick="deleteDebt(' + row.id + ');"><i class="fa fa-trash"></i> Изтрий</button>';
+                         }
+            }
 
                         // {
                         //     name: 'actions',
@@ -190,5 +200,58 @@
             });
         </script>
 
+    <script>
+
+        function deleteDebt(id) {
+            debugger
+            if (confirm('Сигурни ли сте, че искате да изтриете този запис?')) {
+                $.ajax({
+                    url: '@Url.Action("DeleteDebt", "Debt")',
+                    type: 'POST',
+                    headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                    data: { id: id },  // Pass the ID to delete
+                    success: function (result) {
+                        
+                           if (result.success) {
+                                alert('Записът беше успешно изтрит!');
+                                $('#debtTable').DataTable().ajax.reload();  // Reload the table after deletion
+                    } else {
+                        alert(result.message);  // Show the message from the server
+                    }
+
+                    },
+                    error: function () {
+                        alert('Грешка при комуникация със сървъра!');
+                    }
+                });
+            }
+        }
+
+        // $('#drawTable').on('click', '.delete-btn', function () {
+
+        //     debugger;
+        //     var drawId = $(this).data('drawId');  // Get the ID of the record to delete  - was id
+
+
+        //     if (confirm('Сигурни ли сте, че искате да изтриете този запис?')) {
+        //         $.ajax({
+        //             url: '@Url.Action("DeletePlannedDraw", "Draw")',  // Action to handle deletion
+        //             type: 'POST',
+        //             data: { id: drawId },  // Pass the ID to delete
+        //             success: function (result) {
+        //                 if (result.success) {
+        //                     alert('Записът беше успешно изтрит!');
+        //                     $('#drawTable').DataTable().ajax.reload();  // Reload the table after deletion
+        //                 } else {
+        //                     alert(result.message);  // Show the message from the server
+        //                 }
+        //             },
+        //             error: function () {
+        //                 alert('Грешка при комуникация със сървъра!');
+        //             }
+        //         });
+        //     }
+        // });
+    </script>
 }
 

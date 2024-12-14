@@ -6,6 +6,7 @@ using MunicipalityDebtsSystem.Infrastructure.Data.Common;
 using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
+using OperationType = MunicipalityDebtsSystem.Core.Enums.OperationType;
 using System.Text.Json.Nodes;
 
 namespace MunicipalityDebtsSystem.Core.Services
@@ -439,7 +440,19 @@ namespace MunicipalityDebtsSystem.Core.Services
             await repository.SaveChangesAsync();
         }
 
-       
+        public async Task<bool> DebtHasRealDrawsOrPaymentAsync(int id)
+        {
+
+            bool hasChildDraws = await repository.AllReadOnly<Draw>()
+                   .AnyAsync(d => d.DebtId == id && d.OperationTypeId == (int)OperationType.Draw);
+
+            bool hasChildPayments = await repository.AllReadOnly<Payment>()
+                   .AnyAsync(d => d.DebtId == id && d.OperationTypeId == (int)OperationType.Payment);
+
+            bool hasChilds = hasChildDraws || hasChildPayments; 
+            return hasChildDraws;
+        }
+
 
         public async Task NegotiateAsync(NegotiateDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealContractFinish)
         {
