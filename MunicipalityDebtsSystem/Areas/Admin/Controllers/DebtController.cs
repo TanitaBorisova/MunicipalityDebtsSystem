@@ -2,8 +2,6 @@
 using MunicipalityDebtsSystem.Core.Contracts;
 using MunicipalityDebtsSystem.Core.Enums;
 using MunicipalityDebtsSystem.Core.Models.Debt;
-using MunicipalityDebtsSystem.Core.Services;
-using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using System.Security.Claims;
 using static MunicipalityDebtsSystem.Infrastructure.Data.Constants.CustomClaims;
 
@@ -43,6 +41,8 @@ namespace MunicipalityDebtsSystem.Areas.Admin.Controllers
             return Json(new { data = data });
 
         }
+
+      
 
         [HttpGet]
         public async Task<IActionResult> Details(int id)
@@ -89,41 +89,6 @@ namespace MunicipalityDebtsSystem.Areas.Admin.Controllers
             //return RedirectToAction(nameof(GetDebtsAdminForDataTable));
         }
 
-        //[HttpPost]
-        //// [ValidateAntiForgeryToken]  //there is global filter
-        //public async Task<IActionResult> DeletePlannedPayment(int id)
-        //{
-        //    try
-        //    {
-
-        //        var payment = await paymentService.GetPaymentEntityByIdAsync(id);
-
-        //        if (payment == null)
-        //        {
-        //            return Json(new { success = false, message = "Записът не съществува." });
-        //        }
-
-
-        //        bool hasChildDraws = await paymentService.PlannedPaymentHasChildsAsync(id);
-
-        //        if (hasChildDraws)
-        //        {
-        //            return Json(new { success = false, message = "Планираното плащане не може да бъде изтрито. Към него има записани едно или повече реални плащания." });
-        //        }
-
-
-
-        //        await paymentService.RemovePayment(id);
-
-
-        //        return Json(new { success = true });
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        return Json(new { success = false, message = ex.Message });
-        //    }
-        //}
 
     }
 

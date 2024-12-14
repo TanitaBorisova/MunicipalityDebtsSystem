@@ -145,6 +145,14 @@ namespace MunicipalityDebtsSystem.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetRate(int id)
+        {
+            decimal rate = await debtService.GetRate(id);
+
+            return Json(new { success = true, rate });
+        }
+
         [HttpPost]
         public async Task<IActionResult> Add(AddDebtViewModel model)
         {

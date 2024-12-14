@@ -71,29 +71,31 @@
             $('#test').text('The EVENT IS WORKING')
                 let selectedMunIdStr = $(this).val();
                 let selectedMunId = Number(selectedMunIdStr);
-            debugger;
+           
                 LoadData(selectedMunId);
+                
             
         });
     });
 
-    function LoadData(munId) {
+    function LoadData(munId) {  //munId
         debugger
         if ($.fn.DataTable.isDataTable('#periodTable')) {
             $('#periodTable').DataTable().clear().destroy();
         }
+     
        
         $('#periodTable').DataTable({
            
             dom: '<"row"<"col-sm-6 dataTables_buttons"B><"col-sm-6"f>>rtip',
             serverSide: false,
             ajax: {
-                'url': '@Url.Action("GetUnlockedPeriodsForDataTable", "Period", new { area = "Admin" })',  
-                 'type': 'GET',
-                // type: 'POST',
-                // headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
-                'datatype': 'json',
-                "data": function (d) {
+                url: '@Url.Action("GetUnlockedPeriodsForDataTable", "Period")',    //, new { area = "Admin" }
+                 //'type': 'GET',
+                type: 'POST',
+                headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
+                datatype: 'json',
+                data: function (d) {
                     d.id = munId;  
                 }
             },
@@ -116,43 +118,43 @@
                     title: 'Община',
                     sortable: true,
                     searchable: true
-                },
-                {
-                    name: 'monthName',
-                    data: 'monthName',
-                    title: 'Месец',
-                    sortable: true,
-                    searchable: true
-                },
-                {
-                    name: 'yearName',
-                    data: 'yearName',
-                    title: 'Година',
-                    sortable: true,
-                    searchable: true
-                },
-                {
-                    name: 'userUnlocked',
-                    data: 'userUnlocked',
-                    title: 'Потребител отключил',
-                    sortable: true,
-                    searchable: true
-                },
-                {
-                    name: 'dateUnlocked',
-                    data: 'dateUnlocked',
-                    title: 'Потребител отключил',
-                    sortable: true,
-                    searchable: true
-                },
-                {
-                    data: 'id', 
-                    title: 'Действия',
-                    render: function (data, type, row) {
-                        
-                        return `<button type="button" class="btn btn-danger" onclick="deletePeriod(${row.id});"><i class="fa fa-trash"></i> Изтрий</button>`;
-                    }
                 }
+                // {
+                //     name: 'monthName',
+                //     data: 'monthName',
+                //     title: 'Месец',
+                //     sortable: true,
+                //     searchable: true
+                // },
+                // {
+                //     name: 'yearName',
+                //     data: 'yearName',
+                //     title: 'Година',
+                //     sortable: true,
+                //     searchable: true
+                // },
+                // {
+                //     name: 'userUnlocked',
+                //     data: 'userUnlocked',
+                //     title: 'Потребител отключил',
+                //     sortable: true,
+                //     searchable: true
+                // },
+                // {
+                //     name: 'dateUnlocked',
+                //     data: 'dateUnlocked',
+                //     title: 'Потребител отключил',
+                //     sortable: true,
+                //     searchable: true
+                // },
+                // {
+                //     data: 'id', 
+                //     title: 'Действия',
+                //     render: function (data, type, row) {
+                        
+                //         return `<button type="button" class="btn btn-danger" onclick="deletePeriod(${row.id});"><i class="fa fa-trash"></i> Изтрий</button>`;
+                //     }
+                // }
             ]
         });
     }

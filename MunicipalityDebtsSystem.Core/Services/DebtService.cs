@@ -540,5 +540,17 @@ namespace MunicipalityDebtsSystem.Core.Services
             return result;
            
         }
+
+        public async Task<decimal> GetRate(int currencyId)
+        {
+            var rateInfo = await repository.GetByIdAsync<CurrencyRate>(currencyId);
+            decimal rate = 0.00M;
+            if (rateInfo != null)
+            {
+                rate = rateInfo.RateToBGN;
+            }
+            return rate;
+            
+        }
     }
 }
