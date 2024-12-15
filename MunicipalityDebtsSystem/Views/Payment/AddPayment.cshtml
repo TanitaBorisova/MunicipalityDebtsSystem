@@ -280,59 +280,19 @@
                         data: 'paymentId',
                         title: 'Действия',
                         render: function (data, type, row) {
-                            // return `
-                            // <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
-                            // `;
-                            return '<button type="button" class="btn btn-danger" onclick="deletePlannedPayment(' + row.paymentId + ');"><i class="fa fa-trash"></i> Изтрий</button>';
+                           
+                            // return '<button type="button" class="btn btn-danger" onclick="deletePlannedPayment(' + row.paymentId + ');"><i class="fa fa-trash"></i> Изтрий</button>';
+                            if (row.isDebtFinished === false) {
+                                
+                                return '<button type="button" class="btn btn-danger" onclick="deletePlannedPayment(' + row.paymentId + ');"><i class="fa fa-trash"></i> Изтрий</button>';
+                            } else {
+                                
+                                return '';
+                            }
                         }
                     }
 
-                    //          {
-                    //     data: 'drawId',
-                    //     title: 'Действия',
-                    //     render: function (data, type, row) {
-                    //         return `
-                    //             <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
-                    //         `;
-                    //     }
-                    // }
-                    // {
-                    //     name: 'actions',
-                    //     data: 'drawId',  //id
-                    //     title: 'Действия',
-                    //     sortable: false,
-                    //     searchable: false,
-                    //     className: "text-center",
-                    //     render: function (data, type, row) {
-                    //          return '<button class="btn btn-danger delete-btn" data-id="' + data.drawId + '" title="Изтрий"><i class="fa fa-trash"></i> Изтрий</button>';
-                    //          //return '<button class="btn btn-danger delete-btn" data-id="' + row.drawId + '" title="Изтрий"><i class="fa fa-trash"></i> Изтрий</button>';
-                    //     }
-                    // }
-
-
-                    // {
-                    //      name: 'actions',
-                    //      data: 'id',
-                    //      title: '',
-                    //      sortable: false,
-                    //      searchable: false,
-                    //      className: "text-right",
-                    //      render: function (data, type, row, meta) {
-                    //          return '<a href="Debt/Details/' + row.id + '" class="btn btn-primary" title="Преглед"><i class="fa fa-info-circle"></i></a>';
-                    //      }
-                    // },
-                    // {
-                    //      name: 'actions',
-                    //      data: 'id',
-                    //      title: '',
-                    //      sortable: false,
-                    //      searchable: false,
-                    //      className: "text-right",
-                    //      render: function (data, type, row, meta) {
-                    //          return '<a href="Debt/Edit/' + row.id + '" class="btn btn-warning" title="Редакция"><i class="fa fa-info-circle"></i></a>';
-                    //      }
-                    // },
-
+                  
                 ]
             });
     });
