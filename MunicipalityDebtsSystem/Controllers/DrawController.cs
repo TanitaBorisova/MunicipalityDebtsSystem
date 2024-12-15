@@ -100,7 +100,7 @@ namespace MunicipalityDebtsSystem.Controllers
             AddDrawViewModel model = new AddDrawViewModel();
             model.DebtId = id;
             model.DebtPartialInfo = await debtService.FillDebtInfo(model.DebtPartialInfo, id, municipalityName, municipalityCode, debt.CurrencyName, debt.DebtNumber, debt.DateBook);
-
+            model.IsFinished = debt.IsFinished;
             model.PlannedDrawDates = await drawService.GetAllPlannedDrawDatesAsync(id);
            
            
@@ -118,7 +118,7 @@ namespace MunicipalityDebtsSystem.Controllers
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
             string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
-
+            model.IsFinished = debt.IsFinished;
 
             model.DebtPartialInfo = await debtService.FillDebtInfo(model.DebtPartialInfo, id, municipalityName, municipalityCode, debt.CurrencyName, debt.DebtNumber, debt.DateBook);
             

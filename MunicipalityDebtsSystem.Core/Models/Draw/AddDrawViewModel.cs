@@ -16,13 +16,8 @@ namespace MunicipalityDebtsSystem.Core.Models.Draw
         public int DebtId { get; set; }
 
         [Required]
-        //[Range(1, int.MaxValue)]
         public int DrawParentId { get; set; }
 
-
-        //[Required(ErrorMessage = RequiredErrorMessage)]
-        //[Display(Name = "Дата на планирано усвояване")]
-        //public string DrawPlannedDate { get; set; } = string.Empty;
         
         [Required(ErrorMessage = RequiredErrorMessage)]
         [Display(Name = "Размер на планирано усвояване")]
@@ -40,18 +35,13 @@ namespace MunicipalityDebtsSystem.Core.Models.Draw
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         [Display(Name = "Дата на планирано усвояване")]
-        //[Range(3,3)]  //Draw
-        public int OperationTypeId { get; set; }
+         public int OperationTypeId { get; set; }
 
         [Required]
         [Range(1, int.MaxValue)]  
         public int PlannedDrawId { get; set; }
 
-
-        //public string MunicipalityCode { get; set; } = string.Empty;
-
-        
-        //public string MunicipalityName { get; set; } = string.Empty;
+        public bool IsFinished { get; set; }
 
         public List<PlannedDrawDateViewModel> PlannedDrawDates { get; set; } = new List<PlannedDrawDateViewModel>();
 
