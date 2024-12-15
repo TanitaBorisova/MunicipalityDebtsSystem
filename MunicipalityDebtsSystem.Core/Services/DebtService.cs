@@ -8,6 +8,8 @@ using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
 using OperationType = MunicipalityDebtsSystem.Core.Enums.OperationType;
 using System.Text.Json.Nodes;
+using MunicipalityDebtsSystem.Core.Models.Draw;
+using Debt = MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.Debt;
 
 namespace MunicipalityDebtsSystem.Core.Services
 {
@@ -539,6 +541,31 @@ namespace MunicipalityDebtsSystem.Core.Services
 
             return result;
            
+        }
+
+        public async Task<DebtPartialInfoViewModel> FillDebtInfo(DebtPartialInfoViewModel model, int debtId, string munName, string munCode, string currencyName, string debtNumber, string dateBook)
+        {
+            decimal sumPayments = await ReturnSumOfOperationType((int)OperationType.Payment, debtId);
+            model.Payments = sumPayments;
+            decimal sumPlannedPayments = await ReturnSumOfOperationType((int)OperationType.PlannedPayment, debtId);
+            model.PlannedPayments = sumPlannedPayments;
+            decimal sumDraws = await ReturnSumOfOperationType((int)OperationType.Draw, debtId);
+            model.Draws = sumDraws;
+            decimal sumPlannedDraws = await ReturnSumOfOperationType((int)OperationType.PlannedDraw, debtId);
+            model.PlannedDraws = sumPlannedDraws;
+
+            model.RealRemainDebt = sumDraws - sumPayments;
+            model.PlannedRemainDebt = sumPlannedDraws - sumPlannedPayments;
+
+
+            model.MunicipalityName = munName;
+            model.MunicipalityCode = munCode;
+            model.CurrencyName = currencyName;
+            model.DebtNumber = debtNumber;
+            model.BookDate = dateBook;
+
+            return model;
+
         }
 
         public async Task<decimal> GetRate(int currencyId)

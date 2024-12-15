@@ -1,18 +1,13 @@
 ﻿using MunicipalityDebtsSystem.Core.Models.Debt;
-using MunicipalityDebtsSystem.Core.Models.Draw;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MunicipalityDebtsSystem.Core.Contracts
 {
     public interface IDebtService
     {
         Task<decimal> ReturnSumOfOperationType(int operType, int debtId);
+
         Task<IEnumerable<DebtListViewModel>> GetAllDebtAsync(int municipalityId);
 
         Task<IEnumerable<DebtListViewModel>> GetAllDebtAdminAsync();
@@ -20,16 +15,11 @@ namespace MunicipalityDebtsSystem.Core.Contracts
         Task<bool> DebtHasRealDrawsOrPaymentAsync(int id);
 
         Task<decimal> GetRate(int currencyId);
-        // Task<(IEnumerable<DebtListViewModel> debts, int totalRecords)> GetDebtsWithPagingAsync(int start, int length, string searchValue, string orderBy, string orderDir);
-        // Task<List<Currency>> GetAllCurrenciesAsync();
-        //Task<(IEnumerable<DebtListViewModel> debts, int totalRecords, int filteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize, string searchValue);
-        //Task<(IEnumerable<DebtListViewModel> debts, int totalRecords)> GetDebtsWithPagingAsync();
 
-        //Task<IEnumerable<PlannedDrawListViewModel>> GetAllPlannedDrawsAsync(int id);
-
+        Task<DebtPartialInfoViewModel> FillDebtInfo(DebtPartialInfoViewModel model, int debtId, string munName, string munCode, string currencyName, string DebtNumber, string dateBook);
+        
         Task<(List<DebtListViewModel> Debts, int TotalRecords, int FilteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize, string searchValue);
 
-        //Task<(List<DebtListViewModel> Debts, int TotalRecords, int FilteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize);
         Task AddAsync(AddDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealFinish);
 
         Task EditAsync(EditDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealFinish);
