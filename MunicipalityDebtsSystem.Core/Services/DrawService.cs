@@ -72,26 +72,27 @@ namespace MunicipalityDebtsSystem.Core.Services
                 }).ToListAsync();
         }
       
-        //GetPlannedPaymentInfo(plannedDrawId)
+       
         public async Task<Draw> GetPlannedDrawInfoByIdAsync(int id)
         {
             var entity = await repository.GetByIdAsync<Draw>(id);
             return entity;
         }
 
-        public async Task<IEnumerable<PlannedDrawListViewModel>> GetAllPlannedDrawsAsync(int id)  //int id
+        public async Task<IEnumerable<PlannedDrawListViewModel>> GetAllPlannedDrawsAsync(int id)  
         {
             var model = await repository.AllReadOnly<Draw>()
-                .Where(d => d.IsDeleted == false && d.OperationTypeId == (int)OperationType.PlannedDraw && d.Debt.Id == id)  //&& d.Debt.Id == id
+                .Where(d => d.IsDeleted == false && d.OperationTypeId == (int)OperationType.PlannedDraw && d.Debt.Id == id) 
                 .Include(d => d.Debt)
                 .ThenInclude(d => d.Currency)
                      
                 .Select(d => new PlannedDrawListViewModel
                 {
-                    // //= d.DebtId,
+                    
                     DrawId = d.Id,
                     DrawDate = d.DrawDate.ToString(ValidationConstants.DateFormat),
-                    DrawAmount = d.DrawAmount
+                    DrawAmount = d.DrawAmount,
+                    IsDebtFinished = d.Debt.IsFinished
 
                 }).ToListAsync();
 
@@ -100,23 +101,24 @@ namespace MunicipalityDebtsSystem.Core.Services
 
         }
 
-        public async Task<IEnumerable<DrawListViewModel>> GetAllDrawsAsync(int id)  //int id
+        public async Task<IEnumerable<DrawListViewModel>> GetAllDrawsAsync(int id)  
         {
             var model = await repository.AllReadOnly<Draw>()
-                .Where(d => d.IsDeleted == false && d.OperationTypeId == (int)OperationType.Draw && d.Debt.Id == id)  //&& d.Debt.Id == id
+                .Where(d => d.IsDeleted == false && d.OperationTypeId == (int)OperationType.Draw && d.Debt.Id == id)  
                 .Include(d=> d.ParentDraw)
                 .Include(d => d.Debt)
                 .ThenInclude(d => d.Currency)
 
                 .Select(d => new DrawListViewModel
                 {
-                    // //= d.DebtId,
+                   
                     DrawId = d.Id,
                     DrawDate = d.DrawDate.ToString(ValidationConstants.DateFormat),
                     DrawAmount = d.DrawAmount,
                     DrawParentId = d.DrawParentId ?? 0,
                     DrawParentAmount = d.ParentDraw.DrawAmount,
-                    DrawParentDate = d.ParentDraw.DrawDate.ToString(ValidationConstants.DateFormat)
+                    DrawParentDate = d.ParentDraw.DrawDate.ToString(ValidationConstants.DateFormat),
+                    IsDebtFinished = d.Debt.IsFinished
 
 
                 }).ToListAsync();

@@ -17,5 +17,7 @@ namespace MunicipalityDebtsSystem.Core.Models.Draw
         public string DrawDate { get; set; } = string.Empty;
 
         public decimal DrawAmount { get; set; }
+
+        public bool IsDebtFinished { get; set; }
     }
 }

@@ -28,11 +28,11 @@
         <form id="plannedDraws" asp-action="AddPlanned" asp-controller ="Draw" method="post" enctype="multipart/form-data">
             <input type="hidden" asp-for="@Model.DebtId" />
             <input type="hidden" asp-for="@Model.OperationTypeId" />
-            
+            <input type="hidden" asp-for="@Model.IsFinished" />
            
             <div class="row">
                 @{
-                    if (Model.OperationTypeId == 4)
+                    if (Model.IsFinished)
                     {
                         <div class="col-sm-6 mb-2">
                             <label asp-for="@Model.DrawDate" class="form-label-add-edit">Дата на планирано усвояване:</label>
@@ -43,9 +43,17 @@
                         <div class="col-sm-6 mb-2">
                             <label asp-for="@Model.DrawAmount" class="form-label-add-edit">Размер на пл. усвояване в ориг. валута:</label>
                             <div class="input-group">
-                                <input asp-for="DrawAmount" class="form-control" type="number" step="0.01" min="0" /> 
+                                <input asp-for="DrawAmount" class="form-control" type="number" step="0.01" min="0" readonly="readonly" />
                             </div>
                             <span asp-validation-for="@Model.DrawAmount" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-2">
+                            <input class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Запис" disabled="disabled" />
+
+                        </div>
+                        <div class="mb-2">
+                            <input class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Изчисти" disabled="disabled" />
                         </div>
                     }
                     else
@@ -64,20 +72,20 @@
                             </div>
                             <span asp-validation-for="@Model.DrawAmount" class="text-danger"></span>
                         </div>
-                    
-                    
+
+                        <div class="mb-2">
+                            <input class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Запис" />
+
+                        </div>
+                        <div class="mb-2">
+                            <input class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded" type="button" value="Изчисти"  />
+                        </div>
                     
                     }
 
                 }
 
-                <div class="mb-2">
-                    <input class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Запис"  disabled = "disabled"/>
-                    
-                </div>
-                <div class="mb-2">
-                    <input class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Изчисти" />
-                </div>
+               
         </form>
     </div>
 </div>
@@ -136,66 +144,32 @@
                         searchable: true
                     },
                     {
-                data: 'drawId', // This is where drawId comes from
-                title: 'Действия',
-                render: function (data, type, row) {
-                    // return `
-                        // <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
-                    // `;
-                    return '<button type="button" class="btn btn-danger" onclick="deletePlannedDraw(' + row.drawId + ');"><i class="fa fa-trash"></i> Изтрий</button>';
+                        data: 'drawId', // This is where drawId comes from
+                        title: 'Действия',
+                        render: function (data, type, row) {
+                   
+                        // return '<button type="button" class="btn btn-danger" onclick="deletePlannedDraw(' + row.drawId + ');"><i class="fa fa-trash"></i> Изтрий</button>';
+
+                            if (row.isDebtFinished === false) {
+                                // Button is visible when ForFinish is true
+                                return '<button type="button" class="btn btn-danger" onclick="deletePlannedDraw(' + row.drawId + ');"><i class="fa fa-trash"></i> Изтрий</button>';
+                            } else {
+                                // Button is hidden when ForFinish is false
+                                return '';
+                            }
+
+
                 }
             }
 
-            //          {
-            //     data: 'drawId',
-            //     title: 'Действия',
-            //     render: function (data, type, row) {
-            //         return `
-            //             <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
-            //         `;
-            //     }
-            // }
-                    // {
-                    //     name: 'actions',
-                    //     data: 'drawId',  //id
-                    //     title: 'Действия',
-                    //     sortable: false,
-                    //     searchable: false,
-                    //     className: "text-center",
-                    //     render: function (data, type, row) {
-                    //          return '<button class="btn btn-danger delete-btn" data-id="' + data.drawId + '" title="Изтрий"><i class="fa fa-trash"></i> Изтрий</button>';
-                    //          //return '<button class="btn btn-danger delete-btn" data-id="' + row.drawId + '" title="Изтрий"><i class="fa fa-trash"></i> Изтрий</button>';
-                    //     }
-                    // }
-
-
-                    // {
-                    //      name: 'actions',
-                    //      data: 'id',
-                    //      title: '',
-                    //      sortable: false,
-                    //      searchable: false,
-                    //      className: "text-right",
-                    //      render: function (data, type, row, meta) {
-                    //          return '<a href="Debt/Details/' + row.id + '" class="btn btn-primary" title="Преглед"><i class="fa fa-info-circle"></i></a>';
-                    //      }
-                    // },
-                    // {
-                    //      name: 'actions',
-                    //      data: 'id',
-                    //      title: '',
-                    //      sortable: false,
-                    //      searchable: false,
-                    //      className: "text-right",
-                    //      render: function (data, type, row, meta) {
-                    //          return '<a href="Debt/Edit/' + row.id + '" class="btn btn-warning" title="Редакция"><i class="fa fa-info-circle"></i></a>';
-                    //      }
-                    // },
+           
 
                 ]
             });
         });
     </script>
+
+      
     <script>
 
         function deletePlannedDraw(drawId){

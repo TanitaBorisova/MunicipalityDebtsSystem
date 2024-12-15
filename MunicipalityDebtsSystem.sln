@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MunicipalityDebtsSystem.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MunicipalityDebtsSystem.Infrastructure", "MunicipalityDebtsSystem.Infrastructure\MunicipalityDebtsSystem.Infrastructure.csproj", "{9AA460C1-669F-4C50-9F86-D3C727C1B218}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MunicipalityDebtsSystem.Test", "MunicipalityDebtsSystem.Test\MunicipalityDebtsSystem.Test.csproj", "{0AEEC500-7280-4ACD-B06B-82AB49A9AFC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MunicipalityDebtsSystem.Test", "MunicipalityDebtsSystem.Test\MunicipalityDebtsSystem.Test.csproj", "{0AEEC500-7280-4ACD-B06B-82AB49A9AFC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

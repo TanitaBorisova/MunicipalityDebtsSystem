@@ -21,14 +21,9 @@ namespace MunicipalityDebtsSystem.Core.Models.Draw
         public decimal DrawAmount { get; set; }
 
         [Required]
-        //[Range(4, 4)]
         public int OperationTypeId { get; set; }
 
-        ////[Required]
-        //public string MunicipalityCode { get; set; } = string.Empty;
-
-        ////[Required]
-        //public string MunicipalityName { get; set; } = string.Empty;
+        public bool IsFinished { get; set; }
 
         public DebtPartialInfoViewModel DebtPartialInfo { get; set; } = new DebtPartialInfoViewModel();
     }

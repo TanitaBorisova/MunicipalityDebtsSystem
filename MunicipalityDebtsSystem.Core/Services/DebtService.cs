@@ -282,7 +282,8 @@ namespace MunicipalityDebtsSystem.Core.Services
                     MunicipalityCode = d.Municipality.MunicipalCode.ToString(),
                     UserCreated = d.UserCreated,
                     DateCreated = d.DateCreated.ToString(ValidationConstants.DateFormat),
-                    CreditStatusId = d.CreditStatusId
+                    CreditStatusId = d.CreditStatusId,
+                    IsFinished = d.IsFinished
                 }).FirstOrDefaultAsync();
 
 
