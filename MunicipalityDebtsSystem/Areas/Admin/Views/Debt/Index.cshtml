@@ -18,13 +18,6 @@
 </div>
 
 
-<!-- DataTables JS and jQuery -->
-@* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="~/lib/data-tables/datatables.min.js"></script>
- *@ 
-
-
-
 @section FooterScripts {
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script src="~/lib/data-tables/datatables.min.js"></script>
@@ -54,15 +47,7 @@
 
                         "type": "GET",
                         "datatype": "json",
-                        // data: function (d) {
-
-                        //     // // return {
-                        //     // draw: d.draw,
-                        //     // start: d.start,
-                        //     // length: d.length,
-                        //     // searchValue: d.search.value  // Add any additional filters
-
-                        // }
+                       
 
                     },
                     // buttons: {                    
@@ -95,32 +80,22 @@
                             searchable: true
                         },
                         {
-                            // className: 'col-md-1',
+                            
                             name: 'dateBook',
                             data: 'dateBook',
                             title: 'Начална дата на дълг',
                             sortable: true,
                             searchable: false,
-                            // "render": function (value) {
-                            //     if (value)
-                            //         return moment(value).format("DD.MM.YYYY");
-                            //     else
-                            //         return "";
-                            // }
+                           
                         },
                         {
-                            // className: 'col-md-1',
+                           
                             name: 'dateContractFinish',
                             data: 'dateContractFinish',
                             title: 'Крайна дата на дълг',
                             sortable: true,
                             searchable: false,
-                            // "render": function (value) {
-                            //     if (value)
-                            //         return moment(value).format("DD.MM.YYYY");
-                            //     else
-                            //         return "";
-                            // }
+                            
                         },
                          {
                             name: 'municipalityCode',
@@ -166,35 +141,18 @@
                              searchable: false,
                              className: "text-right",
                              render: function (data, type, row, meta) {
-                                 /* return '<a href="Debt/Details/' + row.id + '" class="btn btn-primary" title="Преглед"><i class="fa fa-info-circle"></i></a>';*/
-                             //      return '<a href="' + '@Url.Action("Details", "Debt", new { area = "Admin" })'.replace('1', row.id) +'">Details</a>';
-                             //return '<a href="' + '@Url.Action("Details", "Debt")'+ '/'+  row.id + '">Details</a>';
-                            return '<a href="Debt/Details/' + row.id + '" class="btn btn-primary" title="Преглед"><i class="fa fa-info-circle"></i></a>';
-                              }
+                                return '<a href="Debt/Details/' + row.id + '" class="btn btn-primary" title="Преглед"><i class="fa fa-info-circle"></i></a>';
+                             }
                         },
                          {
                             data: 'id', // This is where drawId comes from
                             title: 'Действия',
                             render: function (data, type, row) {
-                                // return `
-                                    // <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
-                                // `;
                                 return '<button type="button" class="btn btn-danger" onclick="deleteDebt(' + row.id + ');"><i class="fa fa-trash"></i> Изтрий</button>';
                          }
             }
 
-                        // {
-                        //     name: 'actions',
-                        //     data: "id",
-                        //     title: "",
-                        //     sortable: false,
-                        //     searchable: false,
-                        //     className: "text-center noExport",
-                        //     "render": function (value) {
-                        //         return TemplateToHtml('#caseSelectionProtokolTemplateEdit', value);
-                        //     }
-                        // }
-
+                       
                     ]
                 });
             });
