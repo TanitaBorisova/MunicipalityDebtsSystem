@@ -20,107 +20,22 @@ namespace MunicipalityDebtsSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-           //var result = await debtService.GetDebtsWithPagingAsync(0, 10, "");
-           // var debts = result.Debts;
-           // return Json(debts); 
-
+           
             return View();
         }
-        //public class DataTableRequest
-        //{
-        //    public int draw { get; set; }
-        //    public int start { get; set; }
-        //    public int length { get; set; }
-        //    public string searchValue { get; set; } = string.Empty;
-        //}
-
-
-        //public async Task<IActionResult> GetDebtsForDataTable(
-        //[FromQuery] int draw,
-        //[FromQuery] int start,
-        //[FromQuery] int length,
-        //[FromQuery] string searchValue)
-
+       
         [HttpGet]
         public async Task<IActionResult> GetDebtsForDataTable() 
         {
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
             var data = await this.debtService.GetAllDebtAsync(municipalityId);
+            
+
             return Json(new { data = data });
 
         }
 
 
-
-        //int draw,
-        //int start,
-        //int length,
-        //string searchValue)
-        //[FromQuery] int draw,
-        //[FromQuery] int start,
-        //[FromQuery] int length,
-        //[FromQuery] string searchValue)
-
-        //[HttpPost]
-        //[Route("Debt/GetDebtsForDataTable")]
-        //public async Task<IActionResult> GetDebtsForDataTable([FromBody] DataTableRequest request)
-
-        //{
-        //    try
-        //    {
-        //        //var result = await debtService.GetDebtsWithPagingAsync(start / length, length, searchValue);
-        //        int start = request.start;
-        //        int length = request.length;
-        //        string searchValue = request.searchValue;
-        //        int draw = 1;
-
-        //        int first = start / length;
-        //        var result = await debtService.GetDebtsWithPagingAsync(first, length, searchValue);
-
-        //        var jsonResponse = new
-        //        {
-        //            draw = draw,
-        //            recordsTotal = result.TotalRecords,
-        //            recordsFiltered = result.FilteredRecords,
-        //            data = result.Debts
-        //        };
-
-        //        return Json(jsonResponse);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest("An error occurred while fetching the data.");
-        //    }
-        //}
-
-
-
-        //[HttpPost]
-        //public async Task<IActionResult> GetDebtsForDataTable(int draw, int start, int length, string searchValue)
-        //{
-        //    try
-        //    {
-        //        // Log incoming parameters
-        //        //_logger.LogInformation($"Received request: draw={draw}, start={start}, length={length}, searchValue={searchValue}");
-
-        //        var result = await debtService.GetDebtsWithPagingAsync(start / length, length, searchValue);
-
-        //        var jsonResponse = new
-        //        {
-        //            draw = draw,
-        //            recordsTotal = result.TotalRecords,
-        //            recordsFiltered = result.FilteredRecords,
-        //            data = result.Debts
-        //        };
-
-        //        return Json(jsonResponse);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //_logger.LogError($"Error: {ex.Message}");
-        //        return BadRequest("An error occurred while fetching the data.");
-        //    }
-        //}
 
 
 
@@ -157,8 +72,7 @@ namespace MunicipalityDebtsSystem.Controllers
         public async Task<IActionResult> Add(AddDebtViewModel model)
         {
 
-            //string userId = GetUserId();
-            //To DO - to get it fro user profile
+            
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
             string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
@@ -201,14 +115,6 @@ namespace MunicipalityDebtsSystem.Controllers
                 ModelState.AddModelError(nameof(model.InterestTypeId), ValidationConstants.InterestTypeNotExist);
             }
 
-            //DateTime dateBook;
-            //string strDateBook = model.DateBook.ToString(ValidationConstants.DateFormat);
-            //bool isDateBookValid = DateTime.TryParseExact(strDateBook, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateBook);
-            //if (!isDateBookValid)
-            //{
-            //    ModelState.AddModelError(nameof(model.DateBook), ValidationConstants.InvalidDateErrorMessage);
-            //}
-
             DateTime dateBook;
 
             bool isAddedDateValid = DateTime.TryParseExact(model.DateBook, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateBook);
@@ -217,14 +123,7 @@ namespace MunicipalityDebtsSystem.Controllers
                 ModelState.AddModelError(nameof(model.DateBook), ValidationConstants.InvalidDateErrorMessage);
             }
 
-            //DateTime dateContractFinish;
-            //string strDateContractFinish = model.DateContractFinish.ToString(ValidationConstants.DateFormat);
-            //bool isDateContractFinishValid = DateTime.TryParseExact(strDateContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateContractFinish);
-            //if (!isDateContractFinishValid)
-            //{
-            //    ModelState.AddModelError(nameof(model.DateContractFinish), ValidationConstants.InvalidDateErrorMessage);
-            //}
-
+          
             DateTime dateContractFinish;
 
             bool isDateContractFinishValid = DateTime.TryParseExact(model.DateContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateContractFinish);
@@ -232,14 +131,6 @@ namespace MunicipalityDebtsSystem.Controllers
             {
                 ModelState.AddModelError(nameof(model.DateContractFinish), ValidationConstants.InvalidDateErrorMessage);
             }
-
-            //DateTime dateRealContractFinish;
-            //string strDateRealContractFinish = model.DateRealFinish.ToString(ValidationConstants.DateFormat);
-            //bool isDateRealContractFinishValid = DateTime.TryParseExact(strDateRealContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateRealContractFinish);
-            //if (!isDateContractFinishValid)
-            //{
-            //    ModelState.AddModelError(nameof(model.DateRealContractFinish), ValidationConstants.InvalidDateErrorMessage);
-            //}
 
             DateTime dateRealContractFinish;
 
@@ -262,13 +153,7 @@ namespace MunicipalityDebtsSystem.Controllers
                 return View(model);
             }
 
-            //model.Currencies = await debtService.GetAllCurrenciesAsync();
-            //model.CreditTypes = await debtService.GetAllCreditTypesAsync();
-            //model.CreditorTypes = await debtService.GetAllCreditorTypesAsync();
-            //model.DebtTermTypes = await debtService.GetAllDebtTermTypesAsync();
-            //model.DebtPurposeTypes = await debtService.GetAllDebtPurposeTypesAsync();
-            //model.InterestTypes = await debtService.GetAllInterestTypesAsync();
-           
+          
             
             await debtService.AddAsync(model, User.Id(), municipalityId, dateBook, dateContractFinish, dateRealContractFinish);  //userId
             return RedirectToAction(nameof(Index));
@@ -280,7 +165,7 @@ namespace MunicipalityDebtsSystem.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
-        {//get municipality from user
+        {
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
             string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
@@ -292,7 +177,7 @@ namespace MunicipalityDebtsSystem.Controllers
                 return BadRequest();
             }
 
-            ////To DO
+           
             if (entity.MunicipalityId != municipalityId)
             {
                 return Unauthorized();
@@ -304,8 +189,7 @@ namespace MunicipalityDebtsSystem.Controllers
                 DebtParentId = entity.DebtParentId  ?? 0,
                 DebtNumber = entity.DebtNumber,
                 ResolutionNumber = entity.ResolutionNumber,
-                DateBook = entity.DateBook.ToString(ValidationConstants.DateFormat),   //entity.DateBook.ToString(ValidationConstants.DateFormat),
-                //DateNegotiate = model.DateBook,
+                DateBook = entity.DateBook.ToString(ValidationConstants.DateFormat),   
                 DateContractFinish = entity.DateContractFinish.ToString(ValidationConstants.DateFormat),
                 DateRealFinish = entity.DateRealFinish.ToString(ValidationConstants.DateFormat),
                 CurrencyId = entity.CurrencyId,
@@ -335,8 +219,7 @@ namespace MunicipalityDebtsSystem.Controllers
         public async Task<IActionResult> Edit(EditDebtViewModel model, int id)
         {
             string userId = User.Id();
-            ////To DO to get from the user
-            //get municipality from user
+           
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
             string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
@@ -388,8 +271,7 @@ namespace MunicipalityDebtsSystem.Controllers
                 return BadRequest();
             }
 
-
-            ////To DO
+            
             if (entity.MunicipalityId != municipalityId)
             {
                 return Unauthorized();
@@ -454,27 +336,27 @@ namespace MunicipalityDebtsSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            //get municipality from user
+           
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
             string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
 
-            string userId = GetUserId();
+            string userId = User.Id();
             var model = await debtService.GetDebtByIdAsync(id);
+            model.IsForFinish = await debtService.IsForFinish(id);
             return View(model);
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            //get municipality from user
-            //get municipality from user
+           
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
             string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
 
-            //da napiwa drug metod za vry6tane na danni
-            var userId = GetUserId();
+           
+            var userId = User.Id();
             var modelDebt = await debtService.GetDebtByIdAsync(id);
             if (modelDebt == null || modelDebt.MunicipalityId != municipalityId)
             {
@@ -500,7 +382,7 @@ namespace MunicipalityDebtsSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id, DeleteDebtViewModel model)
         {
-            //get municipality from user
+           
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
             string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
@@ -518,9 +400,7 @@ namespace MunicipalityDebtsSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Negotiate(int id)
         {
-            //id e ParentId
-
-            //get municipality from user
+           
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
             string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
@@ -533,13 +413,13 @@ namespace MunicipalityDebtsSystem.Controllers
             {
                 return BadRequest();
             }
-            ////To DO
+           
             if (entityParent.MunicipalityId != municipalityId)
             {
                 return Unauthorized();
             }
 
-            //Set values from parent
+            
             model.CreditTypeId = entityParent.CreditTypeId;
             model.CreditorTypeId = entityParent.CreditorTypeId;
 
@@ -565,8 +445,7 @@ namespace MunicipalityDebtsSystem.Controllers
             model.DebtParentId = id;
 
             string userId = User.Id();
-         
-            //get municipality from user
+              
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
             string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
@@ -641,8 +520,7 @@ namespace MunicipalityDebtsSystem.Controllers
                 ModelState.AddModelError(nameof(model.DateRealFinish), ValidationConstants.InvalidDateErrorMessage);
             }
 
-            //model.UserCreated = userId;
-            //model.DateCreated = DateTime.Now;
+           
             if (!ModelState.IsValid)
             {
                 model.Currencies = await debtService.GetAllCurrenciesAsync();
@@ -655,26 +533,23 @@ namespace MunicipalityDebtsSystem.Controllers
                 model.MunicipalityCode = municipalityCode;
 
                 var entityParent = await debtService.GetEntityDebtById(id);
-                //Set values from parent
+               
                 model.CreditTypeId = entityParent.CreditTypeId;
                 model.CreditorTypeId = entityParent.CreditorTypeId;
                 return View(model);
             }
 
-            //model.Currencies = await debtService.GetAllCurrenciesAsync();
-            //model.CreditTypes = await debtService.GetAllCreditTypesAsync();
-            //model.CreditorTypes = await debtService.GetAllCreditorTypesAsync();
-            //model.DebtTermTypes = await debtService.GetAllDebtTermTypesAsync();
-            //model.DebtPurposeTypes = await debtService.GetAllDebtPurposeTypesAsync();
-            //model.InterestTypes = await debtService.GetAllInterestTypesAsync();
 
-
-            await debtService.NegotiateAsync(model, User.Id(), municipalityId, dateBook, dateContractFinish, dateRealContractFinish);  //userId
+            await debtService.NegotiateAsync(model, User.Id(), municipalityId, dateBook, dateContractFinish, dateRealContractFinish); 
             return RedirectToAction(nameof(Index));
 
 
+        }
 
-
+        public async Task<IActionResult> Finish(int id)
+        {
+            await debtService.SetDebtAsFinished(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -10,6 +10,7 @@ using OperationType = MunicipalityDebtsSystem.Core.Enums.OperationType;
 using System.Text.Json.Nodes;
 using MunicipalityDebtsSystem.Core.Models.Draw;
 using Debt = MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.Debt;
+using MunicipalityDebtsSystem.Core.Enums;
 
 namespace MunicipalityDebtsSystem.Core.Services
 {
@@ -59,14 +60,11 @@ namespace MunicipalityDebtsSystem.Core.Services
         public async Task EditAsync(EditDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealFinish)
         {
 
-            var entity = await repository.GetByIdAsync<Debt>(model.DebtId); //GetEntityDebtById(model.DebtId);
-
-            //DebtId = model.DebtId,
-            //DebtParentId = model.DebtParentId,
+            var entity = await repository.GetByIdAsync<Debt>(model.DebtId); 
+                       
             entity.DebtNumber = model.DebtNumber;
             entity.ResolutionNumber = model.ResolutionNumber;
             entity.DateBook = dateBook;
-            //DateNegotiate = model.DateBook,
             entity.DateContractFinish = dateContractFinish;
             entity.DateRealFinish = dateRealFinish;
             entity.CurrencyId = model.CurrencyId;
@@ -81,10 +79,7 @@ namespace MunicipalityDebtsSystem.Core.Services
             entity.MunicipalityId = municipalityId;
             entity.UserModified = userId;
             entity.DateModified = DateTime.Now;
-
-          
-
-            
+ 
             await repository.SaveChangesAsync();
 
         }
@@ -98,33 +93,25 @@ namespace MunicipalityDebtsSystem.Core.Services
         {
             var entity = await repository.GetByIdAsync<CreditorType>(id);
             return entity;
-            //var entity = await repository.All<CreditorType>()
-            //    .FirstOrDefaultAsync(d => d.Id == id);
-            //return entity;
+           
         }
         public async Task<CreditType> GetEntityCreditTypeById(int id)
         {
             var entity = await repository.GetByIdAsync<CreditType>(id);
             return entity;
-            //var entity = await repository.All<CreditType>()
-            //    .FirstOrDefaultAsync(d => d.Id == id);
-            //return entity;
+           
         }
         public async Task<DebtType> GetEntityDebtTermTypeById(int id)
         {
             var entity = await repository.GetByIdAsync<DebtType>(id);
             return entity;
-            //var entity = await repository.All<DebtType>()
-            //    .FirstOrDefaultAsync(d => d.Id == id);
-            //return entity;
+            
         }
         public async Task<DebtPurposeType> GetEntityDebtPurposeTypeById(int id)
         {
             var entity = await repository.GetByIdAsync<DebtPurposeType>(id);
             return entity;
-            //var entity = await repository.All<DebtPurposeType>()
-            //    .FirstOrDefaultAsync(d => d.Id == id);
-            //return entity;
+           
         }
         public async Task<List<CurrencyViewModel>> GetAllCurrenciesAsync()
         {
@@ -284,8 +271,8 @@ namespace MunicipalityDebtsSystem.Core.Services
                     DateRealFinish = d.DateRealFinish.ToString(ValidationConstants.DateFormat),
                     CurrencyName = d.Currency.CurrencyCode,
                     DebtAmountOriginalCcy = d.DebtAmountOriginalCcy.ToString(),
-                    DebtAmountLocalCcy = d.DebtAmountLocalCcy.ToString(),  //ValidationConstants.CurrencyFormat
-                    CreditTypeName = d.CreditType.Name.ToString(),  //Include 
+                    DebtAmountLocalCcy = d.DebtAmountLocalCcy.ToString(),  
+                    CreditTypeName = d.CreditType.Name.ToString(),  
                     CreditorTypeName = d.CreditorType.Name.ToString(),
                     DebtTermTypeName = d.DebtType.Name.ToString(),
                     DebtPurposeTypeName = d.DebtPurposeType.Name.ToString(),
@@ -294,7 +281,8 @@ namespace MunicipalityDebtsSystem.Core.Services
                     MunicipalityName = d.Municipality.Name.ToString(),
                     MunicipalityCode = d.Municipality.MunicipalCode.ToString(),
                     UserCreated = d.UserCreated,
-                    DateCreated = d.DateCreated.ToString(ValidationConstants.DateFormat)
+                    DateCreated = d.DateCreated.ToString(ValidationConstants.DateFormat),
+                    CreditStatusId = d.CreditStatusId
                 }).FirstOrDefaultAsync();
 
 
@@ -310,7 +298,6 @@ namespace MunicipalityDebtsSystem.Core.Services
                 .Select(d => new DebtListViewModel
                 {
                     Id = d.Id,
-                    //DebtParentId = d.DebtParentId,
                     DebtParentNumber = d.ParentDebt.DebtNumber,
                     DebtNumber = d.DebtNumber,
                     ResolutionNumber = d.ResolutionNumber,
@@ -323,12 +310,34 @@ namespace MunicipalityDebtsSystem.Core.Services
                     MunicipalityName = d.Municipality.Name,
                     MunicipalityCode = d.Municipality.MunicipalCode,
                     StatusName = d.CreditStatusType.Name,
+                    ForFinish = false
+                   
 
                 }).ToListAsync();
 
-
+           
             return model;
 
+        }
+
+        public async Task<bool> IsForFinish(int id)
+        {
+            bool result = false;
+
+            DebtPartialInfoViewModel debtInfoModel = new DebtPartialInfoViewModel();
+            var debt = await repository.GetByIdAsync<Debt>(id);
+            var debtPartialInfo = await FillDebtInfo(debtInfoModel, id, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
+            var debtRealRemain = debtPartialInfo.RealRemainDebt;
+
+            if (debt!= null)
+            {
+                if (debt.CreditStatusId == 1 && debt.IsFinished == false && debtRealRemain == 0)
+                {
+                    result = true;
+                }
+            }
+           
+            return result; 
         }
 
         public async Task<IEnumerable<DebtListViewModel>> GetAllDebtAdminAsync()
@@ -353,6 +362,7 @@ namespace MunicipalityDebtsSystem.Core.Services
                     MunicipalityName = d.Municipality.Name,
                     MunicipalityCode = d.Municipality.MunicipalCode,
                     StatusName = d.CreditStatusType.Name,
+                   
 
                 }).ToListAsync();
 
@@ -361,9 +371,9 @@ namespace MunicipalityDebtsSystem.Core.Services
 
         }
         public async Task<(List<DebtListViewModel> Debts, int TotalRecords, int FilteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize, string searchValue)
-        //public async Task<(List<DebtListViewModel> Debts, int TotalRecords, int FilteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize)
+        
         {
-            // Query to get debts from the database, applying optional filters and pagination
+            
             var query = repository.AllReadOnly<Debt>()
                 .Where(d => d.IsDeleted == false)
                 .Include(d => d.Currency)
@@ -377,7 +387,6 @@ namespace MunicipalityDebtsSystem.Core.Services
                 .Select(d => new DebtListViewModel
                 {
                     Id = d.Id,
-                    //DebtParentId = d.DebtParentId,
                     DebtParentNumber = d.ParentDebt.DebtNumber ?? "няма",
                     DebtNumber = d.DebtNumber,
                     ResolutionNumber = d.ResolutionNumber,
@@ -392,21 +401,18 @@ namespace MunicipalityDebtsSystem.Core.Services
                     StatusName = d.CreditStatusType.Name.ToString(),
 
                 })
-                //.Where(d => searchValue != string.Empty ?  d.DebtNumber.Contains(searchValue) )
-                //.Where(x => (searchValue != null ? (x.DateSent != null && x.DateSent.Value.Date <= dateSendTo) : (x.Id == x.Id)))
-               // .Where(x => (searchValue != null ? (x.DebtNumber.Contains(searchValue)) : (x.Id == x.Id)))
+                
                 .OrderBy(d => d.Id)
                 .AsQueryable();
 
-            //|| d.ResolutionNumber.Contains(searchValue) || d.MunicipalityName.Contains(searchValue) || d.MunicipalityCode.Contains(searchValue) || d.CurrencyName.Contains(searchValue) || d.DebtAmountOriginalCcy.Contains(searchValue) || d.DebtAmountOriginalCcy.Contains(searchValue)
+           
 
           if (!string.IsNullOrEmpty(searchValue))
             {
                 query = query.Where(d => d.DebtNumber.Contains(searchValue)|| d.DebtParentNumber.Contains(searchValue) || d.MunicipalityName.Contains(searchValue) || d.ResolutionNumber.Contains(searchValue) || d.MunicipalityName.Contains(searchValue) || d.MunicipalityCode.Contains(searchValue) || d.CurrencyName.Contains(searchValue) || d.DebtAmountOriginalCcy.Contains(searchValue) || d.DebtAmountOriginalCcy.Contains(searchValue)).AsQueryable();
             }
 
-            //// Apply sorting (optional, if needed)
-            //query = query.OrderBy(d => d.DebtNumber); // Or apply sorting logic based on your requirements
+           
             var p = query;
             // Fetch the data with pagination
             var debts = await query
@@ -579,5 +585,20 @@ namespace MunicipalityDebtsSystem.Core.Services
             return rate;
             
         }
+
+        public async Task SetDebtAsFinished(int id)
+        { 
+            var debt = await repository.GetByIdAsync<Debt>(id);
+
+            if (debt != null)
+            {
+                debt.IsFinished = true;
+                debt.CreditStatusId = (int)DebtStatus.Finished;
+            }
+
+            await repository.SaveChangesAsync();    
+        }
+
+
     }
 }

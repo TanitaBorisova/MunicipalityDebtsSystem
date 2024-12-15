@@ -18,13 +18,11 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
 
         public string DateBook { get; set; } = string.Empty;
 
-        //[Required]
-        //public DateTime DateNegotiate { get; set; }
+        public int CreditStatusId { get; set; }
 
         public string DateContractFinish { get; set; } = string.Empty;
 
         public string DateRealFinish { get; set; } = string.Empty;
-
 
         public string CurrencyName { get; set; } = string.Empty;
 
@@ -53,6 +51,12 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
         public string UserCreated { get; set; } = string.Empty;
                 
         public string DateCreated { get; set; } = string.Empty;
+
+        public bool IsFinished { get; set; }
+
+        public bool IsForFinish { get; set; }
+
+        public decimal DebtRemainAmount { get; set; }
 
         public DebtPartialInfoViewModel DebtPartialInfo { get; set; } = new DebtPartialInfoViewModel();
     }

@@ -1,4 +1,5 @@
-﻿@model DetailDebtViewModel
+﻿@using MunicipalityDebtsSystem.Core.Enums
+@model DetailDebtViewModel
 
 @{
     ViewData["Title"] = "Преглед на дълг";
@@ -21,8 +22,37 @@
         <li><a href="@Url.Action("AddCover", "Cover", new { id = Model.Id })" class="btn btn-link text-primary">Обезпечения</a></li>
     </ul>
 
+    
+        @if(Model.IsForFinish)
+        {
+         
+            @* <div id="message" class="container mt-5">
+                <div class="completion-message">
+                    <span>Остатъчният размер на дълга е нула. Можете да преминете към действие </span>
+                    <button type="button" class="btn complete-btn">
+                        <i class="fa fa-check-circle"></i> Приключване
+                    </button>
+                </div>
+            </div> *@
+
+        <div id="message" class="container mt-5">
+            <div class="completion-message">
+                <span>Остатъчният размер на дълга е нула. Можете да преминете към действие </span>
+                               
+                <form asp-action="Finish" method="post" asp-controller="Debt" class="d-inline">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <button type="submit" class="btn complete-btn">
+                        <i class="fa fa-check-circle"></i> Приключване
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        }
+   
+
     <!-- Debt Details -->
-    <div class="row justify-content-center">
+    <div id = "main" class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow-sm border-0">
                 <div class="card-body">
@@ -144,4 +174,40 @@
 
 
 
+<style>
+  
 
+   /*  .completion-container {
+        margin-bottom: 20px;
+    } */
+
+    .completion-message {
+        background-color: #d4edda; /* Light green background */
+        color: #155724; /* Dark green text */
+        border: 1px solid #c3e6cb; /* Green border */
+        padding: 15px; /* Space inside the box */
+        border-radius: 5px; /* Rounded corners */
+        display: flex; /* Align button and message on the same row */
+        align-items: center; /* Vertically align items */
+        gap: 15px; /* Space between the message and button */
+    }
+
+    .complete-btn {
+        background-color: #198754; /* Bootstrap 'success' green */
+        color: white; /* White text color */
+        border: none; /* Remove border */
+        padding: 8px 15px; /* Padding for the button */
+        font-size: 16px; /* Button font size */
+        border-radius: 5px; /* Rounded corners */
+    }
+
+        .complete-btn:hover {
+            background-color: #157347; /* Darker green on hover */
+            color: white; 
+        }
+    #message
+    {
+        margin-bottom: 20px; /* Adds 10px space below the message div */
+    }
+    </style>
+   

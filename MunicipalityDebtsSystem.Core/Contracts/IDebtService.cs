@@ -62,5 +62,9 @@ namespace MunicipalityDebtsSystem.Core.Contracts
         Task<bool> CheckDebtPurposeTypeExistAsync(int id);
 
         Task<bool> CheckInterestTypeExistAsync(int id);
+
+        Task SetDebtAsFinished(int id);
+
+        Task<bool> IsForFinish(int id);
     }
 }
