@@ -64,19 +64,20 @@ namespace MunicipalityDebtsSystem.Core.Services
         public async Task<IEnumerable<PlannedPaymentListViewModel>> GetAllPlannedPaymentsAsync(int id)
         {
             var model = await repository.AllReadOnly<Payment>()
-                .Where(d => d.IsDeleted == false && d.OperationTypeId == (int)OperationType.PlannedPayment && d.Debt.Id == id)  //&& d.Debt.Id == id
+                .Where(d => d.IsDeleted == false && d.OperationTypeId == (int)OperationType.PlannedPayment && d.Debt.Id == id)  
                 .Include(d => d.Debt)
                 .ThenInclude(d => d.Currency)
 
                 .Select(d => new PlannedPaymentListViewModel
                 {
-                    // //= d.DebtId,
+                    
                     PaymentId = d.Id,
                     PaymentDate = d.PaymentDate.ToString(ValidationConstants.DateFormat),
                     PaymentAmount = d.PaymentAmount,
                     InterestRate = d.InterestRate,  
                     InterestAmount = d.InterestAmount,  
-                    OperateTaxAmount = d.OperateTaxAmount
+                    OperateTaxAmount = d.OperateTaxAmount,
+                    IsDebtFinished = d.Debt.IsFinished
 
                 }).ToListAsync();
 
@@ -88,19 +89,20 @@ namespace MunicipalityDebtsSystem.Core.Services
         public async Task<IEnumerable<PlannedPaymentListViewModel>> GetAllPaymentsAsync(int id)
         {
             var model = await repository.AllReadOnly<Payment>()
-                .Where(d => d.IsDeleted == false && d.OperationTypeId == (int)OperationType.Payment && d.Debt.Id == id)  //&& d.Debt.Id == id
+                .Where(d => d.IsDeleted == false && d.OperationTypeId == (int)OperationType.Payment && d.Debt.Id == id)  
                 .Include(d => d.Debt)
                 .ThenInclude(d => d.Currency)
 
                 .Select(d => new PlannedPaymentListViewModel
                 {
-                    // //= d.DebtId,
+                    
                     PaymentId = d.Id,
                     PaymentDate = d.PaymentDate.ToString(ValidationConstants.DateFormat),
                     PaymentAmount = d.PaymentAmount,
                     InterestRate = d.InterestRate,
                     InterestAmount = d.InterestAmount,
-                    OperateTaxAmount = d.OperateTaxAmount
+                    OperateTaxAmount = d.OperateTaxAmount,
+                    IsDebtFinished = d.Debt.IsFinished
 
                 }).ToListAsync();
 
@@ -120,7 +122,7 @@ namespace MunicipalityDebtsSystem.Core.Services
             return entity;
         }
 
-        public async Task<List<PlannedPaymentDateViewModel>> GetAllPlannedPaymentDatesAsync(int debtId) //int debtId
+        public async Task<List<PlannedPaymentDateViewModel>> GetAllPlannedPaymentDatesAsync(int debtId) 
         {
             return await repository.AllReadOnly<Payment>()
                 .Where(d => d.OperationTypeId == (int)OperationType.PlannedPayment && d.DebtId == debtId)

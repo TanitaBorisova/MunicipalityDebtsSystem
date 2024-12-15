@@ -21,5 +21,7 @@ namespace MunicipalityDebtsSystem.Core.Models.Payment
         public decimal InterestRate { get; set; }
 
         public decimal OperateTaxAmount { get; set; }
+
+        public bool IsDebtFinished { get; set; }
     }
 }
