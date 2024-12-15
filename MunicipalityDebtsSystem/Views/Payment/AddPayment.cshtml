@@ -26,9 +26,98 @@
         <form id="payments" asp-action="AddPayment" asp-controller="Payment" method="post" enctype="multipart/form-data">
             <input type="hidden" asp-for="@Model.DebtId" />
             <input type="hidden" asp-for="@Model.OperationTypeId" />
+            <input type="hidden" asp-for="@Model.IsFinished" />
 
             <div class="row">
+             @if(Model.IsFinished)
+             {
+                 <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.PlannedPaymentId" class="form-label-add-edit">Дата на планирано плащане:</label>
+                   
+                    <select asp-for="@Model.PlannedPaymentId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.PlannedPaymentDates, "Id", "PlannedDate"))" disabled="disabled">
+                        <option value="0">-- Изберете</option>
+                    </select>
+
+                    <span asp-validation-for="@Model.PlannedPaymentId" class="text-danger"></span>
+                </div>
                 <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.PaymentDate" class="form-label-add-edit">Дата на плащане:</label>
+                    <input asp-for="@Model.PaymentDate" class="form-control" aria-required="true" value="@(string.IsNullOrEmpty(Model.PaymentDate) ? today : Model.PaymentDate)" disabled="disabled" />
+                    <span asp-validation-for="@Model.PaymentDate" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.PaymentParentAmount" class="form-label-add-edit">Размер на пл. плащане в ориг. валута:</label>
+                    <div class="input-group">
+                        <input asp-for="@Model.PaymentParentAmount" class="form-control" type="number" step="0.01" min="0" disabled="disabled"/>
+                    </div>
+                    <span asp-validation-for="@Model.PaymentParentAmount" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.PaymentAmount" class="form-label-add-edit">Размер на плащане в ориг. валута:</label>
+                    <div class="input-group">
+                        <input asp-for="@Model.PaymentAmount" class="form-control" type="number" step="0.01" min="0" disabled="disabled"/>
+                    </div>
+                    <span asp-validation-for="@Model.PaymentAmount" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.InterestParentAmount" class="form-label-add-edit">Размер на пл. лихвено плащане:</label>
+                    <div class="input-group">
+                        <input asp-for="@Model.InterestParentAmount" class="form-control" type="number" step="0.01" min="0" disabled="disabled" />
+                    </div>
+                    <span asp-validation-for="@Model.InterestParentAmount" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.InterestAmount" class="form-label-add-edit">Размер на лихвено плащане:</label>
+                    <div class="input-group">
+                        <input asp-for="@Model.InterestAmount" class="form-control" type="number" step="0.01" min="0" disabled="disabled"/>
+                    </div>
+                    <span asp-validation-for="@Model.InterestAmount" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.InterestParentRate" class="form-label-add-edit">Лихвен процент (планиран):</label>
+                    <div class="input-group">
+                        <input asp-for="@Model.InterestParentRate" class="form-control" type="number" step="0.01" min="0" disabled="disabled" />
+                    </div>
+                    <span asp-validation-for="@Model.InterestParentRate" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.InterestRate" class="form-label-add-edit">Лихвен процент:</label>
+                    <div class="input-group">
+                        <input asp-for="@Model.InterestRate" class="form-control" type="number" step="0.01" min="0"  disabled="disabled"/>
+                    </div>
+                    <span asp-validation-for="@Model.InterestRate" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.OperateTaxParentAmount" class="form-label-add-edit">Планирани такси и комисионни:</label>
+                    <div class="input-group">
+                        <input asp-for="@Model.OperateTaxParentAmount" class="form-control" type="number" step="0.01" min="0" disabled="disabled" />
+                    </div>
+                    <span asp-validation-for="@Model.OperateTaxParentAmount" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label asp-for="@Model.OperateTaxAmount" class="form-label-add-edit">Такси и комисионни:</label>
+                    <div class="input-group">
+                        <input asp-for="@Model.OperateTaxAmount" class="form-control" type="number" step="0.01" min="0" disabled="disabled"/>
+                    </div>
+                    <span asp-validation-for="@Model.OperateTaxAmount" class="text-danger"></span>
+                </div>
+
+
+                <div class="mb-2">
+                    <input class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Запис" disabled="disabled"/>
+
+                </div>
+                <div class="mb-2">
+                    <input class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Изчисти" disabled="disabled"/>
+                </div>
+                }
+                else
+                {
+                      <div class="col-sm-6 mb-2">
                     <label asp-for="@Model.PlannedPaymentId" class="form-label-add-edit">Дата на планирано плащане:</label>
                    
                     <select asp-for="@Model.PlannedPaymentId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.PlannedPaymentDates, "Id", "PlannedDate"))">
@@ -103,10 +192,6 @@
                     <span asp-validation-for="@Model.OperateTaxAmount" class="text-danger"></span>
                 </div>
 
-               
-
-                
-
 
                 <div class="mb-2">
                     <input class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Запис" />
@@ -115,6 +200,9 @@
                 <div class="mb-2">
                     <input class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Изчисти" />
                 </div>
+                }
+
+              
         </form>
     </div>
 </div>
