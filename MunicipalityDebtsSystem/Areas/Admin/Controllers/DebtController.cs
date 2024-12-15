@@ -50,17 +50,18 @@ namespace MunicipalityDebtsSystem.Areas.Admin.Controllers
            
             string userId = User.Id();
             var model = await debtService.GetDebtByIdAsync(id);
+            model.DebtPartialInfo = await debtService.FillDebtInfo(model.DebtPartialInfo, id, model.MunicipalityName, model.MunicipalityCode, model.CurrencyName, model.DebtNumber, model.DateBook);
 
-            model.DebtPartialInfo.Payments = await debtService.ReturnSumOfOperationType((int)OperationType.Payment, id);
-            model.DebtPartialInfo.PlannedPayments = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedPayment, id);
-            model.DebtPartialInfo.Draws = await debtService.ReturnSumOfOperationType((int)OperationType.Draw, id);
-            model.DebtPartialInfo.PlannedDraws = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedDraw, id);
+            //model.DebtPartialInfo.Payments = await debtService.ReturnSumOfOperationType((int)OperationType.Payment, id);
+            //model.DebtPartialInfo.PlannedPayments = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedPayment, id);
+            //model.DebtPartialInfo.Draws = await debtService.ReturnSumOfOperationType((int)OperationType.Draw, id);
+            //model.DebtPartialInfo.PlannedDraws = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedDraw, id);
 
-            model.DebtPartialInfo.MunicipalityName = model.MunicipalityName;
-            model.DebtPartialInfo.MunicipalityCode = model.MunicipalityCode;
-            model.DebtPartialInfo.CurrencyName = model.CurrencyName;
-            model.DebtPartialInfo.DebtNumber = model.DebtNumber;
-            model.DebtPartialInfo.BookDate = model.DateBook;
+            //model.DebtPartialInfo.MunicipalityName = model.MunicipalityName;
+            //model.DebtPartialInfo.MunicipalityCode = model.MunicipalityCode;
+            //model.DebtPartialInfo.CurrencyName = model.CurrencyName;
+            //model.DebtPartialInfo.DebtNumber = model.DebtNumber;
+            //model.DebtPartialInfo.BookDate = model.DateBook;
 
             return View(model);
         }
