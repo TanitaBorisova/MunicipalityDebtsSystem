@@ -36,6 +36,7 @@ namespace MunicipalityDebtsSystem.Controllers
             AddPlannedDrawViewModel model = new AddPlannedDrawViewModel();
             model.DebtPartialInfo = await debtService.FillDebtInfo(model.DebtPartialInfo, id, municipalityName, municipalityCode, debt.CurrencyName, debt.DebtNumber, debt.DateBook);
             model.DebtId = id;
+            model.OperationTypeId = (int)OperationType.PlannedDraw;
             //decimal sumPayments = await debtService.ReturnSumOfOperationType((int)OperationType.Payment, id);
             //model.DebtPartialInfo.Payments = sumPayments;
             //decimal sumPlannedPayments = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedPayment, id);

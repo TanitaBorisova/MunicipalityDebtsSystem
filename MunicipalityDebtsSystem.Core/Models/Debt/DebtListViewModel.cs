@@ -32,6 +32,8 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
 
         public int MunicipalityId { get; set; }
 
+        public bool ForFinish { get; set; } = true;
+
 
     }
 }

@@ -179,7 +179,23 @@
                              return '<a href="Debt/Edit/' + row.id + '" class="btn btn-warning" title="Редакция"><i class="fa fa-info-circle"></i></a>';
                          }
                     },
-
+                    {
+                        name: 'actions',
+                        data: 'forFinish',
+                        title: '',
+                        sortable: false,
+                        searchable: false,
+                        className: "text-right",
+                        render: function (data, type, row, meta) {
+                            if (data === true) {
+                                // Button is visible when ForFinish is true
+                                return '<a href="Debt/Finish/' + row.id + '" class="btn btn-warning" title="Приключване"><i class="fa fa-info-circle"></i> Приключване</a>';
+                            } else {
+                                // Button is hidden when ForFinish is false
+                                return '';
+                            }
+                        }
+                    }
                     // {
                     //     name: 'actions',
                     //     data: "id",

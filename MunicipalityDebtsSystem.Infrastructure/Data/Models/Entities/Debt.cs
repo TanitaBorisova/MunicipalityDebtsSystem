@@ -15,6 +15,7 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
         {
             CreditStatusId = 1;
             IsNegotiated = false;
+            IsFinished = false;
         }
 
         [Key]
@@ -133,6 +134,11 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities
         [Required]
         [Comment("Shows if the debt is marked as deleted")]
         public bool IsDeleted { get; set; }
+
+
+        [Required]
+        [Comment("Shows if the debt is finished")]
+        public bool IsFinished { get; set; } = false;
 
         [ForeignKey(nameof(CreditStatusId))]
         public CreditStatusType CreditStatusType { get; set; } = null!;
