@@ -455,3 +455,116 @@ h2#login {
     font-weight: 600;
     margin-bottom: 20px;
 }
+
+
+.smart-title {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #4A90E2;
+    background: linear-gradient(135deg, #4A90E2, #5C6BC0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+
+.register-form {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+
+.form-floating {
+    margin-bottom: 1.5rem;
+}
+
+    .form-floating input,
+    .form-floating label {
+        border-radius: 5px;
+    }
+
+.btn-primary {
+    background-color: #4A90E2;
+    border-color: #4A90E2;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px;
+    width: 100%;
+}
+
+    .btn-primary:hover {
+        background-color: #5C6BC0;
+        border-color: #5C6BC0;
+    }
+
+.form-check-input {
+    margin-left: 5px;
+}
+
+.form-check-label {
+    font-size: 0.9rem;
+}
+
+
+h2 {
+    color: #5C6BC0;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+
+h1 {
+    text-align: center;
+    color: #4A90E2;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+
+.text-danger {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+
+button#registerSubmit {
+    background-color: #4A90E2;
+    border-color: #4A90E2;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+    button#registerSubmit:hover {
+        background-color: #5C6BC0;
+        border-color: #5C6BC0;
+    }
+
+
+.select2-container .select2-selection--single {
+    border-radius: 5px;
+    height: 38px;
+}
+
+
+.select2-container .select2-selection__rendered {
+    font-size: 1rem;
+}
+
+
+.page-register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #e9eff3;
+}
