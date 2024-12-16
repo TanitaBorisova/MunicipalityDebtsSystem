@@ -1,16 +1,12 @@
-﻿@using MunicipalityDebtsSystem.Core.Models.Payment
-@model AddPaymentViewModel
+﻿@model AddPaymentViewModel
 
-<link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-<link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-<link href="~/lib/data-tables/datatables.min.css" rel="stylesheet" />
+
 @{
     ViewData["Title"] = "Плащания";
     ViewData["NewPlannedPayment"] = "Ново плащане";
-    var today = DateTime.Now.ToString("dd.MM.yyyy");//"dd-MM-yyyy" //"dd/MM/yyyy"
+    var today = DateTime.Now.ToString("dd.MM.yyyy");
 }
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="~/lib/data-tables/datatables.min.js"></script>
+
 
 <div class="smart-title">
     <h2>@ViewData["Title"]</h2>
@@ -170,7 +166,7 @@
                 </div>
 
                 <div class="col-sm-6 mb-2">
-                    <label asp-for="@Model.InterestRate" class="form-label-add-edit">Лихвен процент:</label>
+                    <label asp-for="@Model.InterestRate" class="form-label-add-edit">Лихвен процент:</label> 
                     <div class="input-group">
                         <input asp-for="@Model.InterestRate" class="form-control" type="number" step="0.01" min="0"  />
                     </div>
@@ -215,10 +211,18 @@
     </div>
 </div>
 
+<div class="text-center">
+    <button class="btn btn-primary btn-lg" onclick="window.history.back()">Назад</button>
+</div>
 
-<!-- DataTables JS and jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="~/lib/data-tables/datatables.min.js"></script>
+
+
+@section FooterScripts {
+    <script src="~/lib/data-tables/datatables.min.js"></script>
+}
+
+
+@section Scripts {
 <script>
 
 
@@ -237,13 +241,12 @@
 
                     }
 
-
                 },
 
                 language: {
                     url: "/lib/data-tables/dataTables.bgBG.json",
-                    search: "", // Change the default placeholder
-                    searchPlaceholder: "Търсене" // Custom placeholder text
+                    search: "", 
+                    searchPlaceholder: "Търсене" 
                 },
                 columns: [
 
@@ -281,8 +284,7 @@
                         title: 'Действия',
                         render: function (data, type, row) {
                            
-                            // return '<button type="button" class="btn btn-danger" onclick="deletePlannedPayment(' + row.paymentId + ');"><i class="fa fa-trash"></i> Изтрий</button>';
-                            if (row.isDebtFinished === false) {
+                             if (row.isDebtFinished === false) {
                                 
                                 return '<button type="button" class="btn btn-danger" onclick="deletePlannedPayment(' + row.paymentId + ');"><i class="fa fa-trash"></i> Изтрий</button>';
                             } else {
@@ -306,13 +308,13 @@
                 url: '@Url.Action("DeletePlannedPayment", "Payment")',
                 type: 'POST',
                 headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
-                data: { id: paymentId },  // Pass the ID to delete
+                data: { id: paymentId },  
                 success: function (result) {
                     if (result.success) {
                         alert('Записът беше успешно изтрит!');
-                        $('#paymentTable').DataTable().ajax.reload();  // Reload the table after deletion
+                        $('#paymentTable').DataTable().ajax.reload();  
                     } else {
-                        alert(result.message);  // Show the message from the server
+                        alert(result.message);  
                     }
                 },
                 error: function () {
@@ -325,20 +327,20 @@
     $('#paymentTable').on('click', '.delete-btn', function () {
 
 
-        var paymentId = $(this).data('paymentId');  // Get the ID of the record to delete  - was id
+        var paymentId = $(this).data('paymentId');  
 
 
         if (confirm('Сигурни ли сте, че искате да изтриете този запис?')) {
             $.ajax({
-                url: '@Url.Action("DeletePlannedPayment", "Payment")',  // Action to handle deletion
+                url: '@Url.Action("DeletePlannedPayment", "Payment")', 
                 type: 'POST',
-                data: { id: paymentId },  // Pass the ID to delete
+                data: { id: paymentId },  
                 success: function (result) {
                     if (result.success) {
                         alert('Записът беше успешно изтрит!');
-                        $('#paymentTable').DataTable().ajax.reload();  // Reload the table after deletion
+                        $('#paymentTable').DataTable().ajax.reload();  
                     } else {
-                        alert(result.message);  // Show the message from the server
+                        alert(result.message);  
                     }
                 },
                 error: function () {
@@ -348,87 +350,6 @@
         }
     });
 </script>
-<style>
-    .smart-title {
-        font-family: 'Segoe UI', sans-serif;
-        font-size: 2.5rem;
-        font-weight: 600;
-        color: #4A90E2;
-        background: linear-gradient(135deg, #4A90E2, #5C6BC0);
-        -webkit-background-clip: text;
-        background-clip: text;
-        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
-        display: inline-block;
-        padding-bottom: 5px;
-    }
-
-
-    table.dataTable {
-        width: 100%;
-        margin: 20px 0;
-        border-collapse: collapse;
-    }
-
-        table.dataTable th,
-        table.dataTable td {
-            text-align: left;
-            padding: 8px;
-        }
-
-        table.dataTable th {
-            background-color: #f1f1f1;
-            font-weight: bold;
-        }
-
-        table.dataTable tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-    .btn {
-        font-size: 12px;
-        padding: 6px 12px;
-        margin-right: 5px;
-        text-align: center;
-    }
-
-    .btn-info {
-        background-color: #17a2b8;
-        border-color: #17a2b8;
-    }
-
-    .btn-warning {
-        background-color: #ffc107;
-        border-color: #ffc107;
-    }
-
-    .btn-sm {
-        padding: 5px 10px;
-    }
-
-    .delete-btn {
-        background-color: #f44336; /* Red */
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        font-size: 14px;
-        cursor: pointer;
-        border-radius: 3px;
-    }
-
-        .delete-btn:hover {
-            background-color: #d32f2f;
-        }
-
-        .delete-btn i {
-            margin-right: 5px;
-        }
-
-</style>
-
-<div class="text-center">
-    <button class="btn btn-primary btn-lg" onclick="window.history.back()">Назад</button>
-</div>
-
 
 <script>
     document.getElementById('PlannedPaymentId').addEventListener('change', function () {
@@ -455,9 +376,6 @@
             data: { plannedPaymentId: selectedValue },
             success: function (response) {
 
-                // var plannedPaymentAmount = response.paymentAmount;
-                // $('#DrawPlannedAmount').val(plannedDrawAmount);
-                // $('#DrawAmount').val(plannedDrawAmount);
                 $('#PaymentParentAmount').val(response.paymentAmount);
                 $('#InterestParentAmount').val(response.interestAmount);
                 $('#InterestParentRate').val(response.interestRate);
@@ -475,3 +393,4 @@
         });
     }
 </script>
+}
