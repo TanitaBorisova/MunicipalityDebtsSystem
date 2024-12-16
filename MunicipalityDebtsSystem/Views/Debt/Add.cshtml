@@ -2,7 +2,12 @@
 
 @{
     ViewData["Title"] = "Нов дълг";
-    var today = DateTime.Now.ToString("dd.MM.yyyy");//"dd-MM-yyyy" //"dd/MM/yyyy"
+    var today = DateTime.Now.ToString("dd.MM.yyyy");
+}
+
+@section HeadContent {
+    <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+   
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3 smart-title " style="margin-top: 20px;">
@@ -14,7 +19,7 @@
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
         <form asp-action="Add" method="post" enctype="multipart/form-data">
             <input type="hidden" asp-for="@Model.MunicipalityId" />
-           @*  <input type="hidden" asp-for="@Model.UserCreated" /> *@
+           
             <input type="hidden" asp-for="@Model.DateCreated" />
             <div class="row card-body">
                 <div class="col-sm-6 mb-2">
@@ -123,9 +128,14 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@section FooterScripts {
+       
+        <script src="~/lib/data-tables/datatables.min.js"></script>
+}
+        
+@section Scripts {        
 <script>
-    
+   
     $(document).ready(function () {
         
          $('#CurrencyId, #DebtAmountOriginalCcy').on('change keyup', function () {
@@ -143,16 +153,15 @@
             }
         });
 
-        // Function to fetch the currency rate from the server
         function fetchCurrencyRate(currencyId) {
             return new Promise((resolve, reject) => {
                 $.ajax({
-                    url: '/Debt/GetRate', // Adjust this to your controller/action
+                    url: '/Debt/GetRate', 
                     type: 'GET',
                     data: { id: currencyId },
                     success: function (data) {
                         if (data.success) {
-                            resolve(data.rate); // Return the currency rate
+                            resolve(data.rate); 
                         } else {
                             reject(data.message || "Error fetching rate");
                         }
@@ -166,38 +175,5 @@
     });
 
 </script>
-
-<style>
-    .smart-title {
-        font-family: 'Segoe UI', sans-serif;
-        font-size: 2.5rem;
-        font-weight: 600;
-        color: #4A90E2; /* Soft Blue */
-        background: linear-gradient(135deg, #4A90E2, #5C6BC0); /* Soft Blue Gradient */
-        -webkit-background-clip: text;
-        background-clip: text;
-        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
-        letter-spacing: 1px;
-        display: inline-block;
-        padding-bottom: 5px;
-        transition: all 0.3s ease-in-out;
-    }
-
-        .smart-title:hover {
-            color: #fff;
-            transform: scale(1.05);
-        }
-
-    .card-body {
-        background-color: #f9f9f9;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-    }
-
-   
-
-</style>
-
-
+}
 
