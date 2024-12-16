@@ -14,8 +14,10 @@ namespace MunicipalityDebtsSystem.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            //DebtListViewModel model = await debtService.GetT
+            
             return View();
         }
+
+
     }
 }

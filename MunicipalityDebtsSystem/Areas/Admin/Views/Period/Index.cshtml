@@ -21,7 +21,7 @@
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
        <form id="periods" asp-action="Index" asp-controller="Period" asp-area="Admin" method="post" enctype="multipart/form-data"> 
             
-            @* <input type="hidden" asp-for="@Model.OperationTypeId" />  *@
+           
             <div class="col-sm-6 mb-2">
                 <p class="card-text"><strong>Изберете община, за която да се визуализират отключените периоди:</strong> </p>
             </div>
@@ -37,10 +37,6 @@
                 <span asp-validation-for="@Model.MunicipalityId" class="text-danger"></span>
             </div>
 
-               @*  <div class="mb-2">
-                    <input class="btn btn-primary btn-dark-text w-100 py-2 fw-bold rounded" type="submit" value="Покажи" />
-
-                </div> *@
                
        </form> 
     </div>
@@ -78,7 +74,7 @@
         });
     });
 
-    function LoadData(munId) {  //munId
+    function LoadData(munId) {  
         debugger
         if ($.fn.DataTable.isDataTable('#periodTable')) {
             $('#periodTable').DataTable().clear().destroy();
@@ -119,121 +115,14 @@
                     sortable: true,
                     searchable: true
                 }
-                // {
-                //     name: 'monthName',
-                //     data: 'monthName',
-                //     title: 'Месец',
-                //     sortable: true,
-                //     searchable: true
-                // },
-                // {
-                //     name: 'yearName',
-                //     data: 'yearName',
-                //     title: 'Година',
-                //     sortable: true,
-                //     searchable: true
-                // },
-                // {
-                //     name: 'userUnlocked',
-                //     data: 'userUnlocked',
-                //     title: 'Потребител отключил',
-                //     sortable: true,
-                //     searchable: true
-                // },
-                // {
-                //     name: 'dateUnlocked',
-                //     data: 'dateUnlocked',
-                //     title: 'Потребител отключил',
-                //     sortable: true,
-                //     searchable: true
-                // },
-                // {
-                //     data: 'id', 
-                //     title: 'Действия',
-                //     render: function (data, type, row) {
-                        
-                //         return `<button type="button" class="btn btn-danger" onclick="deletePeriod(${row.id});"><i class="fa fa-trash"></i> Изтрий</button>`;
-                //     }
-                // }
+               
             ]
         });
     }
 </script>
 
 <style>
-    .smart-title {
-        font-family: 'Segoe UI', sans-serif;
-        font-size: 2.5rem;
-        font-weight: 600;
-        color: #4A90E2;
-        background: linear-gradient(135deg, #4A90E2, #5C6BC0);
-        -webkit-background-clip: text;
-        background-clip: text;
-        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
-        display: inline-block;
-        padding-bottom: 5px;
-    }
-
-
-    table.dataTable {
-        width: 100%;
-        margin: 20px 0;
-        border-collapse: collapse;
-    }
-
-        table.dataTable th,
-        table.dataTable td {
-            text-align: left;
-            padding: 8px;
-        }
-
-        table.dataTable th {
-            background-color: #f1f1f1;
-            font-weight: bold;
-        }
-
-        table.dataTable tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-    .btn {
-        font-size: 12px;
-        padding: 6px 12px;
-        margin-right: 5px;
-        text-align: center;
-    }
-
-    .btn-info {
-        background-color: #17a2b8;
-        border-color: #17a2b8;
-    }
-
-    .btn-warning {
-        background-color: #ffc107;
-        border-color: #ffc107;
-    }
-
-    .btn-sm {
-        padding: 5px 10px;
-    }
-
-    .delete-btn {
-    background-color: #f44336;  /* Red */
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 3px;
-    }
-
-    .delete-btn:hover {
-        background-color: #d32f2f;
-    }
-
-    .delete-btn i {
-        margin-right: 5px;
-    }
+   
 
 </style>
 

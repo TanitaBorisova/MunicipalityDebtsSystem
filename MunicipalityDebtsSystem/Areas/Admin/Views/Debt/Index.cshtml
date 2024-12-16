@@ -21,7 +21,8 @@
 @section FooterScripts {
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script src="~/lib/data-tables/datatables.min.js"></script>
-
+            <script src="~/js/site.js"></script>
+            
 }
 
 
@@ -50,17 +51,11 @@
                        
 
                     },
-                    // buttons: {                    
-                    //     buttons: ['io_pageLength', 'io_colvis']
-                    // },
-                    // lengthMenu: [
-                    //     [10, 25, 50, 100, -1],
-                    //     ['10 реда', '25 реда', '50 реда', '100 реда', 'Покажи всички']
-                    // ],
+                    
                     language: {
                         url: "/lib/data-tables/dataTables.bgBG.json",
-                        search: "", // Change the default placeholder
-                        searchPlaceholder: "Търсене" // Custom placeholder text
+                        search: "", 
+                        searchPlaceholder: "Търсене"
                     },
                     columns: [
 
@@ -145,7 +140,7 @@
                              }
                         },
                          {
-                            data: 'id', // This is where drawId comes from
+                            data: 'id', 
                             title: 'Действия',
                             render: function (data, type, row) {
                                 return '<button type="button" class="btn btn-danger" onclick="deleteDebt(' + row.id + ');"><i class="fa fa-trash"></i> Изтрий</button>';
@@ -159,7 +154,7 @@
         </script>
 
     <script>
-
+       
         function deleteDebt(id) {
             debugger
             if (confirm('Сигурни ли сте, че искате да изтриете този запис?')) {
@@ -167,14 +162,14 @@
                     url: '@Url.Action("DeleteDebt", "Debt")',
                     type: 'POST',
                     headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
-                    data: { id: id },  // Pass the ID to delete
+                    data: { id: id },  
                     success: function (result) {
                         
                            if (result.success) {
                                 alert('Записът беше успешно изтрит!');
-                                $('#debtTable').DataTable().ajax.reload();  // Reload the table after deletion
+                                $('#debtTable').DataTable().ajax.reload();  
                     } else {
-                        alert(result.message);  // Show the message from the server
+                        alert(result.message);  
                     }
 
                     },
@@ -185,31 +180,7 @@
             }
         }
 
-        // $('#drawTable').on('click', '.delete-btn', function () {
-
-        //     debugger;
-        //     var drawId = $(this).data('drawId');  // Get the ID of the record to delete  - was id
-
-
-        //     if (confirm('Сигурни ли сте, че искате да изтриете този запис?')) {
-        //         $.ajax({
-        //             url: '@Url.Action("DeletePlannedDraw", "Draw")',  // Action to handle deletion
-        //             type: 'POST',
-        //             data: { id: drawId },  // Pass the ID to delete
-        //             success: function (result) {
-        //                 if (result.success) {
-        //                     alert('Записът беше успешно изтрит!');
-        //                     $('#drawTable').DataTable().ajax.reload();  // Reload the table after deletion
-        //                 } else {
-        //                     alert(result.message);  // Show the message from the server
-        //                 }
-        //             },
-        //             error: function () {
-        //                 alert('Грешка при комуникация със сървъра!');
-        //             }
-        //         });
-        //     }
-        // });
+       
     </script>
 }
 
