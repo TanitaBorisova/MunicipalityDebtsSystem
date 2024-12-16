@@ -30,7 +30,8 @@ namespace MunicipalityDebtsSystem.Core.Services
                 OperationTypeId =(int)OperationType.PlannedDraw,
                 MunicipalityId = municipalityId,
                 UserCreated = userId,
-                DateCreated = DateTime.Now
+                DateCreated = DateTime.Now,
+               
                 
             };
 

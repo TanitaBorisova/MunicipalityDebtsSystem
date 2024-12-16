@@ -16,7 +16,7 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Common
             context = _context;
         }
 
-        private DbSet<T> DbSet<T>() where T : class
+        public DbSet<T> DbSet<T>() where T : class
         {
             return context.Set<T>();
         }
@@ -57,9 +57,6 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Common
             }
         }
 
-        //public async Task<bool> IsTrackedAsync<T>(T entity) where T : class
-        //{
-        //  return context.Entry(entity).State != EntityState.Detached;
-        //}
+       
     }
 }

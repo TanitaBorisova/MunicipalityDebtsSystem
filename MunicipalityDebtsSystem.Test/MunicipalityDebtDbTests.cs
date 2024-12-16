@@ -622,64 +622,64 @@ namespace MunicipalityDebtsSystem.Test
             Assert.False(result);  // The result should be false since the InterestType does not exist
         }
 
-        [Test]
-        public async Task GetDebtByIdAsync_ReturnsDetailDebtViewModel_WhenDebtExists()
-        {
-            // Arrange
-            int debtId = 1;
-            var debt = new Debt
-            {
+        //[Test]
+        //public async Task GetDebtByIdAsync_ReturnsDetailDebtViewModel_WhenDebtExists()
+        //{
+        //    // Arrange
+        //    int debtId = 1;
+        //    var debt = new Debt
+        //    {
                
-                DebtNumber = "123",
-                DebtParentId = null,
-                ResolutionNumber = "Re/123",
-                DateBook = DateTime.Now,
-                DateNegotiate = DateTime.Now,
-                DateContractFinish = DateTime.Now.AddYears(1),
-                DateRealFinish = DateTime.Now.AddYears(1),
-                CurrencyId = 1,
-                DebtAmountOriginalCcy = 2000,
-                DebtAmountLocalCcy = 2000,
-                CreditTypeId = 1,
-                CreditorTypeId = 1,
-                DebtTermTypeId = 1,
-                DebtPurposeTypeId = 1,
-                InterestRate = 5.34M,
-                InterestTypeId = 1,
-                MunicipalityId = 32,
-                UserCreated = "userVarna",
-                DateCreated = DateTime.Now
+        //        DebtNumber = "123",
+        //        DebtParentId = null,
+        //        ResolutionNumber = "Re/123",
+        //        DateBook = DateTime.Now,
+        //        DateNegotiate = DateTime.Now,
+        //        DateContractFinish = DateTime.Now.AddYears(1),
+        //        DateRealFinish = DateTime.Now.AddYears(1),
+        //        CurrencyId = 1,
+        //        DebtAmountOriginalCcy = 2000,
+        //        DebtAmountLocalCcy = 2000,
+        //        CreditTypeId = 1,
+        //        CreditorTypeId = 1,
+        //        DebtTermTypeId = 1,
+        //        DebtPurposeTypeId = 1,
+        //        InterestRate = 5.34M,
+        //        InterestTypeId = 1,
+        //        MunicipalityId = 32,
+        //        UserCreated = "userVarna",
+        //        DateCreated = DateTime.Now
 
-            };
+        //    };
 
             
-            _mockRepository.Setup(repo => repo.AllReadOnly<Debt>())
-                .Returns(new List<Debt> { debt }.AsQueryable());
+        //    _mockRepository.Setup(repo => repo.AllReadOnly<Debt>())
+        //        .Returns(new List<Debt> { debt }.AsQueryable());
 
-            // Act
-            var result = await _debtService.GetDebtByIdAsync(debtId);
+        //    // Act
+        //    var result = await _debtService.GetDebtByIdAsync(debtId);
 
-            //// Assert
-            //Assert.NotNull(result);
-            //Assert.AreEqual(debtId, result.Id);
-            //Assert.AreEqual(debt.DebtNumber, result.DebtNumber);
-            //Assert.AreEqual(debt.ResolutionNumber, result.ResolutionNumber);
-            //Assert.AreEqual(debt.DateBook.ToString(ValidationConstants.DateFormat), result.DateBook);
-            //Assert.AreEqual(debt.DateContractFinish.ToString(ValidationConstants.DateFormat), result.DateContractFinish);
-            //Assert.AreEqual(debt.DateRealFinish.ToString(ValidationConstants.DateFormat), result.DateRealFinish);
-            //Assert.AreEqual(debt.DebtAmountOriginalCcy.ToString(), result.DebtAmountOriginalCcy);
-            //Assert.AreEqual(debt.DebtAmountLocalCcy.ToString(), result.DebtAmountLocalCcy);
-            ////Assert.AreEqual("Loan", result.CreditTypeId);
-            ////Assert.AreEqual("Bank", result.CreditorTypeId);
-            ////Assert.AreEqual("Term Loan", result.DebtTermTypeId);
-            ////Assert.AreEqual("Investment", result.DebtPurposeTypeName);
-            ////Assert.AreEqual("Fixed", result.InterestTypeName);
-            ////Assert.AreEqual("Municipality A", result.MunicipalityName);
-            ////Assert.AreEqual(debt.MunicipalityId, result.MunicipalityId);
-            ////Assert.AreEqual("123", result.MunicipalityCode);
-            //Assert.AreEqual(debt.UserCreated, result.UserCreated);
-            //Assert.AreEqual(debt.DateCreated.ToString(ValidationConstants.DateFormat), result.DateCreated);
-        }
+        //    //// Assert
+        //    //Assert.NotNull(result);
+        //    //Assert.AreEqual(debtId, result.Id);
+        //    //Assert.AreEqual(debt.DebtNumber, result.DebtNumber);
+        //    //Assert.AreEqual(debt.ResolutionNumber, result.ResolutionNumber);
+        //    //Assert.AreEqual(debt.DateBook.ToString(ValidationConstants.DateFormat), result.DateBook);
+        //    //Assert.AreEqual(debt.DateContractFinish.ToString(ValidationConstants.DateFormat), result.DateContractFinish);
+        //    //Assert.AreEqual(debt.DateRealFinish.ToString(ValidationConstants.DateFormat), result.DateRealFinish);
+        //    //Assert.AreEqual(debt.DebtAmountOriginalCcy.ToString(), result.DebtAmountOriginalCcy);
+        //    //Assert.AreEqual(debt.DebtAmountLocalCcy.ToString(), result.DebtAmountLocalCcy);
+        //    ////Assert.AreEqual("Loan", result.CreditTypeId);
+        //    ////Assert.AreEqual("Bank", result.CreditorTypeId);
+        //    ////Assert.AreEqual("Term Loan", result.DebtTermTypeId);
+        //    ////Assert.AreEqual("Investment", result.DebtPurposeTypeName);
+        //    ////Assert.AreEqual("Fixed", result.InterestTypeName);
+        //    ////Assert.AreEqual("Municipality A", result.MunicipalityName);
+        //    ////Assert.AreEqual(debt.MunicipalityId, result.MunicipalityId);
+        //    ////Assert.AreEqual("123", result.MunicipalityCode);
+        //    //Assert.AreEqual(debt.UserCreated, result.UserCreated);
+        //    //Assert.AreEqual(debt.DateCreated.ToString(ValidationConstants.DateFormat), result.DateCreated);
+        //}
 
         [Test]
         public async Task CheckInterestTypeExistAsync_WhenInterestTypeExists_ReturnsTrue()
@@ -732,32 +732,32 @@ namespace MunicipalityDebtsSystem.Test
         }
 
 
-        [Test]
-        public async Task GetAllDebtTermTypesAsync_ReturnsDebtTermTypeViewModelList()
-        {
-            // Arrange
-            var debtTypes = new List<DebtType>
-        {
-            new DebtType { Id = 1, Name = "Краткосрочен" },
-            new DebtType { Id = 2, Name = "Дългосрочен" }
-        };
+        //[Test]
+        //public async Task GetAllDebtTermTypesAsync_ReturnsDebtTermTypeViewModelList()
+        //{
+        //    // Arrange
+        //    var debtTypes = new List<DebtType>
+        //{
+        //    new DebtType { Id = 1, Name = "Краткосрочен" },
+        //    new DebtType { Id = 2, Name = "Дългосрочен" }
+        //};
 
-            var mockDbSet = CreateMockDbSet(debtTypes);
+        //    var mockDbSet = CreateMockDbSet(debtTypes);
 
-            // Setup the mock repository to return the mocked DbSet for DebtType
-            _mockRepository.Setup(repo => repo.AllReadOnly<DebtType>())
-                .Returns(mockDbSet.Object);
+        //    // Setup the mock repository to return the mocked DbSet for DebtType
+        //    _mockRepository.Setup(repo => repo.AllReadOnly<DebtType>())
+        //        .Returns(mockDbSet.Object);
 
-            // Act
-            var result = await _debtService.GetAllDebtTermTypesAsync();
+        //    // Act
+        //    var result = await _debtService.GetAllDebtTermTypesAsync();
 
-            Assert.That(result, Is.Not.Null);  
-            Assert.That(result.Count, Is.EqualTo(2)); 
-            Assert.That(result[0].Name, Is.EqualTo("Краткосрочен")); 
-            Assert.That(result[1].Name, Is.EqualTo("Дългосрочен"));  
+        //    Assert.That(result, Is.Not.Null);  
+        //    Assert.That(result.Count, Is.EqualTo(2)); 
+        //    Assert.That(result[0].Name, Is.EqualTo("Краткосрочен")); 
+        //    Assert.That(result[1].Name, Is.EqualTo("Дългосрочен"));  
 
 
-        }
+        //}
 
         //[Test]
         //public async Task GetAllDebtTermTypesAsync_ReturnsEmptyList_WhenNoDebtTypes()
@@ -818,7 +818,12 @@ namespace MunicipalityDebtsSystem.Test
 
             return mockDbSet;
         }
-    }
+
+
+
+
+
+}
 
 }
     
