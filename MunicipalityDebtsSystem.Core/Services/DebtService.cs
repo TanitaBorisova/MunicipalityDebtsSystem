@@ -311,7 +311,8 @@ namespace MunicipalityDebtsSystem.Core.Services
                     MunicipalityName = d.Municipality.Name,
                     MunicipalityCode = d.Municipality.MunicipalCode,
                     StatusName = d.CreditStatusType.Name,
-                    ForFinish = false
+                    ForFinish = false,
+                    IsFinished = d.IsFinished
                    
 
                 }).ToListAsync();

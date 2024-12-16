@@ -53,24 +53,10 @@
                                         
                     "type": "GET",
                     "datatype": "json",
-                    // data: function (d) {
-                        
-                    //     // // return {
-                    //     // draw: d.draw,
-                    //     // start: d.start,
-                    //     // length: d.length,
-                    //     // searchValue: d.search.value  // Add any additional filters
-
-                    // }
+                    
 
                 },
-                // buttons: {                    
-                //     buttons: ['io_pageLength', 'io_colvis']
-                // },
-                // lengthMenu: [
-                //     [10, 25, 50, 100, -1],
-                //     ['10 реда', '25 реда', '50 реда', '100 реда', 'Покажи всички']
-                // ],
+                
                 language: {
                     url: "/lib/data-tables/dataTables.bgBG.json",
                     search: "", // Change the default placeholder
@@ -94,32 +80,22 @@
                         searchable: true
                     },
                     {
-                        // className: 'col-md-1',
+                        
                         name: 'dateBook',
                         data: 'dateBook',
                         title: 'Начална дата на дълг',
                         sortable: true,
                         searchable: false,
-                        // "render": function (value) {
-                        //     if (value)
-                        //         return moment(value).format("DD.MM.YYYY");
-                        //     else
-                        //         return "";
-                        // }
+                        
                     },
                     {
-                        // className: 'col-md-1',
+                        
                         name: 'dateContractFinish',
                         data: 'dateContractFinish',
                         title: 'Крайна дата на дълг',
                         sortable: true,
                         searchable: false,
-                        // "render": function (value) {
-                        //     if (value)
-                        //         return moment(value).format("DD.MM.YYYY");
-                        //     else
-                        //         return "";
-                        // }
+                       
                     },
                      {
                         name: 'municipalityCode',
@@ -176,26 +152,16 @@
                          searchable: false,
                          className: "text-right",
                          render: function (data, type, row, meta) {
-                             return '<a href="Debt/Edit/' + row.id + '" class="btn btn-warning" title="Редакция"><i class="fa fa-info-circle"></i></a>';
+                             if (row.isFinished === false) {
+                                
+                                return '<a href="Debt/Edit/' + row.id + '" class="btn btn-warning" title="Редакция"><i class="fa fa-info-circle"></i></a>';
+                            } else {
+                               
+                                return '';
+                            }
                          }
                     }
-                    // {
-                    //     name: 'actions',
-                    //     data: 'forFinish',
-                    //     title: '',
-                    //     sortable: false,
-                    //     searchable: false,
-                    //     className: "text-right",
-                    //     render: function (data, type, row, meta) {
-                    //         if (data === true) {
-                    //             // Button is visible when ForFinish is true
-                    //             return '<a href="Debt/Finish/' + row.id + '" class="btn btn-warning" title="Приключване"><i class="fa fa-info-circle"></i> Приключване</a>';
-                    //         } else {
-                    //             // Button is hidden when ForFinish is false
-                    //             return '';
-                    //         }
-                    //     }
-                    // }
+            
                    
                 ]
             });
