@@ -2,16 +2,19 @@
 @using MunicipalityDebtsSystem.Core.Models.Debt;
 @model AddCoverViewModel
 
-<link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-<link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-<link href="~/lib/data-tables/datatables.min.css" rel="stylesheet" />
+@section HeadContent {
+    <link href="~/lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/lib/data-tables/datatables.min.css" rel="stylesheet" />
+}
+
 @{
     ViewData["Title"] = "Обезпечения";
     ViewData["NewCover"] = "Ново обезпечение";
     
 }
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="~/lib/data-tables/datatables.min.js"></script>
+@* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="~/lib/data-tables/datatables.min.js"></script> *@
 
 <div class="smart-title">
     <h2>@ViewData["Title"]</h2>
@@ -32,7 +35,7 @@
 
                 <div class="col-sm-6 mb-2">
                     <label asp-for="@Model.CoverTypeId" class="form-label-add-edit">Тип:</label>
-                    @*  <select asp-for="@Model.InterestTypeId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.InterestTypes, "Id", "Name"))"> *@
+                   
                     <select asp-for="@Model.CoverTypeId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.CoverTypes, "Id", "Name"))">
                         <option value="0">-- Изберете</option>
                     </select>
@@ -79,12 +82,18 @@
     </div>
 </div>
 
+<div class="text-center">
+    <button class="btn btn-primary btn-lg" onclick="window.history.back()">Назад</button>
+</div>
 
-<!-- DataTables JS and jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="~/lib/data-tables/datatables.min.js"></script>
+@section FooterScripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/lib/data-tables/datatables.min.js"></script>
+}
+
+
+@section Scripts {
 <script>
-
 
     $(function () {
         var debtId = @Model.DebtId
@@ -98,16 +107,14 @@
                     "datatype": "json",
                     "data": function (d) {
                         d.id = debtId
-
                     }
-
 
                 },
 
                 language: {
                     url: "/lib/data-tables/dataTables.bgBG.json",
-                    search: "", // Change the default placeholder
-                    searchPlaceholder: "Търсене" // Custom placeholder text
+                    search: "", 
+                    searchPlaceholder: "Търсене" 
                 },
                 columns: [
 
@@ -138,58 +145,12 @@
                         data: 'coverId', 
                         title: 'Действия',
                         render: function (data, type, row) {
-                            // return `
-                            // <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
-                            // `;
+                            
                             return '<button type="button" class="btn btn-danger" onclick="deleteCover(' + row.coverId + ');"><i class="fa fa-trash"></i> Изтрий</button>';
                         }
                     }
 
-                    //          {
-                    //     data: 'drawId',
-                    //     title: 'Действия',
-                    //     render: function (data, type, row) {
-                    //         return `
-                    //             <button class="btn btn-danger delete-btn" data-id="${data}">Изтрий</button>
-                    //         `;
-                    //     }
-                    // }
-                    // {
-                    //     name: 'actions',
-                    //     data: 'drawId',  //id
-                    //     title: 'Действия',
-                    //     sortable: false,
-                    //     searchable: false,
-                    //     className: "text-center",
-                    //     render: function (data, type, row) {
-                    //          return '<button class="btn btn-danger delete-btn" data-id="' + data.drawId + '" title="Изтрий"><i class="fa fa-trash"></i> Изтрий</button>';
-                    //          //return '<button class="btn btn-danger delete-btn" data-id="' + row.drawId + '" title="Изтрий"><i class="fa fa-trash"></i> Изтрий</button>';
-                    //     }
-                    // }
-
-
-                    // {
-                    //      name: 'actions',
-                    //      data: 'id',
-                    //      title: '',
-                    //      sortable: false,
-                    //      searchable: false,
-                    //      className: "text-right",
-                    //      render: function (data, type, row, meta) {
-                    //          return '<a href="Debt/Details/' + row.id + '" class="btn btn-primary" title="Преглед"><i class="fa fa-info-circle"></i></a>';
-                    //      }
-                    // },
-                    // {
-                    //      name: 'actions',
-                    //      data: 'id',
-                    //      title: '',
-                    //      sortable: false,
-                    //      searchable: false,
-                    //      className: "text-right",
-                    //      render: function (data, type, row, meta) {
-                    //          return '<a href="Debt/Edit/' + row.id + '" class="btn btn-warning" title="Редакция"><i class="fa fa-info-circle"></i></a>';
-                    //      }
-                    // },
+                   
 
                 ]
             });
@@ -204,13 +165,13 @@
                 url: '@Url.Action("DeleteCover", "Cover")', 
                 type: 'POST',
                 headers: { 'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val() },
-                data: { id: coverId },  // Pass the ID to delete
+                data: { id: coverId },  
                 success: function (result) {
                     if (result.success) {
                         alert('Записът беше успешно изтрит!');
-                        $('#coverTable').DataTable().ajax.reload();  // Reload the table after deletion
+                        $('#coverTable').DataTable().ajax.reload();  
                     } else {
-                        alert(result.message);  // Show the message from the server
+                        alert(result.message);  
                     }
                 },
                 error: function () {
@@ -220,109 +181,6 @@
         }
     }
 
-    // $('#drawTable').on('click', '.delete-btn', function () {
-
-    //     debugger;
-    //     var drawId = $(this).data('drawId');  // Get the ID of the record to delete  - was id
-
-
-    //     if (confirm('Сигурни ли сте, че искате да изтриете този запис?')) {
-    //         $.ajax({
-    //             url: '@Url.Action("DeletePlannedDraw", "Draw")',  // Action to handle deletion
-    //             type: 'POST',
-    //             data: { id: drawId },  // Pass the ID to delete
-    //             success: function (result) {
-    //                 if (result.success) {
-    //                     alert('Записът беше успешно изтрит!');
-    //                     $('#drawTable').DataTable().ajax.reload();  // Reload the table after deletion
-    //                 } else {
-    //                     alert(result.message);  // Show the message from the server
-    //                 }
-    //             },
-    //             error: function () {
-    //                 alert('Грешка при комуникация със сървъра!');
-    //             }
-    //         });
-    //     }
-    // });
 </script>
-<style>
-    .smart-title {
-        font-family: 'Segoe UI', sans-serif;
-        font-size: 2.5rem;
-        font-weight: 600;
-        color: #4A90E2;
-        background: linear-gradient(135deg, #4A90E2, #5C6BC0);
-        -webkit-background-clip: text;
-        background-clip: text;
-        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
-        display: inline-block;
-        padding-bottom: 5px;
-    }
 
-
-    table.dataTable {
-        width: 100%;
-        margin: 20px 0;
-        border-collapse: collapse;
-    }
-
-        table.dataTable th,
-        table.dataTable td {
-            text-align: left;
-            padding: 8px;
-        }
-
-        table.dataTable th {
-            background-color: #f1f1f1;
-            font-weight: bold;
-        }
-
-        table.dataTable tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-
-    .btn {
-        font-size: 12px;
-        padding: 6px 12px;
-        margin-right: 5px;
-        text-align: center;
-    }
-
-    .btn-info {
-        background-color: #17a2b8;
-        border-color: #17a2b8;
-    }
-
-    .btn-warning {
-        background-color: #ffc107;
-        border-color: #ffc107;
-    }
-
-    .btn-sm {
-        padding: 5px 10px;
-    }
-
-    .delete-btn {
-        background-color: #f44336; /* Red */
-        color: white;
-        border: none;
-        padding: 5px 10px;
-        font-size: 14px;
-        cursor: pointer;
-        border-radius: 3px;
-    }
-
-        .delete-btn:hover {
-            background-color: #d32f2f;
-        }
-
-        .delete-btn i {
-            margin-right: 5px;
-        }
-
-</style>
-
-<div class="text-center">
-    <button class="btn btn-primary btn-lg" onclick="window.history.back()">Назад</button>
-</div>
+}
