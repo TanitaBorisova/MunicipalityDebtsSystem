@@ -1,4 +1,4 @@
-﻿@{
+﻿@* @{
     ViewData["Title"] = "Home Page";
 }
 
@@ -6,4 +6,20 @@
     <h1 class="display-4">Регистър "Общински дълг"</h1>
        <p>Система за обслужване на дълговете на общините</p>
        <h6 class="display-4">За администратора</h6>
+</div> *@
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+@section HeadContent {
+    <link href="~/css/site.css" rel="stylesheet" />
+
+}
+
+
+<div class="text-center">
+    <h1 class="smart-title">Регистър "Общински дълг"</h1>
+    <p class="smart-description">Система за обслужване на дълговете на общините</p>
+    <h6 class="smart-subtitle">За администратора</h6>
 </div>
+
