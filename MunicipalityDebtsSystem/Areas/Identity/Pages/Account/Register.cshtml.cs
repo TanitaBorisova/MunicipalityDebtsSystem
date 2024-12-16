@@ -75,12 +75,6 @@ namespace MunicipalityDebtsSystem.Areas.Identity.Pages.Account
         /// </summary>
         public string ReturnUrl { get; set; }
 
-        //[BindProperty]
-        //public string SelectedRegionId { get; set; }
-
-        //public List<SelectListItem> Regions { get; set; }
-
-
 
         [BindProperty]
         public int? MunicipalityId { get; set; }
@@ -140,18 +134,12 @@ namespace MunicipalityDebtsSystem.Areas.Identity.Pages.Account
             [StringLength(UserLastNameMaxLength, ErrorMessage = StringLengthErrorMessage, MinimumLength = UserLastNameMinLength)]
             public string LastName { get; set; }
 
-            //[Required(ErrorMessage = RequiredErrorMessage)]
-            //[Display(Name = "Област")]
-            //[Range(MinSelectedValue, MaxSelectedValue, ErrorMessage = ChooseItemErrorMessage)]
-            //public int RegionId { get; set; }
 
             [Required(ErrorMessage = RequiredErrorMessage)]
             [Display(Name = "Община")]
-            //[Range(MinSelectedValue, MaxSelectedValue, ErrorMessage = ChooseItemErrorMessage)]
             public int MunicipalityId { get; set; }
 
-            //public List<RegionViewModel> Regions { get; set; } = new List<RegionViewModel>();
-
+     
             public List<MunicipalityViewModel> Municipalities { get; set; } = new List<MunicipalityViewModel>();
 
 

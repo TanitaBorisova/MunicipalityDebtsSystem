@@ -2,19 +2,19 @@
 @model RegisterModel
 @{
     ViewData["Title"] = "Регистрация";
-    ViewBag.Regions = TempData["Regions"];
     ViewBag.Municipalities = TempData["Regions"];
-    //TempData["Municipalities"] = Input.Municipalities;
+   
 }
 
-<h1 class="offset-4">@ViewData["Title"]</h1>
+<h1 class="smart-title text-center">@ViewData["Title"]</h1>
 
 <div class="row">
-    <div class="col-md-4 offset-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Създаване на потребител</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+    <div class="col-md-4 offset-md-4">
+        <section>
+            <form id="account" method="post" class="login-form">
+                <h2 id="login">За нови потребители</h2>
+                <hr />
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                 <label asp-for="Input.Email">Ел. адрес</label>
@@ -41,15 +41,7 @@
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
     
-    
-           @*  <div class="form-floating mb-3">
-                
-                <select asp-for="SelectedRegionId" class="form-control" asp-items="Model.Regions" >
-                    <option value="">--Изберете</option>
-                </select>
-                <label for="Municipality" class="control-label">Област</label>
-                <span asp-validation-for="SelectedRegionId" class="text-danger"></span>
-            </div> *@
+              
             <div class="form-floating mb-3">
                 
                 <select asp-for="MunicipalityId" class="form-control" asp-items="Model.Municipalities">
@@ -60,6 +52,7 @@
             </div>
 
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Регистрация</button>
+             
         </form>
     </div>
    
@@ -72,22 +65,21 @@
         $(document).ready(function () {
             $('#MunicipalityId').select({
                 placeholder: 'Select a Municipality',
-                minimumInputLength: 2,  // Start searching after typing 2 characters
+                minimumInputLength: 2,  
                 ajax: {
-                    url: '/Register/OnGetMunicipalities',  // This URL points to the OnGetMunicipalities action
+                    url: '/Register/OnGetMunicipalities',  
                     dataType: 'json',
-                    delay: 250, // Delay for a smoother experience
+                    delay: 250, 
                     data: function (params) {
                         return {
-                            searchTerm: params.term // Send the search term to the server
+                            searchTerm: params.term 
                         };
                     },
                     processResults: function (data) {
                         return {
                             results: data.map(function (municipality) {
                                 return {
-                                    // id: municipality.id,
-                                    // text: municipality.name
+                                    
                                     id: municipality.MunicipalityId,
                                     text: municipality.MunicipalityName
                                 };
@@ -98,34 +90,5 @@
             });
         });
     </script>
-
-
-   @*  <script>
-        debugger;
-
-        // When Region dropdown changes
-        document.getElementById('SelectedRegionId').addEventListener('change', function () {
-            var regionId = this.value; // Get selected RegionId
-
-            // Clear Municipality dropdown (optional)
-            var municipalitySelect = document.getElementById('SelectedMunicipalityId');
-            municipalitySelect.innerHTML = "<option value=''>--Изберете</option>";  // Reset Municipality options
-
-            if (regionId) {
-                // Make an AJAX request to get the municipalities based on the selected region
-                fetch('/Account/Register/OnGetMunicipalities?regionId=' + regionId`)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Populate the Municipality dropdown with the new options
-                        data.forEach(function (municipality) {
-                            var option = document.createElement('option');
-                            option.value = municipality.MunicipalityId//municipality.id;
-                            option.text = municipality.MunicipalityName  //municipality.name;
-                            SelectedMunicipalityId.appendChild(option);
-                        });
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
-        });
-    </script> *@
 }
+
