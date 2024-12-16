@@ -67,6 +67,7 @@ namespace MunicipalityDebtsSystem.Core.Services
                     CoverAmount = d.CoverAmount,
                     CoverTypeName = d.CoverType.Name,
                     CoverDescription = d.CoverDescription,
+                    IsDebtFinished = d.Debt.IsFinished
              
                 }).ToListAsync();
 

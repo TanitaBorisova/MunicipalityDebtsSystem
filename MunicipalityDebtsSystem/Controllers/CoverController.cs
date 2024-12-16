@@ -46,19 +46,11 @@ namespace MunicipalityDebtsSystem.Controllers
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
 
             AddCoverViewModel model = new AddCoverViewModel();
+
             model.DebtId = id;
-            model.DebtPartialInfo.Payments = await debtService.ReturnSumOfOperationType((int)OperationType.Payment, id);
-            model.DebtPartialInfo.PlannedPayments = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedPayment, id);
-            model.DebtPartialInfo.Draws = await debtService.ReturnSumOfOperationType((int)OperationType.Draw, id);
-            model.DebtPartialInfo.PlannedDraws = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedDraw, id);
-
-            model.DebtPartialInfo.MunicipalityName = municipalityName;
-            model.DebtPartialInfo.MunicipalityCode = municipalityCode;
-            model.DebtPartialInfo.CurrencyName = debt.CurrencyName;
-            model.DebtPartialInfo.DebtNumber = debt.DebtNumber;
-            model.DebtPartialInfo.BookDate = debt.DateBook;
-
+            model.DebtPartialInfo = await debtService.FillDebtInfo(model.DebtPartialInfo, id, municipalityName, municipalityCode, debt.CurrencyName, debt.DebtNumber, debt.DateBook);
             model.CoverTypes = await coverService.GetAllCoversAsync();
+            model.IsFinished = debt.IsFinished;
 
             return View(model);
 
@@ -75,46 +67,16 @@ namespace MunicipalityDebtsSystem.Controllers
 
             model.DebtId = id;
             string userId = User.Id();
-            //To DO - to get it fro user profile
+           
             int municipalityId = Convert.ToInt32(User.FindFirstValue(UserMunicipalityIdClaim));
             string municipalityName = (User.FindFirstValue(UserMunicipalityNameClaim) ?? "");
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
-
-            //////////////////////////////////////////////////////////TO DO IN A METHOD
-            ///model.DebtId = id;
-            model.DebtPartialInfo.Payments = await debtService.ReturnSumOfOperationType((int)OperationType.Payment, id);
-            model.DebtPartialInfo.PlannedPayments = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedPayment, id);
-            model.DebtPartialInfo.Draws = await debtService.ReturnSumOfOperationType((int)OperationType.Draw, id);
-            model.DebtPartialInfo.PlannedDraws = await debtService.ReturnSumOfOperationType((int)OperationType.PlannedDraw, id);
-
-            model.DebtPartialInfo.MunicipalityName = municipalityName;
-            model.DebtPartialInfo.MunicipalityCode = municipalityCode;
-            model.DebtPartialInfo.CurrencyName = debt.CurrencyName;
-            model.DebtPartialInfo.DebtNumber = debt.DebtNumber;
-            model.DebtPartialInfo.BookDate = debt.DateBook;
-            ///////////////////////////////////////////////////////////////////////////
-
-            //DateTime datePlannedPayment;
-
-            //bool isDatePlannedPaymentValid = DateTime.TryParseExact(model.PaymentDate, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out datePlannedPayment);
-            //if (!isDatePlannedPaymentValid)
-            //{
-            //    ModelState.AddModelError(nameof(model.PaymentDate), ValidationConstants.InvalidDateErrorMessage);
-            //}
-
-
-            //model.CoverTypeId = (int)OperationType.PlannedPayment;
-
-            //if (model.OperationTypeId != (int)OperationType.PlannedPayment)
-            //{
-            //    ModelState.AddModelError(nameof(model.OperationTypeId), ValidationConstants.OperationTypeIdErrorMessage);
-            //}
-
+            model.DebtPartialInfo = await debtService.FillDebtInfo(model.DebtPartialInfo, id, municipalityName, municipalityCode, debt.CurrencyName, debt.DebtNumber, debt.DateBook);
+            model.IsFinished = debt.IsFinished;
 
             if (!ModelState.IsValid)
             {
-                //reload partial
-                //reload dataTable???
+                
                 return View(model);
             }
 
@@ -133,7 +95,6 @@ namespace MunicipalityDebtsSystem.Controllers
         }
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteCover(int id)
         {
             try

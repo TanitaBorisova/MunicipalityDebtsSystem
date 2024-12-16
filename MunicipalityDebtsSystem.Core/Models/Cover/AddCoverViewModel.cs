@@ -24,6 +24,8 @@ namespace MunicipalityDebtsSystem.Core.Models.Cover
 
         public string? CoverDescription { get; set; }
 
+        public bool IsFinished { get; set; }
+
         public List<CoverViewModel> CoverTypes { get; set; } = new List<CoverViewModel>();
 
         public DebtPartialInfoViewModel DebtPartialInfo { get; set; } = new DebtPartialInfoViewModel();

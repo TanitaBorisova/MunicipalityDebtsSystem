@@ -19,6 +19,8 @@ namespace MunicipalityDebtsSystem.Core.Models.Cover
         [Required(ErrorMessage = ValidationConstants.RequiredErrorMessage)]
         public decimal CoverAmount { get; set; }
 
+        public bool IsDebtFinished { get; set; }
+
         public string? CoverDescription { get; set; }
     }
 }
