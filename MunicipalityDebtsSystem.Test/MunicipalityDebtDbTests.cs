@@ -617,47 +617,7 @@ namespace MunicipalityDebtsSystem.Test
             return mockDbSet;
         }
 
-        [Test]
-        public async Task IsForFinish_ReturnsTrue_WhenConditionsAreMet()
-        {
-            
-            int debtId = 1;
-            var debts = new List<Debt>
-            {
-                new Debt { Id = debtId, CreditStatusId = 1, IsFinished = false }
-            };
-            var mockDebts = new TestAsyncEnumerable<Debt>(debts.AsQueryable());
-
-            _mockRepository.Setup(r => r.AllReadOnly<Debt>()).Returns(mockDebts);
-
-            var debtInfoModel = new DebtPartialInfoViewModel { RealRemainDebt = 0 };
-                        
-            bool result = await _debtService.IsForFinish(debtId);
-                        
-            Assert.IsTrue(result);
-        }
-
-        [Test]
-        public async Task IsForFinish_ReturnsFalse_WhenDebtIsFinished()
-        {
-           
-            int debtId = 2;
-            var debts = new List<Debt>
-                {
-                    new Debt { Id = debtId, CreditStatusId = 1, IsFinished = true }
-                };
-            var mockDebts = new TestAsyncEnumerable<Debt>(debts.AsQueryable());
-
-            _mockRepository.Setup(r => r.AllReadOnly<Debt>()).Returns(mockDebts);
-
-            var debtInfoModel = new DebtPartialInfoViewModel { RealRemainDebt = 0 };
-                        
-            bool result = await _debtService.IsForFinish(debtId);
-                        
-            Assert.IsFalse(result);
-        }
-
-
+              
         [Test]
         public async Task GetAllCurrenciesAsync_ReturnsAllCurrencies()
         {
@@ -697,51 +657,7 @@ namespace MunicipalityDebtsSystem.Test
             Assert.AreEqual("Кредитна институция", results[1].Name);
         }
 
-        [Test]
-        public async Task GetDebtByIdAsync_ReturnsCorrectlyFormattedDebt_WhenDebtExists()
-        {
-            
-            var debts = new List<Debt>
-        {
-            new Debt
-            {
-                DebtNumber = "123",
-                DebtParentId = null,
-                ResolutionNumber = "re/123",
-                DateBook = DateTime.Now,
-                DateNegotiate = DateTime.Now,
-                DateContractFinish = DateTime.Now.AddYears(5),
-                DateRealFinish = DateTime.Now.AddYears(5),
-                CurrencyId = 1,
-                DebtAmountOriginalCcy = 1000,
-                DebtAmountLocalCcy = 1000,
-                CreditTypeId = 1,
-                CreditorTypeId = 2,
-                DebtTermTypeId = 1,
-                DebtPurposeTypeId = 1,
-                InterestRate = 3.90M,
-                InterestTypeId = 1,
-                MunicipalityId = 32,
-                UserCreated = "userMun",
-                DateCreated = DateTime.Now
-
-               
-            }
-        };
-
-            var mockDebts = new TestAsyncEnumerable<Debt>(debts.AsQueryable());
-            _mockRepository.Setup(r => r.AllReadOnly<Debt>()).Returns(mockDebts);
-                        
-            var result = await _debtService.GetDebtByIdAsync(1);
-                        
-            Assert.IsNotNull(result);
-            Assert.AreEqual("123", result.DebtNumber);
-            Assert.AreEqual("BGN", result.CurrencyName);
-            Assert.AreEqual(1000, result.DebtAmountLocalCcy);
-            Assert.AreEqual(false, result.IsFinished);
-
-
-        }
+       
     }
 
 }

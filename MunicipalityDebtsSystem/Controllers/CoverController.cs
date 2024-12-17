@@ -19,10 +19,10 @@ namespace MunicipalityDebtsSystem.Controllers
         private readonly IDebtService debtService;
 
         public CoverController 
-            (
+        (
                 ICoverService _coverService,
                 IDebtService _debtService
-            )
+        )
         {
             coverService = _coverService;
             debtService = _debtService; 

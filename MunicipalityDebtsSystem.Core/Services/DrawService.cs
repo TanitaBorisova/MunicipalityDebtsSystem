@@ -61,7 +61,7 @@ namespace MunicipalityDebtsSystem.Core.Services
 
         }
 
-        public async Task<List<PlannedDrawDateViewModel>> GetAllPlannedDrawDatesAsync(int debtId) //int debtId
+        public async Task<List<PlannedDrawDateViewModel>> GetAllPlannedDrawDatesAsync(int debtId) 
         {
             return await repository.AllReadOnly<Draw>()
                 .Where(d=> d.OperationTypeId == (int)OperationType.PlannedDraw && d.DebtId == debtId)
