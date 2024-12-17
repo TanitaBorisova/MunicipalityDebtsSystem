@@ -18,8 +18,7 @@ namespace MunicipalityDebtsSystem.Core.Contracts
 
         Task<DebtPartialInfoViewModel> FillDebtInfo(DebtPartialInfoViewModel model, int debtId, string munName, string munCode, string currencyName, string DebtNumber, string dateBook);
         
-        Task<(List<DebtListViewModel> Debts, int TotalRecords, int FilteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize, string searchValue);
-
+        
         Task AddAsync(AddDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealFinish);
 
         Task EditAsync(EditDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealFinish);

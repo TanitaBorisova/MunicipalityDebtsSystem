@@ -11,24 +11,24 @@ namespace MunicipalityDebtsSystem.Test
     using System.Threading.Tasks;
     using System.Linq;
     using MunicipalityDebtsSystem.Core.Services;
-    using MunicipalityDebtsSystem;// Replace with your actual namespace containing your DbContext and PaymentService
+    using MunicipalityDebtsSystem;
     using MunicipalityDebtsSystem.Infrastructure.Data;
     using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 
     [TestFixture]
     public class PaymentTests
     {
-        private DbContextOptions<ApplicationDbContext> _dbContextOptions; // Assuming YourDbContext is your EF Core DbContext
+        private DbContextOptions<ApplicationDbContext> _dbContextOptions; 
 
         [SetUp]
         public void Setup()
         {
-            // Unique in-memory database name for each test instance to avoid cross-contamination
+            
             _dbContextOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase(databaseName: $"InMemoryDbForTesting{TestContext.CurrentContext.Test.ID}")
                 .Options;
 
-            // Seed database
+            
             using (var context = new ApplicationDbContext(_dbContextOptions))
             {
                 context.Payments.Add(new Payment { Id = 1, DebtId = 1, IsDeleted = false, OperationTypeId = 2, PaymentDate = System.DateTime.Now, PaymentAmount = 100.00m, InterestRate = 1.5m, InterestAmount = 1.5m, OperateTaxAmount = 0.5m, Debt = new Debt { Id = 1, IsFinished = false } });

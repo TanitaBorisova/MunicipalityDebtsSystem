@@ -1,28 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MunicipalityDebtsSystem.Core.Contracts;
+using MunicipalityDebtsSystem.Core.Enums;
 using MunicipalityDebtsSystem.Core.Models.Debt;
-using MunicipalityDebtsSystem.Infrastructure.Data;
 using MunicipalityDebtsSystem.Infrastructure.Data.Common;
 using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
 using MunicipalityDebtsSystem.Infrastructure.Data.Models.Nomenclatures;
-using OperationType = MunicipalityDebtsSystem.Core.Enums.OperationType;
-using System.Text.Json.Nodes;
-using MunicipalityDebtsSystem.Core.Models.Draw;
 using Debt = MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities.Debt;
-using MunicipalityDebtsSystem.Core.Enums;
+using OperationType = MunicipalityDebtsSystem.Core.Enums.OperationType;
 
 namespace MunicipalityDebtsSystem.Core.Services
 {
     public class DebtService : IDebtService
     {
         private readonly IRepository repository;
-        //private readonly ApplicationDbContext context;
+        
 
         public DebtService(IRepository _repository)
         {
             repository = _repository;
-            //context = _context;
+            
         }
 
         public async Task AddAsync(AddDebtViewModel model, string userId, int municipalityId, DateTime dateBook, DateTime dateContractFinish, DateTime dateRealFinish)
@@ -351,7 +348,6 @@ namespace MunicipalityDebtsSystem.Core.Services
                 .Select(d => new DebtListViewModel
                 {
                     Id = d.Id,
-                    //DebtParentId = d.DebtParentId,
                     DebtParentNumber = d.ParentDebt.DebtNumber,
                     DebtNumber = d.DebtNumber,
                     ResolutionNumber = d.ResolutionNumber,
@@ -372,78 +368,7 @@ namespace MunicipalityDebtsSystem.Core.Services
             return model;
 
         }
-        public async Task<(List<DebtListViewModel> Debts, int TotalRecords, int FilteredRecords)> GetDebtsWithPagingAsync(int pageIndex, int pageSize, string searchValue)
         
-        {
-            
-            var query = repository.AllReadOnly<Debt>()
-                .Where(d => d.IsDeleted == false)
-                .Include(d => d.Currency)
-                .Include(d => d.CreditType)
-                .Include(d => d.CreditorType)
-                .Include(d => d.DebtType)
-                .Include(d => d.DebtPurposeType)
-                .Include(d => d.InterestType)
-                .Include(d => d.CreditStatusType)
-
-                .Select(d => new DebtListViewModel
-                {
-                    Id = d.Id,
-                    DebtParentNumber = d.ParentDebt.DebtNumber ?? "няма",
-                    DebtNumber = d.DebtNumber,
-                    ResolutionNumber = d.ResolutionNumber,
-                    DateBook = d.DateBook.ToString(ValidationConstants.DateFormat),
-                    DateContractFinish = d.DateContractFinish.ToString(ValidationConstants.DateFormat),
-
-                    CurrencyName = d.Currency.CurrencyCode,
-                    DebtAmountOriginalCcy = d.DebtAmountOriginalCcy.ToString(),
-
-                    MunicipalityName = d.Municipality.Name.ToString(),
-                    MunicipalityCode = d.Municipality.MunicipalCode.ToString(),
-                    StatusName = d.CreditStatusType.Name.ToString(),
-
-                })
-                
-                .OrderBy(d => d.Id)
-                .AsQueryable();
-
-           
-
-          if (!string.IsNullOrEmpty(searchValue))
-            {
-                query = query.Where(d => d.DebtNumber.Contains(searchValue)|| d.DebtParentNumber.Contains(searchValue) || d.MunicipalityName.Contains(searchValue) || d.ResolutionNumber.Contains(searchValue) || d.MunicipalityName.Contains(searchValue) || d.MunicipalityCode.Contains(searchValue) || d.CurrencyName.Contains(searchValue) || d.DebtAmountOriginalCcy.Contains(searchValue) || d.DebtAmountOriginalCcy.Contains(searchValue)).AsQueryable();
-            }
-
-           
-            var p = query;
-            // Fetch the data with pagination
-            var debts = await query
-                .Skip(pageIndex * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-                //.Select(d => new DebtListViewModel
-                //{
-                //    DebtId = d.DebtId,
-                //    DebtNumber = d.DebtNumber,
-                //    DebtParentNumber = d.DebtParentNumber,
-                //    ResolutionNumber = d.ResolutionNumber,
-                //    DateBook = d.DateBook.ToString("yyyy-MM-dd"),
-                //    DateContractFinish = d.DateContractFinish.ToString("yyyy-MM-dd"),
-                //    DebtAmountOriginalCcy = d.DebtAmountOriginalCcy.ToString(),
-                //    CurrencyName = d.Currency.CurrencyCode,
-                //    MunicipalityCode = d.MunicipalityCode,
-                //    MunicipalityName = d.MunicipalityName,
-                //    StatusName = d.StatusName
-                //}).ToListAsync();
-
-            // Get the total record count (without filtering)
-            var totalRecords = await query.CountAsync();
-
-            // Get the filtered record count (after applying search filter)
-            var filteredRecords = query.Count();
-
-            return (debts, totalRecords, filteredRecords);
-        }
         public async Task DeleteDebt(Debt debt)
         {
             debt.IsDeleted = true;
@@ -491,10 +416,10 @@ namespace MunicipalityDebtsSystem.Core.Services
 
             };
 
-            //some changes to the parent debt
+           
             var parentEntity = await GetEntityDebtById(model.DebtParentId);
             parentEntity.DateRealFinish = dateBook;
-            parentEntity.CreditStatusId = 4;//enum to DO
+            parentEntity.CreditStatusId = 4;
             parentEntity.UserModified = userId; 
             parentEntity.DateModified = DateTime.Now;
             parentEntity.IsNegotiated = true;
@@ -505,17 +430,7 @@ namespace MunicipalityDebtsSystem.Core.Services
 
         }
 
-        //public async Task<DebtPartialInfoViewModel> GetDebtInfoForPartial()
-        //{
-        ////    return await repository.AllReadOnly<Currency>()
-
-        ////        .Select(c => new CurrencyViewModel
-        ////        {
-        ////            Id = c.Id,
-        ////            Name = c.Name
-        ////        }).ToListAsync();
-        //}
-
+       
         public async Task<decimal> ReturnSumOfOperationType(int operType, int debtId)
         {
             decimal result;

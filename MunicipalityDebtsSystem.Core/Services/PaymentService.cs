@@ -17,6 +17,7 @@ namespace MunicipalityDebtsSystem.Core.Services
     public class PaymentService : IPaymentService
     {
         private readonly IRepository repository;
+
         public PaymentService(IRepository _repository)
         {
             repository = _repository;
@@ -48,9 +49,8 @@ namespace MunicipalityDebtsSystem.Core.Services
         }
         public async Task<bool> PlannedPaymentHasChildsAsync(int id)
         {
-
             bool hasChildPayments = await repository.AllReadOnly<Payment>()
-                   .AnyAsync(d => d.PaymentParentId == id);
+                 .AnyAsync(d => d.PaymentParentId == id);
             return hasChildPayments;
         }
 
@@ -158,8 +158,6 @@ namespace MunicipalityDebtsSystem.Core.Services
             await repository.SaveChangesAsync();
 
         }
-
-
 
     }
 }

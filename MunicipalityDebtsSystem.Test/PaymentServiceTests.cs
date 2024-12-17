@@ -18,7 +18,7 @@ namespace MunicipalityDebtsSystem.Test
 {
 
 
-    //[TestFixture]
+    [TestFixture]
     public class PaymentServiceTests
     {
 
@@ -35,7 +35,7 @@ namespace MunicipalityDebtsSystem.Test
         [Test]
         public async Task AddPlannedPaymentAsync_CreatesPaymentWithCorrectProperties()
         {
-            // Arrange
+            
             var model = new AddPlannedPaymentViewModel
             {
                 DebtId = 1,
@@ -47,11 +47,9 @@ namespace MunicipalityDebtsSystem.Test
             string userId = "user123";
             int municipalityId = 101;
             DateTime paymentDate = new DateTime(2023, 12, 25);
-
-            // Act
+                        
             await _paymentService.AddPlannedPaymentAsync(model, userId, municipalityId, paymentDate);
-
-            // Assert
+                        
             _mockRepository.Verify(repo => repo.AddAsync(It.Is<Payment>(p =>
                 p.DebtId == model.DebtId &&
                 p.PaymentParentId == null &&
@@ -70,41 +68,35 @@ namespace MunicipalityDebtsSystem.Test
         [Test]
         public async Task RemovePayment_CallsDeleteAsyncWithCorrectId()
         {
-            // Arrange
+            
             int paymentId = 10;
-
-            // Act
+                        
             await _paymentService.RemovePayment(paymentId);
-
-            // Assert
+                        
             _mockRepository.Verify(repo => repo.DeleteAsync<Payment>(paymentId), Times.Once());
         }
 
         [Test]
         public async Task RemovePayment_CallsSaveChangesAsync()
         {
-            // Arrange
+            
             int paymentId = 10;
-
-            // Act
+                        
             await _paymentService.RemovePayment(paymentId);
-
-            // Assert
+                        
             _mockRepository.Verify(repo => repo.SaveChangesAsync(), Times.Once());
         }
 
         [Test]
         public async Task GetPaymentEntityByIdAsync_ReturnsCorrectPayment_WhenPaymentExists()
         {
-            // Arrange
+           
             int paymentId = 1;
             var expectedPayment = new Payment { Id = paymentId, PaymentAmount = 100.00m };
             _mockRepository.Setup(repo => repo.GetByIdAsync<Payment>(paymentId)).ReturnsAsync(expectedPayment);
-
-            // Act
+                        
             var result = await _paymentService.GetPaymentEntityByIdAsync(paymentId);
-
-            // Assert
+                        
             Assert.That(result, Is.EqualTo(expectedPayment));
             Assert.That(result.Id, Is.EqualTo(paymentId));
         }
@@ -112,21 +104,19 @@ namespace MunicipalityDebtsSystem.Test
         [Test]
         public async Task GetPaymentEntityByIdAsync_ReturnsNull_WhenPaymentDoesNotExist()
         {
-            // Arrange
-            int paymentId = 99; // Assume no payment exists with this ID
+            
+            int paymentId = 99; 
             _mockRepository.Setup(repo => repo.GetByIdAsync<Payment>(paymentId)).ReturnsAsync((Payment)null);
-
-            // Act
+                        
             var result = await _paymentService.GetPaymentEntityByIdAsync(paymentId);
-
-            // Assert
+                        
             Assert.That(result, Is.Null);
         }
 
         [Test]
         public async Task AddRealAsync_CreatesAndSavesPaymentCorrectly()
         {
-            // Arrange
+            
             var model = new AddPaymentViewModel
             {
                 DebtId = 1,
@@ -139,11 +129,10 @@ namespace MunicipalityDebtsSystem.Test
             int municipalityId = 10;
             DateTime paymentDate = DateTime.UtcNow;
             int paymentParentId = 99;
-
-            // Act
+                       
             await _paymentService.AddRealAsync(model, userId, municipalityId, paymentDate, paymentParentId);
 
-            // Assert
+            
             _mockRepository.Verify(repo => repo.AddAsync(It.Is<Payment>(p =>
                 p.DebtId == model.DebtId &&
                 p.PaymentParentId == paymentParentId &&
@@ -159,6 +148,80 @@ namespace MunicipalityDebtsSystem.Test
             )), Times.Once());
 
             _mockRepository.Verify(repo => repo.SaveChangesAsync(), Times.Once());
+        }
+
+        [Test]
+        public async Task PlannedPaymentHasChildsAsync_ReturnsTrue_WhenChildPaymentsExist()
+        {
+            
+            int parentId = 1;
+            var payments = new List<Payment>
+            {
+                new Payment { PaymentParentId = parentId }
+            };
+
+            var mockPayments = new TestAsyncEnumerable<Payment>(payments.AsQueryable());
+            _mockRepository.Setup(r => r.AllReadOnly<Payment>()).Returns(mockPayments);
+                        
+            bool hasChildren = await _paymentService.PlannedPaymentHasChildsAsync(parentId);
+                        
+            Assert.IsTrue(hasChildren);
+        }
+
+        [Test]
+        public async Task PlannedPaymentHasChildsAsync_ReturnsFalse_WhenNoChildPaymentsExist()
+        {
+            
+            int parentId = 1;
+            var payments = new List<Payment>();  
+
+            var mockPayments = new TestAsyncEnumerable<Payment>(payments.AsQueryable());
+            _mockRepository.Setup(r => r.AllReadOnly<Payment>()).Returns(mockPayments);
+                        
+            bool hasChildren = await _paymentService.PlannedPaymentHasChildsAsync(parentId);
+                        
+            Assert.IsFalse(hasChildren);
+        }
+
+        [Test]
+        public async Task GetPlannedPaymentInfoByIdAsync_ReturnsPayment_WhenPaymentExists()
+        {
+            
+            int paymentId = 1;
+            var expectedPayment = new Payment { Id = paymentId, PaymentAmount = 100.00m };
+            _mockRepository.Setup(repo => repo.GetByIdAsync<Payment>(paymentId)).ReturnsAsync(expectedPayment);
+                        
+            var result = await _paymentService.GetPlannedPaymentInfoByIdAsync(paymentId);
+                        
+            Assert.That(result, Is.EqualTo(expectedPayment));
+            Assert.That(result.Id, Is.EqualTo(paymentId));
+        }
+
+        [Test]
+        public async Task GetPlannedPaymentInfoByIdAsync_ReturnsNull_WhenPaymentDoesNotExist()
+        {
+            
+            int paymentId = 1000; 
+            _mockRepository.Setup(repo => repo.GetByIdAsync<Payment>(paymentId)).ReturnsAsync((Payment)null);
+                        
+            var result = await _paymentService.GetPlannedPaymentInfoByIdAsync(paymentId);
+                        
+            Assert.IsNull(result);
+        }
+
+
+
+        [Test]
+        public async Task GetPaymentByIdAsync_UsesRepository_Correctly()
+        {
+            
+            var expectedPayment = new Payment { Id = 1, PaymentAmount = 100.00m };
+            _mockRepository.Setup(repo => repo.GetByIdAsync<Payment>(1)).ReturnsAsync(expectedPayment);
+                       
+            var result = await _paymentService.GetPaymentEntityByIdAsync(1);
+                        
+            Assert.AreEqual(expectedPayment, result);
+            _mockRepository.Verify(repo => repo.GetByIdAsync<Payment>(1), Times.Once);
         }
 
     }

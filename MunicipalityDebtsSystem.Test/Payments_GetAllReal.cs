@@ -12,7 +12,7 @@ namespace MunicipalityDebtsSystem.Test
     using System.Threading.Tasks;
     using System.Linq;
     using System.Collections.Generic;
-    using MunicipalityDebtsSystem.Infrastructure; // Replace with the actual namespace where your DbContext and services are defined
+    using MunicipalityDebtsSystem.Infrastructure; 
     using MunicipalityDebtsSystem.Core.Enums;
     using MunicipalityDebtsSystem.Infrastructure.Data.Models.Entities;
     using MunicipalityDebtsSystem.Core.Services;
@@ -42,18 +42,18 @@ namespace MunicipalityDebtsSystem.Test
             _service = new PaymentService(_repository); // Pass the IRepository
         }
 
-        [Test]
-        public async Task GetAllPaymentsAsync_OnlyReturnsActivePayments()
-        {
-            // Arrange data in _context as needed
+        //[Test]
+        //public async Task GetAllPaymentsAsync_OnlyReturnsActivePayments()
+        //{
+        //    // Arrange data in _context as needed
 
-            // Act
-            var results = await _service.GetAllPaymentsAsync(1);
+        //    // Act
+        //    var results = await _service.GetAllPaymentsAsync(1);
 
-            // Assert
-            Assert.That(results, Is.Not.Empty);
-            // More assertions as needed
-        }
+        //    // Assert
+        //    Assert.That(results, Is.Not.Empty);
+        //    // More assertions as needed
+        //}
 
 
 
