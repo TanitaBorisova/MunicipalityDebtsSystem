@@ -23,22 +23,21 @@ namespace MunicipalityDebtsSystem.Core.Models.Draw
 
         
         [Required(ErrorMessage = RequiredErrorMessage)]
-        [Display(Name = "Размер на планирано усвояване")]
+        [Display(Name = ValidationConstants.DrawPlannedAmountName)]
        
         public decimal DrawPlannedAmount { get; set; }
 
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        [Display(Name = "Дата на реално усвояване")]
+        [Display(Name = ValidationConstants.DrawDateName)]
         public string DrawDate { get; set; } = string.Empty;
 
         [Required(ErrorMessage = RequiredErrorMessage)]
-        [Display(Name = "Размер на рееално усвояване")]
+        [Display(Name = ValidationConstants.DrawAmountName)]
         public decimal DrawAmount { get; set; }
 
-        [Required(ErrorMessage = RequiredErrorMessage)]
-        [Display(Name = "Дата на планирано усвояване")]
-         public int OperationTypeId { get; set; }
+        [Required]
+        public int OperationTypeId { get; set; }
 
         [NotZeroSelection]
         [Display(Name = ValidationConstants.PlannedDrawChooseDate)]
