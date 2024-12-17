@@ -46,6 +46,10 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
         public const string OperationTypeIdErrorMessage = "Невалиден тип на операция";
         public const string DateContractFinishAfterDateBook = "Крайна дата трябва да бъде след Дата на договаряне.";
         public const string DateRealFinishAfterDateBook = "Реална дата на погасяване трябва да бъде след Дата на договаряне.";
+        public const string PlannedDrawValidationDate = "Датата на пл. усвояване трябва да бъде между началната и крайната дата на дълга.";
+        public const string DrawValidationDate = "Датата нa усвояването трябва да бъде между началната и крайната дата на дълга.";
+        public const string PlannedPaymentValidationDate = "Датата на пл. плащане трябва да бъде между началната и крайната дата на дълга.";
+        public const string PaymentValidationDate = "Датата плащането трябва да бъде между началната и крайната дата на дълга.";
 
 
         //DateFormat

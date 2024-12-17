@@ -70,6 +70,17 @@ namespace MunicipalityDebtsSystem.Controllers
                 ModelState.AddModelError(nameof(model.DrawDate), ValidationConstants.InvalidDateErrorMessage);
             }
 
+            
+            DateTime dateBook, dateContractFinish;
+            if (DateTime.TryParseExact(debt.DateBook, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateBook) &&
+                DateTime.TryParseExact(debt.DateContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateContractFinish))
+            {
+                
+                if (datePlannedDraw < dateBook || datePlannedDraw > dateContractFinish)
+                {
+                    ModelState.AddModelError(nameof(model.DrawDate), ValidationConstants.PlannedDrawValidationDate);
+                }
+            }
 
             model.OperationTypeId = (int)OperationType.PlannedDraw;
 
@@ -132,6 +143,16 @@ namespace MunicipalityDebtsSystem.Controllers
                 ModelState.AddModelError(nameof(model.DrawDate), ValidationConstants.InvalidDateErrorMessage);
             }
 
+            DateTime dateBook, dateContractFinish;
+            if (DateTime.TryParseExact(debt.DateBook, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateBook) &&
+                DateTime.TryParseExact(debt.DateContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateContractFinish))
+            {
+
+                if (dateDraw < dateBook || dateDraw > dateContractFinish)
+                {
+                    ModelState.AddModelError(nameof(model.DrawDate), ValidationConstants.DrawValidationDate);
+                }
+            }
 
             model.OperationTypeId = (int)OperationType.Draw;
 
