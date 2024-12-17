@@ -28,10 +28,8 @@ namespace MunicipalityDebtsSystem.Core.Models.Debt
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         [Display(Name = DisplayDebtBook)]
-        //public DateTime DateBook { get; set; }
         public string DateBook { get; set; } = string.Empty;
-        //[Required]
-        //public DateTime DateNegotiate { get; set; }
+        
 
         [Required(ErrorMessage = RequiredErrorMessage)]
         [Display(Name = DisplayDateContractFinish)]

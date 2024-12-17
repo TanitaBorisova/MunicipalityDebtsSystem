@@ -1,6 +1,7 @@
 ﻿using MunicipalityDebtsSystem.Core.Models.Debt;
 using MunicipalityDebtsSystem.Core.Models.Draw;
 using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
+using MunicipalityDebtsSystem.Infrastructure.Data.CustomValidations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,6 +18,8 @@ namespace MunicipalityDebtsSystem.Core.Models.Payment
         [Required]
         public int DebtId { get; set; }
 
+        [NotZeroSelection]
+        [Display(Name = ValidationConstants.PlannedPaymentChooseDate)]
         public int PlannedPaymentId { get; set; }
 
         [Required(ErrorMessage = ValidationConstants.RequiredErrorMessage)]

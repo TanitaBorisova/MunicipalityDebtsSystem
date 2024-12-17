@@ -50,6 +50,8 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
         public const string DrawValidationDate = "Датата нa усвояването трябва да бъде между началната и крайната дата на дълга.";
         public const string PlannedPaymentValidationDate = "Датата на пл. плащане трябва да бъде между началната и крайната дата на дълга.";
         public const string PaymentValidationDate = "Датата плащането трябва да бъде между началната и крайната дата на дълга.";
+        public const string PlannedDrawChooseDate = "Дата на пл. усвояване";
+        public const string PlannedPaymentChooseDate = "Дата на пл. плащане";
 
 
         //DateFormat

@@ -85,6 +85,16 @@ namespace MunicipalityDebtsSystem.Controllers
                 ModelState.AddModelError(nameof(model.PaymentDate), ValidationConstants.InvalidDateErrorMessage);
             }
 
+            DateTime dateBook, dateContractFinish;
+            if (DateTime.TryParseExact(debt.DateBook, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateBook) &&
+                DateTime.TryParseExact(debt.DateContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateContractFinish))
+            {
+
+                if (datePlannedPayment < dateBook || datePlannedPayment > dateContractFinish)
+                {
+                    ModelState.AddModelError(nameof(model.PaymentDate), ValidationConstants.PlannedPaymentValidationDate);
+                }
+            }
 
             model.OperationTypeId = (int)OperationType.PlannedPayment;
 
@@ -221,7 +231,7 @@ namespace MunicipalityDebtsSystem.Controllers
             string municipalityCode = (User.FindFirstValue(UserMunicipalityCodeClaim) ?? "");
             model.IsFinished = debt.IsFinished;
             model.DebtPartialInfo = await debtService.FillDebtInfo(model.DebtPartialInfo, id, municipalityName, municipalityCode, debt.CurrencyName, debt.DebtNumber, debt.DateBook);
-            ////model.DebtParentId = model.DrawParentId;
+            
 
             DateTime datePayment;
 
@@ -231,6 +241,16 @@ namespace MunicipalityDebtsSystem.Controllers
                 ModelState.AddModelError(nameof(model.PaymentDate), ValidationConstants.InvalidDateErrorMessage);
             }
 
+            DateTime dateBook, dateContractFinish;
+            if (DateTime.TryParseExact(debt.DateBook, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateBook) &&
+                DateTime.TryParseExact(debt.DateContractFinish, ValidationConstants.DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.None, out dateContractFinish))
+            {
+
+                if (datePayment < dateBook || datePayment > dateContractFinish)
+                {
+                    ModelState.AddModelError(nameof(model.PaymentDate), ValidationConstants.PaymentValidationDate);
+                }
+            }
 
             model.OperationTypeId = (int)OperationType.Payment;
 

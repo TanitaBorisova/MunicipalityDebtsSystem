@@ -1,4 +1,6 @@
 ﻿using MunicipalityDebtsSystem.Core.Models.Debt;
+using MunicipalityDebtsSystem.Infrastructure.Data.Constants;
+using MunicipalityDebtsSystem.Infrastructure.Data.CustomValidations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +16,7 @@ namespace MunicipalityDebtsSystem.Core.Models.Draw
     {
         [Required]
         public int DebtId { get; set; }
+
 
         [Required]
         public int DrawParentId { get; set; }
@@ -37,8 +40,8 @@ namespace MunicipalityDebtsSystem.Core.Models.Draw
         [Display(Name = "Дата на планирано усвояване")]
          public int OperationTypeId { get; set; }
 
-        [Required]
-        [Range(1, int.MaxValue)]  
+        [NotZeroSelection]
+        [Display(Name = ValidationConstants.PlannedDrawChooseDate)]
         public int PlannedDrawId { get; set; }
 
         public bool IsFinished { get; set; }
