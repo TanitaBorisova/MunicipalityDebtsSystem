@@ -10,9 +10,14 @@
 </div>
 <hr />
 
+<div class="text-danger">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" }) 
+</div>
+
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
         <form asp-action="Edit" asp-controller="Debt" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>  
             <input type="hidden" asp-for="@Model.MunicipalityId" />
             <input type="hidden" asp-for="@Model.DebtId" />
             <div class="row card-body">
@@ -124,6 +129,9 @@
 </div>
 
 @section Scripts {
+
+     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
 <script>
 
     $(document).ready(function () {

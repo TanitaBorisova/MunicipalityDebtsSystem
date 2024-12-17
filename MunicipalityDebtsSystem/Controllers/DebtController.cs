@@ -140,6 +140,17 @@ namespace MunicipalityDebtsSystem.Controllers
                 ModelState.AddModelError(nameof(model.DateRealFinish), ValidationConstants.InvalidDateErrorMessage);
             }
 
+            if (isAddedDateValid && isDateContractFinishValid && dateBook >= dateContractFinish)
+            {
+                ModelState.AddModelError(nameof(model.DateContractFinish), ValidationConstants.DateContractFinishAfterDateBook);
+            }
+
+            if (isAddedDateValid && isDateRealContractFinishValid && dateBook >= dateRealContractFinish)
+            {
+                ModelState.AddModelError(nameof(model.DateRealFinish), ValidationConstants.DateRealFinishAfterDateBook);
+            }
+
+
             if (!ModelState.IsValid)
             {
                 model.Currencies = await debtService.GetAllCurrenciesAsync();
@@ -303,6 +314,17 @@ namespace MunicipalityDebtsSystem.Controllers
             {
                 ModelState.AddModelError(nameof(model.DateRealFinish), ValidationConstants.InvalidDateErrorMessage);
             }
+
+            if (isAddedDateValid && isDateContractFinishValid && dateBook >= dateContractFinish)
+            {
+                ModelState.AddModelError(nameof(model.DateContractFinish), ValidationConstants.DateContractFinishAfterDateBook);
+            }
+
+            if (isAddedDateValid && isDateRealContractFinishValid && dateBook >= dateRealContractFinish)
+            {
+                ModelState.AddModelError(nameof(model.DateRealFinish), ValidationConstants.DateRealFinishAfterDateBook);
+            }
+
 
             if (!ModelState.IsValid)
             {

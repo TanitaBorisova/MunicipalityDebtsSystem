@@ -22,11 +22,11 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
         public const string DecimalMaxValue = "1000000000000,00";
 
         public const string CurrencyNotExist = "Валутата не съществува!";
-        public const string CreditTypeNotExist = "Credit type не съществува!";
-        public const string CreditorTypeNotExist = "Creditor type не съществува!";
-        public const string DebtTermTypeNotExist = "Debt term type не съществува!";
-        public const string DebtPurposeTypeNotExist = "Debt purpose type не съществува!";
-        public const string InterestTypeNotExist = "Interest type не съществува!";
+        public const string CreditTypeNotExist = "Предназначение не съществува!";
+        public const string CreditorTypeNotExist = "Тип на кредитора не съществува!";
+        public const string DebtTermTypeNotExist = "Вид на дълга не съществува!";
+        public const string DebtPurposeTypeNotExist = "Цел на поемането на дълга не съществува!";
+        public const string InterestTypeNotExist = "Тип лихвен процент не съществува!";
         public const string MonthNotExist = "Месецът не съществува!";
         public const string YearNotExist = "Годината не съществува!";
 
@@ -44,11 +44,12 @@ namespace MunicipalityDebtsSystem.Infrastructure.Data.Constants
         public const string DebtAmountOriginal  = "Размер на дълга в ориг. валута";
         public const string DebtAmountLocal = "Размер на дълга в местна валута";
         public const string OperationTypeIdErrorMessage = "Невалиден тип на операция";
-        
+        public const string DateContractFinishAfterDateBook = "Крайна дата трябва да бъде след Дата на договаряне.";
+        public const string DateRealFinishAfterDateBook = "Реална дата на погасяване трябва да бъде след Дата на договаряне.";
 
 
         //DateFormat
-        public const string DateFormat = "dd.MM.yyyy"; //"dd-MM-yyyy"; //working one "dd-MM-yyyy  //"dd.MM.yyyy HH:mm";      //yyyy-MM-dd H:mm
+        public const string DateFormat = "dd.MM.yyyy"; 
 
         //CurrencyFormat
         public const string CurrencyFormat = "C";
